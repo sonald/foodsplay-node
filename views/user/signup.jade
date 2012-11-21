@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+    .signin-container
+        if (typeof errors != 'undefined') && errors.length 
+            .alert 
+                button.close(type="button", data-dismiss="alert") x
+                - var msg = ''
+                - for e in errors
+                    - msg += ' ' + e
+                strong Errors #{msg}
+                
+    
+        form.well.form-horizontal#js-user-signup(action="/users/signup", method="post")
+            input(type="hidden", name="_csrf", value=csrf_token)
+            .control-group
+                label.control-label(for="inputUsername") Username
+                .controls
+                    input#inputUsername(type="text", name="username",
+                        placeholder="username")
+
+            .control-group
+                label.control-label(for="inputEmail") Password
+                .controls
+                    input#inputEmail(type="text", name="email",
+                    placeholder="email")
+    
+            .control-group
+                label.control-label(for="inputPassword") Password
+                .controls
+                    input#inputPassword(type="password", name="password",
+                    placeholder="Password")
+    
+            .control-group
+                .controls
+                    button.btn.btn-primary(type="submit") Sign Up

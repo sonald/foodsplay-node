@@ -1,0 +1,34 @@
+doctype 5
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
+
+        script(type="text/javascript", src="/jquery.js")
+        script(type="text/javascript", src="/bootstrap/js/bootstrap.js")
+
+        link(rel='stylesheet', href='/stylesheets/style.css')        
+
+    body
+        .fluid-container
+            .navbar.navbar-static-top
+                .navbar-inner
+                    .brand(href='#') Foodsplay
+                    ul.nav
+                        li: a.active(href='#') Home
+                        li: a(href='#') Restaurant
+                        li: a(href='#') Interest
+
+                    ul.nav.pull-right
+                        - if (!everyauth.loggedIn) 
+                            li: a(href='/users/signin') Login
+                        - else
+                            li: a(href='#')= user.email
+                            li: a(href='/users/logout') Logout
+                            
+                    form.navbar-search.pull-right
+                        input.search-query(type='text', placeholder='what you interested in')
+
+ 
+            block content
