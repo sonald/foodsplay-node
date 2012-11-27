@@ -9,11 +9,17 @@
     "express": "3.0.0",
     "jade": "*",
     "less-middleware": "*",
-    "mongo": "*",
+    "mongo": "latest",
     "mongoose": "*",
     "bcrypt": "*",
     "node-sass": "*",
     "everyauth": "git://github.com/bnoguchi/everyauth.git#express3",
-    "lactate": "0.12.x"
+    "formidable": "latest",
+    "async": "*",
+    "express-resource": "1.x",
+    "lactate": "latest"
+  },
+  "devDependencies": {
+      "mocha": "*"
   }
 }

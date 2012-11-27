@@ -5,8 +5,8 @@ var util = require('util'),
     vendor_files = lactate.dir('vendor');
 
 module.exports = function(app, express, db) {
-    var models = require('./models')(db),
-    auth = require('./routes/auth')(models);
+    var models = require('./models')(db);
+    var auth = require('./routes/auth')(models);
     
     app.configure(function(){
         app.set('port', process.env.PORT || 3000);
@@ -51,9 +51,7 @@ module.exports = function(app, express, db) {
             console.log('env: ' + app.get('env'));
             console.log('session: ', req.session);        
             console.log('req.user: ', req.user);
-            
             console.log('everyauth: ', res.locals.everyauth);
-            console.log('locals: ', res.locals());
 
             res.locals.user = req.user ? req.user: undefined;
             next();
@@ -75,5 +73,7 @@ module.exports = function(app, express, db) {
         app.use(express.errorHandler());
     });
 
-    return this;
+    return {
+        models: models
+    };
 };

@@ -9,7 +9,9 @@ var express = require('express'),
 
 var db = mongoose.createConnection('127.0.0.1', 'foodsplay');
 var app = express();
-require('./config')(app, express, db);
+
+var config = require('./config')(app, express, db);
+app.set('app config', config);
 
 routes.setup(app);
 

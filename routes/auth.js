@@ -10,9 +10,12 @@ module.exports = (function(models) {
         .userPkey('_id')
         .findUserById(function (uid, callback) {
             console.log('findUserById: _id = ', uid);
-            models.UserModel.findOne({_id: uid}, 'username password email uid', function(err, user) {
-                callback(null, user);
-            });
+            models.UserModel
+                .findOne({_id: uid})
+                .select('username password email _id')
+                .exec(function(err, user) {
+                    callback(null, user);
+                });
         });
 
     everyauth.everymodule.
@@ -24,6 +27,12 @@ module.exports = (function(models) {
         this.redirect(res, this.logoutRedirectPath());
     });
 
+    everyauth.everymodule
+        .performRedirect( function (res, location) {
+            console.log('redirect');
+            res.redirect(location, 303);
+        });
+    
     everyauth.debug = true;
 
     everyauth

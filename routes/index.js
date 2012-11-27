@@ -1,6 +1,6 @@
 //TODO: dynamically load all routes from here
-var blogs = require('./blogs'),
-    user = require('./users');
+
+var resource = require('express-resource');
 
 function csrf(req, res, next) {
     res.locals.csrf_token = req.session._csrf;
@@ -10,8 +10,12 @@ function csrf(req, res, next) {
 exports.setup = function(app) {
     app.get('/', index);
 
-    app.get('/blogs', blogs.index);
-    app.get('/blogs/:id', blogs.show);
+    var default_opts = {
+        format: 'json'
+    };
+    var restaurants = app.resource("restaurants", require('./restaurant')(app), default_opts);
+    var foods = app.resource("foods", require('./foods'), default_opts);
+    restaurants.add(foods);
 };
 
 /*
@@ -19,5 +23,9 @@ exports.setup = function(app) {
  */
 
 function index(req, res) {
-    res.render('index', { title: 'Express' });
+    if (req.session.auth && req.session.auth.loggedIn) {
+        res.render('index', { title: 'Express' });
+    } else {
+        res.redirect('/users/signin');
+    }
 };

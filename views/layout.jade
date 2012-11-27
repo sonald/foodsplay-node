@@ -6,29 +6,36 @@ html
         link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
 
         script(type="text/javascript", src="/jquery.js")
+        script(type="text/javascript", src="/sammy.js")
+        script(type="text/javascript", src="/jade.js")                
         script(type="text/javascript", src="/bootstrap/js/bootstrap.js")
 
+        script(type="text/javascript", src="/knockout-2.2.0.js")
+        script(type="text/javascript", src="/knockout.mapping-latest.js")        
+        
         link(rel='stylesheet', href='/stylesheets/style.css')        
 
     body
-        .fluid-container
-            .navbar.navbar-static-top
-                .navbar-inner
-                    .brand(href='#') Foodsplay
-                    ul.nav
-                        li: a.active(href='#') Home
-                        li: a(href='#') Restaurant
-                        li: a(href='#') Interest
+        .navbar.navbar-static-top
+            .navbar-inner
+                .brand(href='#') Foodsplay
+                ul.nav
+                    li: a.active(href='#') Home
+                    li: a(href='#') Restaurant
+                    li: a(href='#') Interest
 
-                    ul.nav.pull-right
-                        - if (!everyauth.loggedIn) 
-                            li: a(href='/users/signin') Login
-                        - else
-                            li: a(href='#')= user.email
-                            li: a(href='/users/logout') Logout
-                            
-                    form.navbar-search.pull-right
-                        input.search-query(type='text', placeholder='what you interested in')
+                ul.nav.pull-right
+                    - if (!everyauth.loggedIn) 
+                        li: a(href='/users/signin') Login
+                    - else
+                        li: a(href='#')= user.email
+                        li: a(href='/users/logout') Logout
+                        
+                form.navbar-search.pull-right
+                    input.search-query(type='text', placeholder='what you interested in')
 
- 
+        .container-fluid
             block content
+
+        if everyauth.loggedIn    
+        script(type="text/javascript", src="/restaurants.js")        
