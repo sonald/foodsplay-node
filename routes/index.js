@@ -2,11 +2,6 @@
 
 var resource = require('express-resource');
 
-function csrf(req, res, next) {
-    res.locals.csrf_token = req.session._csrf;
-    next();
-}
-
 exports.setup = function(app) {
     app.get('/', index);
 

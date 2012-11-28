@@ -4,3 +4,4 @@ node_modules
 .zcache
 npm-debug.log
 *cache
+public/upload/

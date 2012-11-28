@@ -10,6 +10,8 @@ var UserSchema = new mongoose.Schema({
     password: String,
     email: String,
     type: Number // normal user or amdin or restaurant
+}, {
+    collection: 'users'
 });
 
 
@@ -59,12 +61,18 @@ var RestaurantSchema = new mongoose.Schema({
             guestNumber: Number
         }
     ]
+}, {
+    collection: 'restaurants'
 });
 
+function Models(db) {
+    console.log('building models');
+    this.UserModel = db.model('User', UserSchema);
+    this.RestaurantModel = db.model('Restaurant', RestaurantSchema);
+}
+
 module.exports = (function(db) {
-    return {
-        db: db,
-        UserModel: db.model('User', UserSchema),
-        RestaurantModel: db.model('Restaurant', RestaurantSchema)
-    };    
+    var models = new Models(db);
+    module.exports = models;
+    return models;
 });

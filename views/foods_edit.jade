@@ -1,0 +1,38 @@
+script(type="text/html", id="foods_edit_tmpl").
+    form.form.form-horizontal(action="#", method="post", enctype="multipart/form-data",
+        data-bind="with: currentRestaurant, attr: {action: url()}")
+
+        .control-group
+            label.control-label(for="inputEmail") Name(en)
+            .controls
+                input(type="text", data-bind='value: name.zh', placeholder="name")
+
+        .control-group
+            label.control-label(for="inputEmail") Name(zh)
+            .controls
+                input(type="text", data-bind='value: name.zh', placeholder="name")
+
+        .control-group
+            label.control-label(for="inputEmail") Description(en)
+            .controls
+                input(type="text", data-bind="value: description.zh", placeholder="description")
+
+        .control-group
+            label.control-label(for="inputEmail") Description(zh)
+            .controls
+                input(type="text", data-bind="value: description.en", placeholder="description")
+
+        .control-group
+            label.control-label(for="inputEmail") Picture
+            .controls
+                input(type="file")
+                                                
+        .control-group
+            label.control-label(for="inputEmail") Price
+            .controls
+                input(type="text", data-bind="value: price")
+
+        .control-group
+            .controls
+                button(type="submit") Create
+    

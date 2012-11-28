@@ -17,6 +17,7 @@
     "formidable": "latest",
     "async": "*",
     "express-resource": "1.x",
+    "shelljs", "*",
     "lactate": "latest"
   },
   "devDependencies": {

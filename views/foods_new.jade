@@ -1,0 +1,40 @@
+script(type="text/html", id="foods_new_tmpl").            
+    form.form.form-horizontal(method="post", enctype="multipart/form-data",
+        data-bind="with: newFood, attr:{ action: $root.newFoodUrl }")
+        input(type="hidden", name="_csrf", value=csrf_token)
+        input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()._id")
+
+        .control-group
+            label.control-label(for="inputEmail") Name(en)
+            .controls
+                input(type="text", name="name.en", data-bind='value: name.en', placeholder="name")
+
+        .control-group
+            label.control-label(for="inputEmail") Name(zh)
+            .controls
+                input(type="text", name="name.zh", data-bind='value: name.zh', placeholder="name")
+
+        .control-group
+            label.control-label(for="inputEmail") Description(en)
+            .controls
+                input(type="text", data-bind="value: description.zh", placeholder="description")
+
+        .control-group
+            label.control-label(for="inputEmail") Description(zh)
+            .controls
+                input(type="text", data-bind="value: description.en", placeholder="description")
+
+        .control-group
+            label.control-label(for="inputEmail") Picture
+            .controls
+                input(type="file", name="picture")
+                                                
+        .control-group
+            label.control-label(for="inputEmail") Price
+            .controls
+                input(type="text", name="price", data-bind="value: price")
+
+        .control-group
+            .controls
+                button(type="submit") Create
+    

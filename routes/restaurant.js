@@ -1,14 +1,14 @@
-// GET     /forums              ->  index
-// GET     /forums/new          ->  new
-// POST    /forums              ->  create
-// GET     /forums/:forum       ->  show
-// GET     /forums/:forum/edit  ->  edit
-// PUT     /forums/:forum       ->  update
-// DELETE  /forums/:forum       ->  destroy
+// GET     /restaurants              ->  index
+// GET     /restaurants/new          ->  new
+// POST    /restaurants              ->  create
+// GET     /restaurants/:restaurant       ->  show
+// GET     /restaurants/:restaurant/edit  ->  edit
+// PUT     /restaurants/:restaurant       ->  update
+// DELETE  /restaurants/:restaurant       ->  destroy
 
+var models = require('../models');
 
 module.exports = function(app) {
-    var models = app.get('app config').models;
     return {
         index: function(req, res) {
             models.RestaurantModel
@@ -24,7 +24,7 @@ module.exports = function(app) {
         },
 
         create: function(req, res) {
-            res.send('create forum');
+            res.send('create restaurant');
         },
 
         show: function(req, res) {
@@ -40,15 +40,15 @@ module.exports = function(app) {
         },
 
         edit: function(req, res) {
-            res.send('edit forum ' + req.forum.title);
+            res.send('edit restaurant ' + req.restaurant.title);
         },
 
         update: function(req, res) {
-            res.send('update forum ' + req.forum.title);
+            res.send('update restaurant ' + req.restaurant.title);
         },
 
         destroy: function(req, res) {
-            res.send('destroy forum ' + req.forum.title);
+            res.send('destroy restaurant ' + req.restaurant.title);
         }
     };
 };
