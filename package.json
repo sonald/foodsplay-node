@@ -1,6 +1,7 @@
 {
-  "name": "application-name",
+  "name": "foodsplay",
   "version": "0.0.1",
+  "description": "online foods ordering",
   "private": true,
   "scripts": {
     "start": "node app"
@@ -17,7 +18,7 @@
     "formidable": "latest",
     "async": "*",
     "express-resource": "1.x",
-    "shelljs", "*",
+    "shelljs": "*",
     "lactate": "latest"
   },
   "devDependencies": {
