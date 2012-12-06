@@ -4,6 +4,7 @@ html
         title= title
         link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
         link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
 
         script(type="text/javascript", src="/jquery.js")
         script(type="text/javascript", src="/sammy.js")
@@ -11,17 +12,18 @@ html
         script(type="text/javascript", src="/bootstrap/js/bootstrap.js")
 
         script(type="text/javascript", src="/knockout-2.2.0.js")
-        script(type="text/javascript", src="/knockout.mapping-latest.js")        
-        
-        link(rel='stylesheet', href='/stylesheets/style.css')        
+        script(type="text/javascript", src="/knockout.mapping-latest.js")
 
+        script(type="text/javascript", src="/js/controllers/foods_controller.js")
+        script(type="text/javascript", src="/js/controllers/restaurants_controller.js")
+        
     body
         .navbar.navbar-static-top
             .navbar-inner
                 .brand(href='#') Foodsplay
                 ul.nav
                     li: a.active(href='#') Home
-                    li: a(href='#') Restaurant
+                    li: a(href='#/restaurants') Restaurants
                     li: a(href='#') Interest
 
                 ul.nav.pull-right
@@ -41,6 +43,7 @@ html
         if everyauth.loggedIn    
             script(type="text/javascript", src="/restaurants.js")
             include restaurants
+            include restaurant
             include foods
             include foods_new
             

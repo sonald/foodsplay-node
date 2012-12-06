@@ -6,6 +6,16 @@ var formidable = require('formidable'), // bodyParser integrate formidable alrea
     sh = require('shelljs');
 
 exports.index = function(req, res) {
+    models.RestaurantModel
+        .findOne({_id: req.params.restaurant})
+        .select("foods")
+        .exec(function(err, restaurant) {
+            if (err) {
+                res.send(406);
+            } else {
+                res.send(JSON.stringify(restaurant.foods));
+            }
+        });
 
 };
 

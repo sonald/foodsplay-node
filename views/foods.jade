@@ -1,5 +1,5 @@
 script(type="text/html", id="foods_tmpl").            
-    .row-fluid.restaurant(data-bind="with: currentRestaurant")
+    .row-fluid.restaurant
         ul.thumbnails.foodstbody(data-bind="foreach: foods")
             li.span3
                 .thumbnail
@@ -9,6 +9,6 @@ script(type="text/html", id="foods_tmpl").
                     p(data-bind="text: description.zh")
                     p(data-bind="text: description.en")
         
-    .buttons(data-bind="with: currentRestaurant")
-        p: a.btn.btn-primary(data-bind="click: $root.addFood") New Food
+    .buttons
+        p: a.btn.btn-primary(data-bind="click: addFood") New Food
 

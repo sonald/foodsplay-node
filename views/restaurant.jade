@@ -1,0 +1,8 @@
+script(type="text/html", id="restaurant_tmpl").
+    h1(data-bind="text: restaurant().name")
+
+    ul
+        li: a(data-bind="attr: {href: foodsUrl()}") Foods
+        li: a(data-bind="attr: {href: employeesUrl()}") Employees
+        li: a(data-bind="attr: {href: ordersUrl()}") Orders
+        

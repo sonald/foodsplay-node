@@ -13,7 +13,7 @@ module.exports = function(app) {
         index: function(req, res) {
             models.RestaurantModel
                 .find()
-                .select("_id name")
+                .select("_id name foods.id")
                 .exec(function(err, restaurants) {
                 if (err) {
                     res.send(406);
@@ -30,6 +30,7 @@ module.exports = function(app) {
         show: function(req, res) {
             models.RestaurantModel
                 .findOne({_id: req.params.restaurant})
+                .select("_id name foods._id foods.name orders._id orders.orderid")
                 .exec(function(err, restaurant) {
                 if (err) {
                     res.send(406);
