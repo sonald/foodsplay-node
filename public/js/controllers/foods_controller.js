@@ -14,7 +14,7 @@ function Food() {
     this.category = ko.observable(0);
     this.unit = ko.observable(0);
     this.status = ko.observable(0);
-    this.inspecial = ko.observable(0);
+    this.inspecial = ko.observable(false);
     this.specialPrice = ko.observable(0);
     this.picture = ko.observable("");
 };

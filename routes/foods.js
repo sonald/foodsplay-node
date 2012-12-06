@@ -16,21 +16,21 @@ exports.index = function(req, res) {
                 res.send(JSON.stringify(restaurant.foods));
             }
         });
-
 };
 
 exports.create = function(req, res) {
     var b = req.body;
-    var serverpath = "public/upload/images/restaurants";
-    var filepath = pathlib.join(serverpath, b.restaurantid, req.files.picture.name);    
-    var destdir = pathlib.join(__dirname, "..", serverpath);
+    var foodspath = pathlib.join("/upload/images/restaurants", b.restaurantid, "foods");
+    var fileurl = pathlib.join(foodspath, req.files.picture.name);
     
-    console.log(destdir);
-    console.log(typeof req.files.picture);
+    var destdir = pathlib.join(__dirname, "../public/", foodspath);
+    var filepath = pathlib.join(__dirname, "../public/", fileurl);
+
     
     sh.mkdir('-p', destdir);
-    sh.cp('-f', req.files.picture.path, filepath);
-
+    // sh.cp('-f', req.files.picture.path, filepath);
+    fs.writeFileSync(filepath, fs.readFileSync(req.files.picture.path));
+    
     var newFood = {
         name: {
             zh: b['name.zh'],
@@ -40,16 +40,18 @@ exports.create = function(req, res) {
             zh: b['description.zh'],
             en: b['description.en']
         },
-        price: b.price,
-        memberPrice: 9,
-        category: 0, 
-        unit: 0,
-        status: 0,
-        inspecial: false,
-        specialPrice: 10,
-        picture: filepath
+        price: Number(b['price']),
+        memberPrice: Number(b['memberPrice']),
+        category: b['category'], 
+        unit: b['unit'],
+        status: Number(b['status']),
+        inspecial: Boolean(b['inspecial']),
+        specialPrice: Number(b['specialPrice']),
+        picture: fileurl
     };
 
+    console.log('newFood: ', newFood);
+    
     models.RestaurantModel.findByIdAndUpdate(
         b.restaurantid,
         {$push: { foods: newFood }},
@@ -60,10 +62,8 @@ exports.create = function(req, res) {
             
             console.log('newRestaurant: ', newRestaurant);
         });
-    
-    res.writeHead(200, {'content-type': 'text/plain'});
-    res.write('received upload:\n\n');
-    res.end(util.inspect({fields: req.body, files: req.files}, true, null));
+
+    res.redirect('#/restaurants/' + b.restaurantid + '/foods');
 };
 
 exports.show = function(req, res){

@@ -1,39 +1,58 @@
 script(type="text/html", id="foods_new_tmpl").            
-    form.form.form-horizontal(method="post", enctype="multipart/form-data",
+    form.well.form.form-horizontal(method="post", enctype="multipart/form-data",
         data-bind="with: newFood, attr:{ action: $root.newFoodUrl }")
         input(type="hidden", name="_csrf", value=csrf_token)
-        input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()._id")
+        input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()")
+        input(type="hidden", name="specialPrice", data-bind="value: price()")
+        input(type="hidden", name="inspecial", data-bind="value: inspecial")
+        input(type="hidden", name="status", data-bind="value: status")
 
         .control-group
-            label.control-label(for="inputEmail") Name(en)
+            label.control-label Name(en)
             .controls
                 input(type="text", name="name.en", data-bind='value: name.en', placeholder="name")
 
         .control-group
-            label.control-label(for="inputEmail") Name(zh)
+            label.control-label Name(zh)
             .controls
                 input(type="text", name="name.zh", data-bind='value: name.zh', placeholder="name")
 
         .control-group
-            label.control-label(for="inputEmail") Description(en)
+            label.control-label Description(en)
             .controls
-                input(type="text", data-bind="value: description.zh", placeholder="description")
+                input(type="text", name="description.en", data-bind="value: description.en", placeholder="description")
 
         .control-group
-            label.control-label(for="inputEmail") Description(zh)
+            label.control-label Description(zh)
             .controls
-                input(type="text", data-bind="value: description.en", placeholder="description")
+                input(type="text", name="description.zh", data-bind="value: description.zh", placeholder="description")
 
         .control-group
-            label.control-label(for="inputEmail") Picture
+            label.control-label Picture
             .controls
                 input(type="file", name="picture")
                                                 
         .control-group
-            label.control-label(for="inputEmail") Price
+            label.control-label Price
             .controls
                 input(type="text", name="price", data-bind="value: price")
 
+        .control-group
+            label.control-label MemberPrice
+            .controls
+                input(type="text", name="memberPrice", data-bind="value: memberPrice")
+
+        .control-group
+            label.control-label Category
+            .controls
+                input(type="text", name="category", data-bind="value: category")
+
+        .control-group
+            label.control-label Unit
+            .controls
+                input(type="text", name="unit", data-bind="value: unit")
+
+                                                                                
         .control-group
             .controls
                 button(type="submit", data-bind="enable: $root.newFoodValid") Create
