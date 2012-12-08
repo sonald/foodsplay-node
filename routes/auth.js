@@ -94,11 +94,36 @@ everyauth
     })
     .validateRegistration( function (newUserAttrs) {
         console.log('validateRegistration: ', newUserAttrs);
+        function isEmpty(val) {
+            return String(val).trim().length == 0;
+        }
 
+        var promise = this.Promise();
         
-        // var login = newUserAttrs.login;
-        // if (usersByLogin[login]) errors.push('Login already taken');
-        return [];
+        var errors = [];
+        if (isEmpty(newUserAttrs.email)) {
+            errors.push('email is needed');
+        }
+
+        if (isEmpty(newUserAttrs.username)) {
+            errors.push('username is needed');
+        }
+
+        models.UserModel.find()
+            .or([{username: newUserAttrs.username} , {email: newUserAttrs.email}])
+            .exec(function(err, result) {
+                if (err) {
+                    errors.push(err.message);
+                }
+
+                if (result.length > 0) {
+                    errors.push('user exists or email is already used');
+                }
+                
+                promise.fulfill(errors);
+            });
+        
+        return promise;
     })
     .registerUser( function (newUserAttrs) {
         console.log('registerUser: ', newUserAttrs);

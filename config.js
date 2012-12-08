@@ -74,8 +74,6 @@ module.exports = function(app, express, db) {
             next();
         });
         
-    
-        
         app.use(function(req, res, next) {
             console.log('body: ' + util.inspect(req.body));
             console.log('cookies: ' + util.inspect(req.cookies));
@@ -97,7 +95,9 @@ module.exports = function(app, express, db) {
         }));
 
         app.use(require('less-middleware')({ src: __dirname + '/public' }));
-        app.use(vendor_files.toMiddleware());   
+        app.use(vendor_files.toMiddleware());
+
+        files.notFound('public/404.html');
         app.use(files.toMiddleware());
 
     });

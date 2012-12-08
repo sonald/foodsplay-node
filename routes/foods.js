@@ -51,16 +51,16 @@ exports.create = function(req, res) {
     };
 
     console.log('newFood: ', newFood);
-    
-    models.RestaurantModel.findByIdAndUpdate(
-        b.restaurantid,
+
+    models.RestaurantModel.update(
+        {_id: b.restaurantid},
         {$push: { foods: newFood }},
-        function(err, newRestaurant) {
+        function(err, numAffected) {
             if (err) {
                 console.log(err);
             }
-            
-            console.log('newRestaurant: ', newRestaurant);
+
+            console.log('updated foods are ', numAffected);
         });
 
     res.redirect('#/restaurants/' + b.restaurantid + '/foods');

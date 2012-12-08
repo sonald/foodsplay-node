@@ -1,4 +1,7 @@
 function Food() {
+    const FOOD_AVAILABLE = 1;
+    const FOOD_UNAVAILABLE = 2;
+
     this.name = {
         zh: ko.observable(""),
         en: ko.observable("")
@@ -13,7 +16,7 @@ function Food() {
     this.memberPrice = ko.observable(0);
     this.category = ko.observable(0);
     this.unit = ko.observable(0);
-    this.status = ko.observable(0);
+    this.status = ko.observable(FOOD_AVAILABLE);
     this.inspecial = ko.observable(false);
     this.specialPrice = ko.observable(0);
     this.picture = ko.observable("");
