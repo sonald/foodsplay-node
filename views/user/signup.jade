@@ -2,15 +2,15 @@ extends ../layout
 
 block content
     .signin-container
-        if (typeof errors != 'undefined') && errors.length 
-            .alert 
+        if (typeof errors != 'undefined') && errors.length
+            .alert
                 button.close(type="button", data-dismiss="alert") x
                 - var msg = ''
                 - for e in errors
                     - msg += ' ' + e
                 strong Errors #{msg}
-                
-    
+
+
         form.well.form-horizontal#js-user-signup(action="/users/signup", method="post")
             input(type="hidden", name="_csrf", value=csrf_token)
             .control-group
@@ -24,7 +24,7 @@ block content
                 .controls
                     input#inputEmail(type="text", name="email",
                     placeholder="email")
-    
+
             .control-group
                 label.control-label(for="inputPassword") Password
                 .controls
@@ -37,6 +37,7 @@ block content
                     select#inputKind(name="kind")
                         option(value="1") Normal
                         option(value="2") Restaurant
+                        option(value="3") Admin
 
             .control-group
                 .controls
