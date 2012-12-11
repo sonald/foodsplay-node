@@ -11,10 +11,32 @@ module.exports = {
         }
     },
 
+    // only login user can request its own info or admin
     show: function(req, res) {
+        console.log(req.params, req.format);
+
+        if (req.params['businessuser'] != req.user._id) {
+            return res.send(403);
+        }
+
         if (req.user.kind == models.USER_RESTAURANT) {
-            // res.redirect('/restaurants/' + req.user._id);
-            //TODO:
+            models.UserModel
+                .findOne({_id: req.user._id})
+                .select('username _id kind')
+                .exec(function(err, user) {
+                    if (user) {
+                        models.RestaurantModel
+                            .findOne({_user: user._id})
+                            .select('_id')
+                            .exec(function(err2, restaurant) {
+                                if (restaurant) {
+                                    user.restaurant = restaurant._id;
+                                }
+
+                                res.send(JSON.stringify(user));
+                            });
+                    }
+                });
         } else {
             res.send(403);
         };

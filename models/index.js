@@ -101,8 +101,14 @@ var BillSchema = new mongoose.Schema({
 });
 
 var RestaurantSchema = new mongoose.Schema({
-    name: String,
-    description: String, // 富文本？
+    name: {
+        en: String,
+        zh: String
+    },
+    description: {
+        en: String, // 富文本？
+        zh: String
+    },
 
     foods: [FoodSchema],
     orders: [OrderSchema],

@@ -1,3 +1,6 @@
 script(type="text/html", id="businessuser_tmpl").
-    
-
+    .well
+        h1(data-bind="text: user().username")
+        div
+            a(data-bind="visible: hasRestaurant(), attr: {href: restaurantUrl}") Go to Restaurant
+            a(data-bind="visible: !hasRestaurant(), attr: {href: newRestaurantUrl}") Create A Restaurant

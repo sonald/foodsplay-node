@@ -34,7 +34,24 @@ $(function() {
 
     window.app = $.sammy('#app-content', function() {
         var app = this;
-        
+
+        this.get("#/businessusers", function(context) {
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#businessusers_tmpl').html())() );
+                window.currentModel = new UsersViewModel(data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+        this.get("#/businessusers/:bid", function(context) {
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#businessuser_tmpl').html())() );
+                window.currentModel = new UserViewModel(data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+
         this.get("#/restaurants", function(context) {
             $.getJSON(this.path.substring(2), function(data) {
                 data.forEach(function(ob) {
@@ -49,27 +66,32 @@ $(function() {
             });
         });
 
+        this.get("#/restaurants/new", function(context) {
+            app.$element().html( jade.compile($('#restaurants_new_tmpl').html())() );
+            ko.applyBindings(window.currentModel, app.$element()[0]);
+        });
+
         this.get("#/restaurants/:id", function(context) {
             $.getJSON(this.path.substring(2), function(data) {
                 app.$element().html( jade.compile($('#restaurant_tmpl').html())() );
                 window.currentModel = new RestaurantViewModel(data);
                 ko.applyBindings(window.currentModel, app.$element()[0]);
-            });                
+            });
         });
 
         this.get("#/restaurants/:id/foods", function(context) {
             var self = this;
-            
+
             $.getJSON(this.path.substring(2), function(data) {
                 app.$element().html( jade.compile($('#foods_tmpl').html())() );
                 window.currentModel = new FoodsViewModel(self.params['id'], data);
                 ko.applyBindings(window.currentModel, app.$element()[0]);
-            });                
+            });
         });
 
         this.post("#/restaurants/:id/foods", function(context) {
             console.log('post new food', this.params);
-            
+
             $.ajax({
                 type: 'POST',
                 url: this.path.substring(2),
@@ -84,12 +106,13 @@ $(function() {
                 }
             });
         });
-        
+
         this.get("#/restaurants/:id/foods/new", function(context) {
             app.$element().html( jade.compile($('#foods_new_tmpl').html())() );
-            ko.applyBindings(self, app.$element()[0]);
+            ko.applyBindings(window.currentModel, app.$element()[0]);
         });
     });
 
-    window.app.run();
+    var init_url = (!!window.location.hash.trim()) ? window.location.hash : '#/';
+    window.app.run(init_url);
 });

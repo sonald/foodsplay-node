@@ -39,13 +39,18 @@ exports.setup = function(app) {
 function index(req, res) {
     var userid = req.user._id;
 
-    console.log('requesting /');
     switch(req.user.kind) {
     case models.USER_ADMIN:
-        return res.render('index', { title: 'Express' });
+        return res.render('index', {
+            title: 'Express',
+            root: '/'
+        });
 
     case models.USER_NORMAL:
-        return res.redirect(util.format('/publicusers/%d'), 303);
+        return res.render('index', {
+            title: '',
+            root: util.format('/publicusers/%d', userid)
+        });
 
     case models.USER_RESTAURANT:
         models.RestaurantModel
@@ -59,10 +64,16 @@ function index(req, res) {
 
                 if (!restaurant) {
                     //TODO: go to create restaurant
-                    return res.redirect(util.format('/businessusers/%s', userid));
+                    return res.render('index', {
+                        title: 'Business',
+                        root: util.format('/businessusers/%s', userid)
+                    });
                 }
 
-                return res.redirect(util.format('/restaurants/%s', restaurant.id), 303);
+                return res.render('index', {
+                    tilte: 'Restaurant',
+                    root: util.format('/restaurants/%s', restaurant.id)
+                });
             });
     }
  };

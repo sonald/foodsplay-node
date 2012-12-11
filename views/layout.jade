@@ -8,15 +8,16 @@ html
 
         script(type="text/javascript", src="/jquery.js")
         script(type="text/javascript", src="/sammy.js")
-        script(type="text/javascript", src="/jade.js")                
+        script(type="text/javascript", src="/jade.js")
         script(type="text/javascript", src="/bootstrap/js/bootstrap.js")
 
         script(type="text/javascript", src="/knockout-2.2.0.js")
         script(type="text/javascript", src="/knockout.mapping-latest.js")
 
+        script(type="text/javascript", src="/js/controllers/users_controller.js")
         script(type="text/javascript", src="/js/controllers/foods_controller.js")
         script(type="text/javascript", src="/js/controllers/restaurants_controller.js")
-        
+
     body
         .navbar.navbar-static-top
             .navbar-inner
@@ -27,12 +28,12 @@ html
                     li: a(href='#') Interest
 
                 ul.nav.pull-right
-                    - if (!everyauth.loggedIn) 
+                    - if (!everyauth.loggedIn)
                         li: a(href='/users/signin') Login
                     - else
                         li: a(href='#')= user.email
                         li: a(href='/users/logout') Logout
-                        
+
                 form.navbar-search.pull-right
                     input.search-query(type='text', placeholder='what you interested in')
 
@@ -40,9 +41,13 @@ html
             block content
 
         if everyauth.loggedIn
+            script
+                window.location.hash = "\##{root}"
+
             script(type="text/javascript", src="/router.js")
+            include businessuser
             include restaurants
+            include restaurants_new
             include restaurant
             include foods
             include foods_new
-            
