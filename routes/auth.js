@@ -1,6 +1,7 @@
 var everyauth = require('everyauth'),
     models = require('../models'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcrypt'),
+    util = require('util');
 
 function encryptSync(data) {
     return bcrypt.hashSync(data, bcrypt.genSaltSync(10));
@@ -12,7 +13,7 @@ everyauth.everymodule
         console.log('findUserById: _id = ', uid);
         models.UserModel
             .findOne({_id: uid})
-            .select('username password email _id')
+            .select('username password kind email _id')
             .exec(function(err, user) {
                 callback(null, user);
             });
@@ -29,8 +30,8 @@ everyauth.everymodule.handleLogout( function (req, res) {
 
 everyauth.everymodule
     .performRedirect( function (res, location) {
-        console.log('redirect');
-        res.redirect(location, 303);
+        console.log('--------- everyauth redirect', res.req.session.auth.userId);
+        return res.redirect(location, 303);
     });
 
 everyauth.debug = true;
@@ -58,7 +59,7 @@ everyauth
         var promise = this.Promise();
         models.UserModel
             .findOne({username: login})
-            .select('username password email _id')
+            .select('username password _id')
             .exec(function(err, user) {
                 if (err) {
                     return promise.fulfill([err]);
@@ -85,14 +86,15 @@ everyauth
             csrf_token: req.session._csrf
         };
     })
-    .extractExtraRegistrationParams( function (req) {
+    .extractExtraRegistrationParams(function(req) {
         console.log('loginkey: ', this.loginKey());
         return {
             email: req.body.email,
-            username: req.body.username
+            username: req.body.username,
+            kind: req.body.kind
         };
     })
-    .validateRegistration( function (newUserAttrs) {
+    .validateRegistration(function(newUserAttrs) {
         console.log('validateRegistration: ', newUserAttrs);
         function isEmpty(val) {
             return String(val).trim().length == 0;
@@ -129,7 +131,6 @@ everyauth
         console.log('registerUser: ', newUserAttrs);
 
         var promise = this.Promise();
-        newUserAttrs.type = 1;
         newUserAttrs.password = encryptSync(newUserAttrs.password);
         var newUser = new models.UserModel(newUserAttrs);
         newUser.save(function(err) {

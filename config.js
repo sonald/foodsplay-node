@@ -5,11 +5,10 @@ var util = require('util'),
     sass = require('node-sass'),
     vendor_files = lactate.dir('vendor');
 
-module.exports = function(app, express, db) {
-    require('./models')(db);    
+module.exports = function(app, express) {
     require('./routes/auth');
 
-    
+
     app.configure(function(){
         app.set('port', process.env.PORT || 3000);
         app.set('views', __dirname + '/views');
@@ -27,14 +26,14 @@ module.exports = function(app, express, db) {
         files.disable('gzip');
         files.disable('watch files');
         files.set('max age', 1);
-        files.disable('cache'); 
+        files.disable('cache');
 
         vendor_files.disable('minify');
         vendor_files.disable('gzip');
     });
 
     app.configure('production', function(){
-        
+
         files.enable('minify');
         files.enable('gzip');
 
@@ -51,12 +50,12 @@ module.exports = function(app, express, db) {
             var sess = req.session
             , auth = sess.auth
             , ea = { loggedIn: !!(auth && auth.loggedIn) };
-            
+
             // Copy the session.auth properties over
             for (var k in auth) {
                 ea[k] = auth[k];
             }
-            
+
             if (everyauth.enabled.password) {
                 // Add in access to loginFormFieldName() + passwordFormFieldName()
                 ea.password || (ea.password = {});
@@ -64,27 +63,27 @@ module.exports = function(app, express, db) {
                 ea.password.passwordFormFieldName = everyauth.password.passwordFormFieldName();
             }
             ea.user = req.user;
-            
+
             res.locals.everyauth = ea;
             next();
         });
-        
+
         app.use( function (req, res, next) {
             res.locals['user'] = req.user;
             next();
         });
-        
+
         app.use(function(req, res, next) {
             console.log('body: ' + util.inspect(req.body));
             console.log('cookies: ' + util.inspect(req.cookies));
             console.log('env: ' + app.get('env'));
-            console.log('session: ', req.session);        
+            console.log('session: ', req.session);
             console.log('req.user: ', req.user);
+            console.log('req.url: ', req.url);
             console.log('everyauth: ', res.locals.everyauth);
 
             res.locals['csrf_token'] = req.session._csrf;
 
-            // res.locals.user = req.user ? req.user: undefined;
             next();
         });
 

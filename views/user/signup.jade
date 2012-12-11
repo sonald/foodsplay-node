@@ -30,7 +30,14 @@ block content
                 .controls
                     input#inputPassword(type="password", name="password",
                     placeholder="Password")
-    
+
+            .control-group
+                label.control-label(for="inputKind") Kind
+                .controls
+                    select#inputKind(name="kind")
+                        option(value="1") Normal
+                        option(value="2") Restaurant
+
             .control-group
                 .controls
                     button.btn.btn-primary(type="submit") Sign Up

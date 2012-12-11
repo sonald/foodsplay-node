@@ -6,21 +6,24 @@ var mongoose = require('mongoose');
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
-const USER_NORMAL = 1;
-const USER_RESTAURANT = 2;
-const USER_ADMIN = 3;
+var consts = {
+    USER_NORMAL: 1,
+    USER_RESTAURANT: 2,
+    USER_ADMIN: 3,
+
+    FOOD_AVAILABLE: 1,
+    FOOD_UNAVAILABLE: 2
+};
+
 
 var UserSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    type: {type: Number, default: USER_RESTAURANT} // normal user or amdin or restaurant
+    kind: {type: Number, default: consts.USER_RESTAURANT} // normal user or amdin or restaurant
 }, {
     collection: 'users'
 });
-
-const FOOD_AVAILABLE = 1;
-const FOOD_UNAVAILABLE = 2;
 
 var FoodSchema = new mongoose.Schema({
     name: {zh: String, en: String},
@@ -29,7 +32,7 @@ var FoodSchema = new mongoose.Schema({
     memberPrice: Number,
     category: Number,
     unit: Number,
-    status: { type: Number, default: FOOD_AVAILABLE},
+    status: { type: Number, default: consts.FOOD_AVAILABLE},
     inspecial: Boolean,
     specialPrice: Number,
     picture: String
@@ -49,7 +52,7 @@ var OrderSchema = new mongoose.Schema({
             foodid: ObjectId,
             specification: Number,
             count: Number,
-            favor: String, 
+            favor: String,
             request: String,
             method: String,
             other: String,
@@ -75,7 +78,7 @@ var MemberSchema = new mongoose.Schema({
     mobile: String,
     email: String,
     cardid: String,
-    type: Number,
+    kind: Number,
     credits: Number, // 总积分
     history: [CreditsDetailSchema]
 });
@@ -99,27 +102,28 @@ var BillSchema = new mongoose.Schema({
 
 var RestaurantSchema = new mongoose.Schema({
     name: String,
-    description: String, // 富文本？ 
-    
+    description: String, // 富文本？
+
     foods: [FoodSchema],
     orders: [OrderSchema],
     members: [MemberSchema],
     bills: [BillSchema],
-    
-    withdraws: [WithdrawSchema]
-    
+
+    withdraws: [WithdrawSchema],
+
+    _user: {type: ObjectId, ref: 'User'}
+
 }, {
     collection: 'restaurants'
 });
 
-function Models(db) {
+function Models() {
     console.log('building models');
-    this.UserModel = db.model('User', UserSchema);
-    this.RestaurantModel = db.model('Restaurant', RestaurantSchema);
+    this.UserModel = mongoose.model('User', UserSchema);
+    this.RestaurantModel = mongoose.model('Restaurant', RestaurantSchema);
+
+    require('util')._extend(this, consts);
 }
 
-module.exports = (function(db) {
-    var models = new Models(db);
-    module.exports = models;
-    return models;
-});
+var models = new Models();
+module.exports = models;

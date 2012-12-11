@@ -29,7 +29,7 @@ db.once('open', function() {
                 status: 0, // 0: available, 1: not-available
                 inspecial: false, // if true, use special price
                 specialPrice: 10,
-                picture: "/upload/images/restaurants/50b4d3d50f273a864a000006/foods/gongbao.jpg" //path in server
+                picture: "/upload/images/restaurants/50b4d3d50f273a864a000006/foods/gongbao.jpg"
             },
             {
                 name: {zh: "夫妻肺片", en: "husband and wife's lung"},
@@ -44,8 +44,8 @@ db.once('open', function() {
                 status: 0, // 0: available, 1: not-available
                 inspecial: true, // if true, use special price
                 specialPrice: 10,
-                picture: "/upload/images/restaurants/50b4d3d50f273a864a000006/foods/lungs.jpg" //path in server
-            }            
+                picture: "/upload/images/restaurants/50b4d3d50f273a864a000006/foods/lungs.jpg"
+            }
         ],
 
         // 过往结帐单
@@ -114,7 +114,7 @@ db.once('open', function() {
                 inspecial: true, // if true, use special price
                 specialPrice: 10,
                 picture: "/upload/images/restaurants/50b4d3d50f273a864a000006/foods/lungs.jpg" //path in server
-            }            
+            }
         ],
 
         // 过往结帐单
@@ -149,7 +149,7 @@ db.once('open', function() {
             }
         ]
     });
-    
+
     models.RestaurantModel.remove(function(err) {
         console.log('drop old done');
         aRestaurant.save(function(err) {
@@ -161,8 +161,8 @@ db.once('open', function() {
                 if (err2) {
                     console.log(err.message);
                 }
-                
-                console.log('create restaurant done');                
+
+                console.log('create restaurant done');
                 db.close();
                 process.exit(0);
             });
