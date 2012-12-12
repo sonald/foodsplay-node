@@ -1,8 +1,11 @@
 script(type="text/html", id="restaurant_tmpl").
-    h1(data-bind="text: restaurant().name")
+    .hero-unit
+        page-header
+            h1
+                span(data-bind="text: restaurant().name.zh")
+                small(data-bind="text: restaurant().name.en")
 
-    ul
-        li: a(data-bind="attr: {href: foodsUrl()}") Foods
-        li: a(data-bind="attr: {href: employeesUrl()}") Employees
-        li: a(data-bind="attr: {href: ordersUrl()}") Orders
-        
+        ul.nav.nav-pills.nav-stacked
+            li: a(data-bind="attr: {href: foodsUrl()}") Foods
+            li: a(data-bind="attr: {href: employeesUrl()}") Employees
+            li: a(data-bind="attr: {href: ordersUrl()}") Orders

@@ -1,7 +1,7 @@
-script(type="text/html", id="foods_new_tmpl").            
+script(type="text/html", id="foods_new_tmpl").
     form.well.form.form-horizontal(method="post", enctype="multipart/form-data",
-        data-bind="with: newFood, attr:{ action: $root.newFoodUrl }")
-        input(type="hidden", name="_csrf", value=csrf_token)
+        data-bind="with: newFood, attr:{ action: $root.postNewFoodUrl }")
+        input(type="hidden", name="_csrf", value="#{csrf_token}")
         input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()")
         input(type="hidden", name="specialPrice", data-bind="value: price()")
         input(type="hidden", name="inspecial", data-bind="value: inspecial")
@@ -31,7 +31,7 @@ script(type="text/html", id="foods_new_tmpl").
             label.control-label Picture
             .controls
                 input(type="file", name="picture")
-                                                
+
         .control-group
             label.control-label Price
             .controls
@@ -52,8 +52,7 @@ script(type="text/html", id="foods_new_tmpl").
             .controls
                 input(type="text", name="unit", data-bind="value: unit")
 
-                                                                                
+
         .control-group
             .controls
                 button(type="submit", data-bind="enable: $root.newFoodValid") Create
-    

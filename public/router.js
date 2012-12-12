@@ -108,6 +108,7 @@ $(function() {
         });
 
         this.get("#/restaurants/:id/foods/new", function(context) {
+            console.log(this.path);
             app.$element().html( jade.compile($('#foods_new_tmpl').html())() );
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });

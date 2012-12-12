@@ -1,4 +1,4 @@
-script(type="text/html", id="foods_tmpl").            
+script(type="text/html", id="foods_tmpl").
     .row-fluid.restaurant
         ul.thumbnails.foodstbody(data-bind="foreach: foods")
             li.span3
@@ -8,7 +8,6 @@ script(type="text/html", id="foods_tmpl").
                     p(data-bind="text: price")
                     p(data-bind="text: description.zh")
                     p(data-bind="text: description.en")
-        
-    .buttons
-        p: a.btn.btn-primary(data-bind="click: addFood") New Food
 
+    .buttons
+        p: a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}") New Food

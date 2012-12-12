@@ -71,7 +71,7 @@ function index(req, res) {
                 }
 
                 return res.render('index', {
-                    tilte: 'Restaurant',
+                    title: 'Restaurant',
                     root: util.format('/restaurants/%s', restaurant.id)
                 });
             });

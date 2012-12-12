@@ -1,6 +1,6 @@
 script(type="text/html", id="restaurants_new_tmpl").
     form.well.form.form-horizontal(method="post", enctype="multipart/form-data",
-        data-bind="with: newRestaurant", action="/restaurants/new")
+        data-bind="with: newRestaurant, attr: {action: $root.postNewRestaurantUrl}")
 
         input(type="hidden", name="_csrf", value="#{csrf_token}")
         input(type="hidden", name="userid", data-bind="value: $root.user()._id")

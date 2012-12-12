@@ -22,15 +22,15 @@ exports.create = function(req, res) {
     var b = req.body;
     var foodspath = pathlib.join("/upload/images/restaurants", b.restaurantid, "foods");
     var fileurl = pathlib.join(foodspath, req.files.picture.name);
-    
+
     var destdir = pathlib.join(__dirname, "../public/", foodspath);
     var filepath = pathlib.join(__dirname, "../public/", fileurl);
 
-    
+
     sh.mkdir('-p', destdir);
     // sh.cp('-f', req.files.picture.path, filepath);
     fs.writeFileSync(filepath, fs.readFileSync(req.files.picture.path));
-    
+
     var newFood = {
         name: {
             zh: b['name.zh'],
@@ -42,7 +42,7 @@ exports.create = function(req, res) {
         },
         price: Number(b['price']),
         memberPrice: Number(b['memberPrice']),
-        category: b['category'], 
+        category: b['category'],
         unit: b['unit'],
         status: Number(b['status']),
         inspecial: Boolean(b['inspecial']),
@@ -61,17 +61,16 @@ exports.create = function(req, res) {
             }
 
             console.log('updated foods are ', numAffected);
+            res.redirect('#/restaurants/' + b.restaurantid + '/foods');
         });
-
-    res.redirect('#/restaurants/' + b.restaurantid + '/foods');
 };
 
 exports.show = function(req, res){
 
 };
 
-// update({ 
-//        _id: 7, 
+// update({
+//        _id: 7,
 //        comments._id: ObjectId("4da4e7d1590295d4eb81c0c7")
 //    },{
 //        $set: {"comments.$.type": abc}

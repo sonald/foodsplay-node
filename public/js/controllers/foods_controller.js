@@ -23,6 +23,7 @@ function Food() {
 };
 
 function FoodsViewModel(restaurantid, initialFoods) {
+    var self = this;
     self.newFood = ko.observable(new Food);
     self.foods = ko.observableArray(initialFoods);
     self.currentRestaurant = ko.observable(restaurantid);
@@ -30,8 +31,12 @@ function FoodsViewModel(restaurantid, initialFoods) {
     self.changeRestaurant = function(rid) {
     };
 
-    self.newFoodUrl = ko.computed(function() {
+    self.postNewFoodUrl = ko.computed(function() {
         return '/restaurants/' + self.currentRestaurant() + '/foods';
+    });
+
+    self.newFoodUrl = ko.computed(function() {
+        return '#' + self.postNewFoodUrl() + '/new';
     });
 
     self.addFood = function(restaurant) {

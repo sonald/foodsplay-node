@@ -30,7 +30,6 @@ everyauth.everymodule.handleLogout( function (req, res) {
 
 everyauth.everymodule
     .performRedirect( function (res, location) {
-        console.log('--------- everyauth redirect', res.req.session.auth.userId);
         return res.redirect(location, 303);
     });
 
@@ -39,7 +38,7 @@ everyauth.debug = true;
 everyauth
     .password
     .loginWith('login')
-    .loginFormFieldName('username') 
+    .loginFormFieldName('username')
     .getLoginPath('/users/signin')
     .postLoginPath('/users/signin')
     .loginView('user/signin.jade')
@@ -55,7 +54,7 @@ everyauth
         if (!login) errors.push('Missing login.');
         if (!password) errors.push('Missing password.');
         if (errors.length) return errors;
-        
+
         var promise = this.Promise();
         models.UserModel
             .findOne({username: login})
@@ -64,17 +63,17 @@ everyauth
                 if (err) {
                     return promise.fulfill([err]);
                 }
-                
+
                 console.log('find user: ', user);
-                
+
                 if (!bcrypt.compareSync(password, user.password)) {
                     return promise.fulfill(['incorrect password']);
-                } 
+                }
 
                 console.log('authenticate correctly');
                 return promise.fulfill(user);
             });
-        
+
         return promise;
     })
     .getRegisterPath('/users/signup')
@@ -101,7 +100,7 @@ everyauth
         }
 
         var promise = this.Promise();
-        
+
         var errors = [];
         if (isEmpty(newUserAttrs.email)) {
             errors.push('email is needed');
@@ -121,10 +120,10 @@ everyauth
                 if (result.length > 0) {
                     errors.push('user exists or email is already used');
                 }
-                
+
                 promise.fulfill(errors);
             });
-        
+
         return promise;
     })
     .registerUser( function (newUserAttrs) {
@@ -142,9 +141,8 @@ everyauth
                 promise.fulfill(newUserAttrs);
             }
         });
-        
+
         return promise;
     })
     .loginSuccessRedirect('/')
     .registerSuccessRedirect('/');
-

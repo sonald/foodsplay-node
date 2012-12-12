@@ -15,23 +15,27 @@ function UserViewModel(initial) {
     self.user = ko.observable(initial);
 
     self.hasRestaurant = ko.computed(function() {
-        return !!self.user.restaurant;
+        return !!self.user().restaurant;
     });
 
     self.isAdmin = ko.computed(function() {
-        return self.user.kind == 3;
+        return self.user().kind == UsersViewModel.USER_ADMIN;
     });
 
     self.isRestaurantUser = ko.computed(function() {
-        return self.user.kind == 2;
+        return self.user().kind == UsersViewModel.USER_RESTAURANT;
+    });
+
+    self.postNewRestaurantUrl = ko.computed(function() {
+        return "/restaurants";
     });
 
     self.newRestaurantUrl = ko.computed(function() {
-        return "#/restaurants/new";
+        return '#' + self.postNewRestaurantUrl() + '/new';
     });
 
     self.restaurantUrl = ko.computed(function() {
-        return "#/restaurants" + self.user.restaurant;
+        return "#/restaurants/" + self.user().restaurant;
     });
 
     self.newRestaurant = ko.observable(new Restaurant);

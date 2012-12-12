@@ -10,31 +10,62 @@ var models = require('../models');
 
 module.exports = {
     index: function(req, res) {
+        if (req.user.kind != models.USER_ADMIN) {
+            return res.send(403);
+        }
+
         models.RestaurantModel
             .find()
             .select("_id name foods.id")
             .exec(function(err, restaurants) {
                 if (err) {
-                    res.send(406);
-                } else {
-                    res.send(JSON.stringify(restaurants));
+                    return res.send(406);
                 }
+                res.send(JSON.stringify(restaurants));
             });
     },
 
     create: function(req, res) {
-        res.send('create restaurant');
+        var b = req.body;
+
+        var newRestaurant = new models.RestaurantModel({
+            name: {
+                zh: b['name.zh'],
+                en: b['name.en']
+            },
+
+            description: {
+                zh: b['description.zh'],
+                en: b['description.en']
+            },
+
+            _user: req.user._id
+        });
+
+        newRestaurant.save(function(err) {
+            if (err) {
+                console.log(err);
+            }
+            console.log(newRestaurant);
+            res.redirect('/#/restaurants/' + newRestaurant._id);
+        });
     },
 
     show: function(req, res) {
+        if (req.user.kind == models.USER_NORMAL) {
+            return res.send(403);
+        }
+
         models.RestaurantModel
-            .findOne({_id: req.params.restaurant})
-            .select("_id name foods._id foods.name orders._id orders.orderid")
+            .findOne({_id: req.params.restaurant, _user: req.user._id})
+            .select("_id name description foods._id orders._id")
             .exec(function(err, restaurant) {
                 if (err) {
                     res.send(406);
-                } else {
+                } else if (restaurant) {
                     res.send(JSON.stringify(restaurant));
+                } else {
+                    res.send(404);
                 }
             });
     },

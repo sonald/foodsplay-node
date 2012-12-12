@@ -80,6 +80,7 @@ module.exports = function(app, express) {
             console.log('session: ', req.session);
             console.log('req.user: ', req.user);
             console.log('req.url: ', req.url);
+            console.log('params: ', req.params);
             console.log('everyauth: ', res.locals.everyauth);
 
             res.locals['csrf_token'] = req.session._csrf;

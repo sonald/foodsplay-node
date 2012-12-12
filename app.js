@@ -7,7 +7,6 @@ var express = require('express'),
     http = require('http'),
     mongoose = require('mongoose');
 
-// var db = mongoose.createConnection('127.0.0.1', 'foodsplay');
 // use default connection
 mongoose.connect('127.0.0.1', 'foodsplay');
 var app = express();
