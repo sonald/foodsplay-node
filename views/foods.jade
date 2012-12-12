@@ -3,7 +3,7 @@ script(type="text/html", id="foods_tmpl").
         ul.thumbnails.foodstbody(data-bind="foreach: foods")
             li.span3
                 .thumbnail
-                    img(data-bind="attr: {src: picture}")
+                    img(data-bind="attr: {src: thumbs[0]}")
                     b(data-bind='text: name.zh + "(" + name.en + ")"')
                     p(data-bind="text: price")
                     p(data-bind="text: description.zh")

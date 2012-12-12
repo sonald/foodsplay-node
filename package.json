@@ -19,6 +19,8 @@
     "async": "*",
     "express-resource": "1.x",
     "shelljs": "*",
+    "imagemagick": "*",
+    "easyimage": "*",
     "lactate": "latest"
   },
   "devDependencies": {

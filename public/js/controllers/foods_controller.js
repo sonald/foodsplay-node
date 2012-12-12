@@ -25,6 +25,16 @@ function Food() {
 function FoodsViewModel(restaurantid, initialFoods) {
     var self = this;
     self.newFood = ko.observable(new Food);
+
+    var thumburls = ["origin", "48x48", "128x128"].map(function(size) {
+        return "/upload/images/restaurants/" + restaurantid + "/foods/" + size;
+    });
+
+    self.foods = ko.observableArray(ko.utils.arrayMap(initialFoods, function(food) {
+        food.thumbs = thumburls.map(function(url) { return url + '/' + food.picture; });
+        return food;
+    }));
+
     self.foods = ko.observableArray(initialFoods);
     self.currentRestaurant = ko.observable(restaurantid);
 
@@ -46,4 +56,5 @@ function FoodsViewModel(restaurantid, initialFoods) {
     self.newFoodValid = ko.computed(function() {
         return self.newFood().name.zh().trim().length > 0;
     });
+
 }

@@ -13,11 +13,11 @@ function RestaurantViewModel(initial) {
     self.ordersUrl = ko.computed(function() {
         return "#/restaurants/" + self.restaurant()._id + '/orders';
     });
-    
+
 }
 
 function RestaurantsViewModel(initial) {
     var self = this;
-    
+
     self.restaurants = ko.observableArray(initial);
 };

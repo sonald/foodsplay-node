@@ -3,6 +3,7 @@ var formidable = require('formidable'), // bodyParser integrate formidable alrea
     models = require('../models'),
     fs = require('fs'),
     pathlib = require('path'),
+    easyimg = require('easyimage'),
     sh = require('shelljs');
 
 exports.index = function(req, res) {
@@ -21,15 +22,29 @@ exports.index = function(req, res) {
 exports.create = function(req, res) {
     var b = req.body;
     var foodspath = pathlib.join("/upload/images/restaurants", b.restaurantid, "foods");
-    var fileurl = pathlib.join(foodspath, req.files.picture.name);
+    var picname = req.files.picture.name;
 
-    var destdir = pathlib.join(__dirname, "../public/", foodspath);
-    var filepath = pathlib.join(__dirname, "../public/", fileurl);
+    var thumbs = ['origin', '48x48', '128x128'].map(function(size) {
+        var destdir = pathlib.join(__dirname, "../public/", foodspath, size);
+        sh.mkdir('-p', destdir);
 
+        var filepath = pathlib.join(destdir, picname);
+        if (size == 'origin') {
+            fs.writeFileSync(filepath, fs.readFileSync(req.files.picture.path));
 
-    sh.mkdir('-p', destdir);
-    // sh.cp('-f', req.files.picture.path, filepath);
-    fs.writeFileSync(filepath, fs.readFileSync(req.files.picture.path));
+        } else {
+            var matches = /(\d+)x(\d+)/.exec(size);
+            easyimg.resize({
+                src: req.files.picture.path,
+                dst: filepath,
+                width: matches[1],
+                height: matches[2]
+            }, function(err, stdout, stderr) {
+                if (err) console.log(err);
+                console.log('Resized to ' + size);
+            });
+        }
+    });
 
     var newFood = {
         name: {
@@ -47,7 +62,8 @@ exports.create = function(req, res) {
         status: Number(b['status']),
         inspecial: Boolean(b['inspecial']),
         specialPrice: Number(b['specialPrice']),
-        picture: fileurl
+        // store only name part of picture (cause there are a lot of thumbs)
+        picture: picname
     };
 
     console.log('newFood: ', newFood);
