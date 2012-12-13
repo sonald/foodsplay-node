@@ -68,6 +68,7 @@ $(function() {
 
         this.get("#/restaurants/new", function(context) {
             app.$element().html( jade.compile($('#restaurants_new_tmpl').html())() );
+            window.currentModel.setupValidation();
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
 

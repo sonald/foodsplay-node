@@ -39,9 +39,45 @@ function UserViewModel(initial) {
     });
 
     self.newRestaurant = ko.observable(new Restaurant);
+
+    self.validationErrors = ko.observable("");
     self.newRestaurantValid = ko.computed(function() {
-        return self.newRestaurant().name.zh().trim().length > 0;
+        return self.validationErrors().length == 0;
     });
+
+    self.validate = function() {
+        if (self.validator) {
+            var result = self.validator.runValidations();
+            console.log(result);
+            if (!result.valid) {
+                self.validationErrors(result.messages.join(",").trim());
+            }
+            return result.valid;
+        }
+        return true;
+    };
+
+    var fields = '#app-content input:not([type="submit"]):visible, textarea';
+    self.setupValidation = function() {
+        var vd = self.validator = FormValidator($(fields));
+        vd.addValidation("name.en", {
+            required: true
+        });
+
+        vd.addValidation("name.zh", {
+            required: true
+        });
+
+        vd.addValidation("description.en", {
+            min_length: 2,
+            required: true
+        });
+
+        vd.addValidation("description.zh", {
+            min_length: 2,
+            required: true
+        });
+    };
 }
 
 // only admin can access this

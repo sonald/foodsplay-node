@@ -1,6 +1,12 @@
 script(type="text/html", id="restaurants_new_tmpl").
-    form.well.form.form-horizontal(method="post", enctype="multipart/form-data",
-        data-bind="with: newRestaurant, attr: {action: $root.postNewRestaurantUrl}")
+    .alert(data-bind="visible: validationErrors().length > 0")
+        button.close(data-dismiss="alert") x
+        strong Errors
+        p.small(data-bind="text: validationErrors")
+
+    form.well.form.form-horizontal(method="post",
+        enctype="multipart/form-data",
+        data-bind="with: newRestaurant, submit: $root.validate, attr: {action: $root.postNewRestaurantUrl}")
 
         input(type="hidden", name="_csrf", value="#{csrf_token}")
         input(type="hidden", name="userid", data-bind="value: $root.user()._id")
@@ -18,13 +24,15 @@ script(type="text/html", id="restaurants_new_tmpl").
         .control-group
             label.control-label Description(en)
             .controls
-                input(type="text", name="description.en", data-bind="value: description.en", placeholder="description")
+                textarea(name="description.en", data-bind="value: description.en",
+                     placeholder="description")
 
         .control-group
             label.control-label Description(zh)
             .controls
-                input(type="text", name="description.zh", data-bind="value: description.zh", placeholder="description")
+                textarea(name="description.zh", data-bind="value: description.zh",
+                     placeholder="description")
 
         .control-group
             .controls
-                button(type="submit", data-bind="enable: $root.newRestaurantValid") Create
+                button(type="submit") Create
