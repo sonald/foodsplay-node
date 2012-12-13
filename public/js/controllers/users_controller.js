@@ -41,10 +41,6 @@ function UserViewModel(initial) {
     self.newRestaurant = ko.observable(new Restaurant);
 
     self.validationErrors = ko.observable("");
-    self.newRestaurantValid = ko.computed(function() {
-        return self.validationErrors().length == 0;
-    });
-
     self.validate = function() {
         if (self.validator) {
             var result = self.validator.runValidations();
