@@ -83,8 +83,8 @@ function FoodsViewModel(restaurantid, initialFoods) {
         });
 
         vd.addValidationMethod("need_picture", function(val) {
-            var suffix = val.match( /\.\w+$/ );
-            return suffix && ['png', 'jpg', 'tiff'].indexOf(suffix) != -1;
+            var suffix = val.match( /\.\w+$/ )[0];
+            return suffix && ['.png', '.jpg', '.tiff'].indexOf(suffix) != -1;
         }, "Field %F needs a picture type");
 
         vd.addValidation("picture", {
