@@ -4,17 +4,26 @@ script(type="text/html", id="restaurant_tmpl").
             a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Manage&nbsp;
                 span.caret
             ul.dropdown-menu
+                li: a(data-bind="attr: {href: foodsUrl()}") Foods
+                li: a(data-bind="attr: {href: employeesUrl()}") Employees
+                li: a(data-bind="attr: {href: ordersUrl()}") Current Orders
+                li: a(data-bind="attr: {href: '#'}") Members
+
+        .btn-group
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Config&nbsp;
+                span.caret
+            ul.dropdown-menu
                 li: a(href="#") Edit Restaurant
                 li: a(href="#") Delete Restaurant
 
         .btn-group
-            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Statictics&nbsp;
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Statistics&nbsp;
                 span.caret
             ul.dropdown-menu
                 li: a(href="#") Withdraw Records
-                li: a(href="#") Daily Statictics
-                li: a(href="#") Monthly Statictics
-                li: a(href="#") Monthly Statictics
+                li: a(href="#") Daily Statistics
+                li: a(href="#") Monthly Statistics
+                li: a(href="#") Yearly Statistics
                 li: a(href="#") Past Orders
                 li: a(href="#") Foods Rankings
 
@@ -31,9 +40,3 @@ script(type="text/html", id="restaurant_tmpl").
             h1
                 span(data-bind="text: restaurant().name.zh")
                 small(data-bind="text: restaurant().name.en")
-
-        ul.nav.nav-pills.nav-stacked
-            li: a(data-bind="attr: {href: foodsUrl()}") Foods
-            li: a(data-bind="attr: {href: employeesUrl()}") Employees
-            li: a(data-bind="attr: {href: ordersUrl()}") Current Orders
-            li: a(data-bind="attr: {href: '#'}") Members

@@ -1,13 +1,35 @@
 script(type="text/html", id="foods_tmpl").
-    .row-fluid.restaurant
-        ul.thumbnails.foodstbody(data-bind="foreach: foods")
-            li.span3
-                .thumbnail
-                    img(data-bind="attr: {src: thumbs[0]}")
-                    b(data-bind='text: name.zh + "(" + name.en + ")"')
-                    p(data-bind="text: price")
-                    p(data-bind="text: description.zh")
-                    p(data-bind="text: description.en")
+    #js-food-details.modal.fade.hide
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+            h3 Modal header
+
+        .modal-body
+            .thumbnail(data-bind="with: selectedFood")
+                img(data-bind="attr: {src: thumbs[0]}")
+                b(data-bind='value: name.zh')
+                b(data-bind='value: name.en')
+                p(data-bind="value: price")
+                p(data-bind="text: description.zh")
+                p(data-bind="text: description.en")
+
+        .modal-footer
+            a.btn.btn-warning(href="#", data-dismiss="modal") Delete
+            a.btn.btn-primary(href="#", data-dismiss="modal") Edit
+            a.pull-left.btn(href="#", data-dismiss="modal") Dismiss
+            a.btn.btn-primary(href="#") Save
+
+    .container.row-fluid
+        div(data-bind="foreach: foods")
+            .media
+                a(href="#", data-bind='click: $root.selectFood',
+                    data-target="#js-food-details", data-toggle="modal")
+                    img.pull-left(data-bind="attr: {src: thumbs[2]}")
+                .media-body
+                    a(href="#", data-bind='click: $root.selectFood',
+                        data-target="#js-food-details", data-toggle="modal")
+                        p(data-bind="text: name.en")
+                        p(data-bind="text: name.zh")
 
     .buttons
         p: a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}") New Food
