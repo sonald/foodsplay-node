@@ -1,4 +1,31 @@
 script(type="text/html", id="restaurant_tmpl").
+    .btn-toolbar
+        .btn-group
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Manage&nbsp;
+                span.caret
+            ul.dropdown-menu
+                li: a(href="#") Edit Restaurant
+                li: a(href="#") Delete Restaurant
+
+        .btn-group
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Statictics&nbsp;
+                span.caret
+            ul.dropdown-menu
+                li: a(href="#") Withdraw Records
+                li: a(href="#") Daily Statictics
+                li: a(href="#") Monthly Statictics
+                li: a(href="#") Monthly Statictics
+                li: a(href="#") Past Orders
+                li: a(href="#") Foods Rankings
+
+        .btn-group
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Status&nbsp;
+                span.caret
+            ul.dropdown-menu
+                li: a(href="#") Past Orders
+                li: a(href="#") Foods Rankings
+                li: a(href="#") Connected Pads
+
     .hero-unit
         page-header
             h1
@@ -8,4 +35,5 @@ script(type="text/html", id="restaurant_tmpl").
         ul.nav.nav-pills.nav-stacked
             li: a(data-bind="attr: {href: foodsUrl()}") Foods
             li: a(data-bind="attr: {href: employeesUrl()}") Employees
-            li: a(data-bind="attr: {href: ordersUrl()}") Orders
+            li: a(data-bind="attr: {href: ordersUrl()}") Current Orders
+            li: a(data-bind="attr: {href: '#'}") Members

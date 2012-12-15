@@ -3,26 +3,35 @@ body {
     background: $base-bg-color;
 }
 
-.signin-container {
+@mixin pad-top($px) {
+    padding-top: $px;
+}
+
+@mixin flex-container($pack) {
     display: -webkit-box;
     display: -moz-box;
-    
+
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
 
-    -webkit-box-pack: center;
-    -moz-box-pack: center;
+    -webkit-box-pack: $pack;
+    -moz-box-pack: $pack;
 
-    -webkit-box-align: center;
 
-    padding-top: 40px;
+    -webkit-box-align: $pack;
+    -moz-box-align: $pack;
+}
+
+.signin-container {
+    @include flex-container(center);
+    @include pad-top(40px);
+}
+
+#app-content {
+    @include flex-container(left);
+    @include pad-top(20px);
 }
 
 a {
     color: #00B7FF;
 }
-
-#js-user-signin {
-    width: 400px;
-}
-
