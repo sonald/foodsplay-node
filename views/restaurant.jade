@@ -13,8 +13,8 @@ script(type="text/html", id="restaurant_tmpl").
             a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Config&nbsp;
                 span.caret
             ul.dropdown-menu
-                li: a(href="#") Edit Restaurant
-                li: a(href="#") Delete Restaurant
+                li: a(data-bind="attr: {href: editUrl()}") Edit Restaurant
+                li: a(data-bind="attr: {href: deleteUrl()}") Delete Restaurant
 
         .btn-group
             a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Statistics&nbsp;
@@ -36,7 +36,11 @@ script(type="text/html", id="restaurant_tmpl").
                 li: a(href="#") Connected Pads
 
     .hero-unit
-        page-header
+        .page-header
             h1
                 span(data-bind="text: restaurant().name.zh")
                 small(data-bind="text: restaurant().name.en")
+
+        .container
+            p(data-bind="text: restaurant().description.en")
+            p(data-bind="text: restaurant().description.zh")

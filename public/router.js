@@ -72,6 +72,12 @@ $(function() {
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
 
+        this.get("#/restaurants/:id/edit", function(context) {
+            app.$element().html( jade.compile($('#restaurants_edit_tmpl').html())() );
+            // window.currentModel.setupValidation();
+            ko.applyBindings(window.currentModel, app.$element()[0]);
+        });
+
         this.get("#/restaurants/:id", function(context) {
             $.getJSON(this.path.substring(2), function(data) {
                 app.$element().html( jade.compile($('#restaurant_tmpl').html())() );

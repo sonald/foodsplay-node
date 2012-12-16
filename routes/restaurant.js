@@ -6,7 +6,8 @@
 // PUT     /restaurants/:restaurant       ->  update
 // DELETE  /restaurants/:restaurant       ->  destroy
 
-var models = require('../models');
+var models = require('../models'),
+    util = require('util');
 
 module.exports = {
     index: function(req, res) {
@@ -16,7 +17,7 @@ module.exports = {
 
         models.RestaurantModel
             .find()
-            .select("_id name foods.id")
+            .select("_id name _user foods.id")
             .exec(function(err, restaurants) {
                 if (err) {
                     return res.send(406);
@@ -58,7 +59,7 @@ module.exports = {
 
         models.RestaurantModel
             .findOne({_id: req.params.restaurant, _user: req.user._id})
-            .select("_id name description foods._id orders._id")
+            .select("_id _user name description foods._id orders._id")
             .exec(function(err, restaurant) {
                 if (err) {
                     res.send(406);
@@ -71,11 +72,37 @@ module.exports = {
     },
 
     edit: function(req, res) {
-        res.send('edit restaurant ' + req.restaurant.title);
+        res.send(404);
     },
 
     update: function(req, res) {
-        res.send('update restaurant ' + req.restaurant.title);
+        if (req.user.kind == models.USER_NORMAL) {
+            return res.send(403);
+        }
+
+        var b = req.body;
+        var schema = models.RestaurantModel.schema;
+        var keys = {};
+        Object.keys(b).map(function(path) {
+            if (!!schema.path(path) && path != '_id') {
+                keys[path] = b[path];
+            }
+        });
+        console.log('b: ', b, 'put: ', keys);
+
+        models.RestaurantModel
+            .update({_id: b['_id']}, keys, function(err, numAffected) {
+                if (err) {
+                    return res.send(406);
+                }
+
+                console.log('put restaurant, numAffected: ', numAffected);
+                if (numAffected == 1) {
+                    res.redirect('/#/restaurants/' + b['_id']);
+                } else {
+                    res.send(500);
+                }
+            });
     },
 
     destroy: function(req, res) {

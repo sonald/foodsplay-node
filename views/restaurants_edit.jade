@@ -1,0 +1,40 @@
+script(type="text/html", id="restaurants_edit_tmpl").
+    // .alert(data-bind="visible: validationErrors().length > 0")
+    //     button.close(data-dismiss="alert") x
+    //     strong Errors
+    //     p.small(data-bind="text: validationErrors")
+
+    form.well.form.form-horizontal(method="post",
+        enctype="multipart/form-data",
+        data-bind="with: restaurant, submit: $root.validate, attr: {action: $root.putRestaurantUrl}")
+
+        input(type="hidden", name="_method", value="put")
+        input(type="hidden", name="_csrf", value="#{csrf_token}")
+        input(type="hidden", name="userid", data-bind="value: _user")
+        input(type="hidden", name="_id", data-bind="value: _id")
+
+        .control-group
+            label.control-label Name(en)
+            .controls
+                input(type="text", name="name.en", data-bind="value: name.en", placeholder="name")
+
+        .control-group
+            label.control-label Name(zh)
+            .controls
+                input(type="text", name="name.zh", data-bind="value: name.zh", placeholder="name")
+
+        .control-group
+            label.control-label Description(en)
+            .controls
+                textarea(name="description.en", data-bind="value: description.en",
+                     placeholder="description")
+
+        .control-group
+            label.control-label Description(zh)
+            .controls
+                textarea(name="description.zh", data-bind="value: description.zh",
+                     placeholder="description")
+
+        .control-group
+            .controls
+                button(type="submit") Update

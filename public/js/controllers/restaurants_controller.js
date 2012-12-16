@@ -1,19 +1,23 @@
 function RestaurantViewModel(initial) {
     var self = this;
     self.restaurant = ko.observable(initial);
+    console.log(initial);
 
-    self.foodsUrl = ko.computed(function() {
-        return "#/restaurants/" + self.restaurant()._id + '/foods';
+    self.base = ko.computed(function() {
+        return "#/restaurants/" + self.restaurant()._id;
     });
 
-    self.employeesUrl = ko.computed(function() {
-        return "#/restaurants/" + self.restaurant()._id + '/employees';
+    ['edit', 'delete', 'foods', 'employees', 'orders'].forEach(function(dest) {
+        self[dest + 'Url'] = ko.computed(function() {
+            return self.base() + '/' + dest;
+        });
     });
 
-    self.ordersUrl = ko.computed(function() {
-        return "#/restaurants/" + self.restaurant()._id + '/orders';
+    self.putRestaurantUrl = ko.computed(function() {
+        return "/restaurants/" + self.restaurant()._id;
     });
 
+    self.validate = function() { return true; };
 }
 
 function RestaurantsViewModel(initial) {
