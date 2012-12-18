@@ -72,11 +72,6 @@ $(function() {
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
 
-        this.get("#/restaurants/:id/edit", function(context) {
-            app.$element().html( jade.compile($('#restaurants_edit_tmpl').html())() );
-            // window.currentModel.setupValidation();
-            ko.applyBindings(window.currentModel, app.$element()[0]);
-        });
 
         this.get("#/restaurants/:id", function(context) {
             $.getJSON(this.path.substring(2), function(data) {
@@ -85,6 +80,13 @@ $(function() {
                 ko.applyBindings(window.currentModel, app.$element()[0]);
             });
         });
+
+        this.get("#/restaurants/:id/edit", function(context) {
+            app.$element().html( jade.compile($('#restaurants_edit_tmpl').html())() );
+            window.currentModel.setupValidation();
+            ko.applyBindings(window.currentModel, app.$element()[0]);
+        });
+
 
         this.get("#/restaurants/:id/foods", function(context) {
             var self = this;
@@ -112,6 +114,12 @@ $(function() {
                     console.log('post done', data);
                 }
             });
+        });
+
+        this.get("#/restaurants/:id/foods/:fid/edit", function(context) {
+            app.$element().html( jade.compile($('#foods_edit_tmpl').html())() );
+            window.currentModel.setupValidation();
+            ko.applyBindings(window.currentModel, app.$element()[0]);
         });
 
         this.get("#/restaurants/:id/foods/new", function(context) {

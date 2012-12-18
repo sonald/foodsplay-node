@@ -1,8 +1,8 @@
 script(type="text/html", id="restaurants_edit_tmpl").
-    // .alert(data-bind="visible: validationErrors().length > 0")
-    //     button.close(data-dismiss="alert") x
-    //     strong Errors
-    //     p.small(data-bind="text: validationErrors")
+    .alert(data-bind="visible: validationErrors().length > 0")
+        button.close(data-dismiss="alert") x
+        strong Errors
+        p.small(data-bind="text: validationErrors")
 
     form.well.form.form-horizontal(method="post",
         enctype="multipart/form-data",

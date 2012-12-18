@@ -25,12 +25,12 @@ script(type="text/html", id="foods_new_tmpl").
         .control-group
             label.control-label Description(en)
             .controls
-                input(type="text", name="description.en", data-bind="value: description.en", placeholder="description")
+                textarea(name="description.en", data-bind="value: description.en", placeholder="description")
 
         .control-group
             label.control-label Description(zh)
             .controls
-                input(type="text", name="description.zh", data-bind="value: description.zh", placeholder="description")
+                textarea(name="description.zh", data-bind="value: description.zh", placeholder="description")
 
         .control-group
             label.control-label Picture

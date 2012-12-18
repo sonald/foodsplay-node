@@ -30,6 +30,12 @@ body {
 #app-content {
     @include flex-container(left);
     @include pad-top(20px);
+
+    form {
+        textarea {
+            width: 80%;
+        }
+    }
 }
 
 a {

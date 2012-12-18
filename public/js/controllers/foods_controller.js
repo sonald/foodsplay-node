@@ -54,54 +54,30 @@ function FoodsViewModel(restaurantid, initialFoods) {
         window.location.hash = self.newFoodUrl() + '/new';
     };
 
-    self.validationErrors = ko.observable("");
-    self.validate = function() {
-        if (self.validator) {
-            var result = self.validator.runValidations();
-            console.log(result);
-            if (!result.valid) {
-                self.validationErrors(result.messages.join(",").trim());
-            }
-            return result.valid;
-        }
-        return true;
-    };
+    $('#js-food-details').on('shown', function() {
+        console.log('shown');
+    });
 
     var fields = '#app-content input:not([type="submit"]):visible, textarea';
-    self.setupValidation = function() {
-        var vd = self.validator = FormValidator($(fields));
-        ['description.en', 'description.zh', 'name.en', 'name.zh'].forEach(function(field) {
-            vd.addValidation(field, {
-                required: true
-            });
-        });
+    self.initValidation(fields, {
+        'description.en, description.zh, name.en, name.zh': {
+            required: true
+        },
 
-        ['description.en', 'description.zh'].forEach(function(field) {
-            vd.addValidation(field, {
-                min_length: 2
-            });
-        });
+        'description.en, description.zh': {
+            min_length: 2
+        },
 
-        vd.addValidationMethod("need_picture", function(val) {
-            var suffix = val.match( /\.\w+$/ )[0];
-            return suffix && ['.png', '.jpg', '.tiff'].indexOf(suffix) != -1;
-        }, "Field %F needs a picture type");
-
-        vd.addValidation("picture", {
+        'picture': {
             need_picture: true,
             required: true
-        });
+        },
 
-        vd.addValidationMethod("need_number", function(val) {
-            var r = Number(val);
-            return val && !isNaN(r);
-        }, "Field %F needs a valid number");
-
-        ['price', 'memberPrice', 'category', 'unit'].forEach(function(field) {
-            vd.addValidation(field, {
-                required: true,
-                need_number: true
-            });
-        });
-    };
+        'price, memberPrice, category, unit': {
+            required: true,
+            need_number: true
+        }
+    });
 }
+
+ValidationMixin.call(FoodsViewModel.prototype);

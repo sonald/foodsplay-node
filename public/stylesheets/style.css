@@ -22,6 +22,8 @@ body {
   -webkit-box-align: left;
   -moz-box-align: left;
   padding-top: 20px; }
+  #app-content form textarea {
+    width: 80%; }
 
 a {
   color: #00B7FF; }

@@ -7,11 +7,11 @@ script(type="text/html", id="foods_tmpl").
         .modal-body
             .thumbnail(data-bind="with: selectedFood")
                 img(data-bind="attr: {src: thumbs[0]}")
-                b(data-bind='value: name.zh')
-                b(data-bind='value: name.en')
+                p#js-name-en(data-bind="value: name.en")
+                    small(data-bind='value: name.zh')
                 p(data-bind="value: price")
-                p(data-bind="text: description.zh")
                 p(data-bind="text: description.en")
+                    small(data-bind="text: description.zh")
 
         .modal-footer
             a.btn.btn-warning(href="#", data-dismiss="modal") Delete
