@@ -12,7 +12,14 @@ var consts = {
     USER_ADMIN: 3,
 
     FOOD_AVAILABLE: 1,
-    FOOD_UNAVAILABLE: 2
+    FOOD_UNAVAILABLE: 2,
+
+    ORDER_CLOSED: 1,
+    ORDER_OPEN: 2,
+
+    ORDER_ITEM_FRESH: 1,
+    ORDER_ITEM_CONFIRMED: 2, // 下单
+    ORDER_ITEM_DONE: 3  // 已上
 };
 
 
@@ -49,7 +56,7 @@ FoodSchema.pre('save', function (next) {
 });
 
 var OrderSchema = new mongoose.Schema({
-    orderid: String,
+    // orderid: String,
     date: Date,
     items: [
         {
@@ -60,10 +67,11 @@ var OrderSchema = new mongoose.Schema({
             request: String,
             method: String,
             other: String,
-            status: String
+            status: Number
         }
     ],
     guestNumber: Number,
+    table: Number,
     status: Number // 正在使用，存档
 });
 

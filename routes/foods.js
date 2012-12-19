@@ -7,6 +7,10 @@ var formidable = require('formidable'), // bodyParser integrate formidable alrea
     sh = require('shelljs');
 
 exports.index = function(req, res) {
+    if (req.user.kind == models.USER_NORMAL) {
+        return res.send(403);
+    }
+
     models.RestaurantModel
         .findOne({_id: req.params.restaurant})
         .select("foods")
@@ -20,6 +24,10 @@ exports.index = function(req, res) {
 };
 
 exports.create = function(req, res) {
+    if (req.user.kind == models.USER_NORMAL) {
+        return res.send(403);
+    }
+
     var b = req.body;
     var foodspath = pathlib.join("/upload/images/restaurants", b.restaurantid, "foods");
     var picname = req.files.picture.name;
@@ -82,7 +90,9 @@ exports.create = function(req, res) {
 };
 
 exports.show = function(req, res){
-
+    if (req.user.kind == models.USER_NORMAL) {
+        return res.send(403);
+    }
 };
 
 exports.update = function(req, res) {

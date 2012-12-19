@@ -18,6 +18,7 @@ html
 
         script(type="text/javascript", src="/js/controllers/validation.js")
         script(type="text/javascript", src="/js/controllers/users_controller.js")
+        script(type="text/javascript", src="/js/controllers/orders_controller.js")
         script(type="text/javascript", src="/js/controllers/foods_controller.js")
         script(type="text/javascript", src="/js/controllers/restaurants_controller.js")
 
@@ -26,9 +27,8 @@ html
             .navbar-inner
                 .brand(href='#') Foodsplay
                 ul.nav
-                    li: a.active(href='#') Home
-                    li: a(href='#/restaurants') Restaurants
-                    li: a(href='#') Interest
+                    li: a.active(href='/') Home
+                    li: a(href='/restaurants') Restaurants
 
                 ul.nav.pull-right
                     - if (!everyauth.loggedIn)
@@ -54,4 +54,5 @@ html
             include restaurants_edit
             include restaurant
             include foods
+            include orders
             include foods_new

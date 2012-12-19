@@ -8,7 +8,6 @@ var util = require('util'),
 module.exports = function(app, express) {
     require('./routes/auth');
 
-
     app.configure(function(){
         app.set('port', process.env.PORT || 3000);
         app.set('views', __dirname + '/views');

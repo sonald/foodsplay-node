@@ -127,6 +127,28 @@ $(function() {
             window.currentModel.setupValidation();
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
+
+
+        this.get("#/restaurants/:id/orders", function(context) {
+            var self = this;
+
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#orders_tmpl').html())() );
+                window.currentModel = new OrdersViewModel(self.params['id'], data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+        this.get("#/restaurants/:id/orders/:oid", function(context) {
+            var self = this;
+
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#order_tmpl').html())() );
+                window.currentModel = new OrderViewModel(self.params['id'], data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
     });
 
     var init_url = (!!window.location.hash.trim()) ? window.location.hash : '#/';

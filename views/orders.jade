@@ -1,0 +1,14 @@
+script(type="text/html", id="orders_tmpl").
+    h3 Current Orders
+    .container.row-fluid
+        div(data-bind="foreach: orders")
+            div.well
+                div Date:
+                    label.label.label-success(data-bind="text: date")
+                div Guests:
+                    label.label.label-success(data-bind="text: guestNumber")
+                div Table:
+                    label.label.label-success(data-bind="text: table")
+                div Items:
+                    label.label.label-success(data-bind="text: items.length")
+                a(href="#") details

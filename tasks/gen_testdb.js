@@ -150,22 +150,19 @@ db.once('open', function() {
         ]
     });
 
-    models.RestaurantModel.remove(function(err) {
-        console.log('drop old done');
-        aRestaurant.save(function(err) {
-            if (err) {
+    aRestaurant.save(function(err) {
+        if (err) {
+            console.log(err.message);
+        }
+
+        aRestaurant2.save(function(err2) {
+            if (err2) {
                 console.log(err.message);
             }
 
-            aRestaurant2.save(function(err2) {
-                if (err2) {
-                    console.log(err.message);
-                }
-
-                console.log('create restaurant done');
-                db.close();
-                process.exit(0);
-            });
+            console.log('create restaurant done');
+            db.close();
+            process.exit(0);
         });
     });
 });
