@@ -39,9 +39,13 @@ var FoodSchema = new mongoose.Schema({
 });
 
 FoodSchema.pre('save', function (next) {
-    if (this.name.zh || this.name.zh.trim().length == 0) return next(new Error('need name'));
-    if (this.name.en || this.name.en.trim().length == 0) return next(new Error('need name'));
-    return next();
+    err = null;
+    if (this.name.zh && this.name.zh.trim().length == 0) {
+        err = new Error('need name');
+    } else if (this.name.en && this.name.en.trim().length == 0) {
+        err = new Error('need name');
+    }
+    next(err);
 });
 
 var OrderSchema = new mongoose.Schema({

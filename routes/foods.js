@@ -85,6 +85,40 @@ exports.show = function(req, res){
 
 };
 
+exports.update = function(req, res) {
+    if (req.user.kind == models.USER_NORMAL) {
+        return res.send(403);
+    }
+
+    var b = req.body;
+    console.log('params: ', req.params, 'b: ', b);
+
+    models.RestaurantModel
+        .findById(req.params.restaurant, function(err, restaurant) {
+            if (err) {
+                return res.send(406);
+            }
+
+            var food = restaurant.foods.id(req.params.food);
+            Object.keys(b).map(function(path) {
+                if (path.indexOf('.') > -1) {
+                    eval('food.' + path + '=' + JSON.stringify(b[path]));
+                } else if (path in food) {
+                    food[path] = b[path];
+                }
+            });
+
+            console.log(food);
+            restaurant.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.send(403);
+                }
+                return res.send(200);
+            });
+        });
+};
+
 // update({
 //        _id: 7,
 //        comments._id: ObjectId("4da4e7d1590295d4eb81c0c7")

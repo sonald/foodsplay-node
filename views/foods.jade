@@ -2,29 +2,43 @@ script(type="text/html", id="foods_tmpl").
     #js-food-details.modal.fade.hide
         .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-            h3 Modal header
+            h3 Details
 
         .modal-body
             .thumbnail(data-bind="with: selectedFood")
-                img(data-bind="attr: {src: thumbs[0]}")
-                p#js-name-en(data-bind="value: name.en")
-                    small(data-bind='value: name.zh')
-                p(data-bind="value: price")
-                p(data-bind="text: description.en")
-                    small(data-bind="text: description.zh")
+                input(type="hidden", name="_csrf", value="#{csrf_token}")
+                img(data-bind="attr: {src: thumbs()[0]}")
+                ul.inline
+                    li: h3.editable(data-name="name.en", data-bind="editable: name.en")
+                    li.editable(data-name="name.zh", data-bind='editable: name.zh')
+                ul.inline
+                    li Price
+                    li.editable.label(data-name="price", data-bind="editable: price")
+                ul.inline
+                    li MemberPrice
+                    li.editable.label(data-name="memberPrice", data-bind="editable: memberPrice")
+                ul.inline
+                    li Category
+                    li.editable.label(data-name="category", data-bind="editable: category")
+                ul.inline
+                    li Unit
+                    li.editable.label(data-name="unit", data-bind="editable: unit")
+
+                article.editable(data-name="description.en",
+                    data-bind="editable: description.en, editableOptions: {type: 'textarea'}")
+                article.editable(data-name="description.zh",
+                    data-bind="editable: description.zh, editableOptions: {type: 'textarea'}")
 
         .modal-footer
-            a.btn.btn-warning(href="#", data-dismiss="modal") Delete
-            a.btn.btn-primary(href="#", data-dismiss="modal") Edit
-            a.pull-left.btn(href="#", data-dismiss="modal") Dismiss
-            a.btn.btn-primary(href="#") Save
+            a.pull-left.btn.btn-warning(href="#", data-dismiss="modal") Delete
+            a#close.btn.btn-primary(href="#", data-dismiss="modal") Close
 
     .container.row-fluid
         div(data-bind="foreach: foods")
             .media
                 a(href="#", data-bind='click: $root.selectFood',
                     data-target="#js-food-details", data-toggle="modal")
-                    img.pull-left(data-bind="attr: {src: thumbs[2]}")
+                    img.pull-left(data-bind="attr: {src: thumbs()[2]}")
                 .media-body
                     a(href="#", data-bind='click: $root.selectFood',
                         data-target="#js-food-details", data-toggle="modal")
