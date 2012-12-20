@@ -18,7 +18,7 @@ mongoose.connection.once('open', function() {
                 date: new Date(),
                 items: [
                     {
-                        foodid: foods[0]._id,
+                        food: foods[0]._id,
                         specification: 0,
                         count: 1,
                         favor: "favor sugar",
@@ -28,7 +28,7 @@ mongoose.connection.once('open', function() {
                         status: models.ORDER_ITEM_FRESH
                     },
                     {
-                        foodid: foods[1]._id,
+                        food: foods[1]._id,
                         specification: 1,
                         count: 2,
                         favor: "favor bitter",
@@ -47,7 +47,7 @@ mongoose.connection.once('open', function() {
                 date: new Date(),
                 items: [
                     {
-                        foodid: foods[0]._id,
+                        food: foods[0]._id,
                         specification: 1,
                         count: 2,
                         favor: "favor 3",
@@ -57,7 +57,7 @@ mongoose.connection.once('open', function() {
                         status: models.ORDER_ITEM_FRESH
                     },
                     {
-                        foodid: foods[1]._id,
+                        food: foods[1]._id,
                         specification: 1,
                         count: 2,
                         favor: "favor bitter",

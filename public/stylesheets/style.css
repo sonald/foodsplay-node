@@ -30,3 +30,9 @@ a {
 
 .editable {
   text-decoration: underline; }
+
+/* expansion for bootstrap modal */
+.modal-wide {
+  width: 80%;
+  left: 0;
+  margin: 0 -webkit-calc((100% - 80%)/2); }

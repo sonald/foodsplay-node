@@ -22,14 +22,14 @@ exports.create = function(req, res) {
     var b = req.body;
 
     var newItem = {
-        foodid: b['foodid'],
+        food: b['food'],
         specification: b['specification'],
         count: b['count'],
         favor: b['favor'],
         request: b['request'],
         method: b['method'],
-        other: b['order'],
-        status: ORDER_ITEM_FRESH
+        other: b['other'],
+        status: models.ORDER_ITEM_FRESH
     };
 
     models.RestaurantModel.findById(req.params.restaurant, function(err, restaurant) {

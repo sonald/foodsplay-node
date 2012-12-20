@@ -60,7 +60,7 @@ var OrderSchema = new mongoose.Schema({
     date: Date,
     items: [
         {
-            foodid: ObjectId,
+            food: {type: ObjectId, ref: 'Food'},
             specification: Number,
             count: Number,
             favor: String,
@@ -98,7 +98,7 @@ var MemberSchema = new mongoose.Schema({
 // 退菜记录
 var WithdrawSchema = new mongoose.Schema({
     id: Number,
-    foodid: ObjectId
+    food: {type: ObjectId, ref: 'Food'}
 });
 
 // 客人消费账单
@@ -137,6 +137,8 @@ var RestaurantSchema = new mongoose.Schema({
 
 function Models() {
     console.log('building models');
+    this.FoodModel = mongoose.model('Food', FoodSchema);
+    this.OrderModel = mongoose.model('Order', OrderSchema);
     this.UserModel = mongoose.model('User', UserSchema);
     this.RestaurantModel = mongoose.model('Restaurant', RestaurantSchema);
 

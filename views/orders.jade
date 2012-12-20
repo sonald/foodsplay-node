@@ -1,4 +1,39 @@
 script(type="text/html", id="orders_tmpl").
+    #js-order-details.modal.modal-wide.fade.hide
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+            h3 Details
+
+        .modal-body
+            .row-fluid(data-bind="with: currentOrder")
+                ul.thumbnails(data-bind="foreach: items")
+                    li.span3
+                        div.thumbnail
+                            img(data-bind="attr: {src: food.thumbs[2]}")
+                            span
+                                h3(data-bind="text: food.name.en")
+                                small(data-bind='text: food.name.zh')
+
+                            div
+                                span specification&nbsp;
+                                span(data-bind="text: specification")
+                            div
+                                span favor&nbsp;
+                                span(data-bind="text: favor")
+                            div
+                                span request&nbsp;
+                                span(data-bind="text: request")
+                            div
+                                span method&nbsp;
+                                span(data-bind="text: method")
+                            div
+                                span status&nbsp;
+                                label.label.label-success(data-bind="text: statusName")
+
+        .modal-footer
+            a#close.btn.btn-primary(href="#", data-dismiss="modal") Close
+
+
     h3 Current Orders
     .container.row-fluid
         div(data-bind="foreach: orders")
@@ -11,4 +46,5 @@ script(type="text/html", id="orders_tmpl").
                     label.label.label-success(data-bind="text: table")
                 div Items:
                     label.label.label-success(data-bind="text: items.length")
-                a(href="#") details
+                a(href="#", data-bind='click: $root.selectOrder',
+                    data-target="#js-order-details", data-toggle="modal") details

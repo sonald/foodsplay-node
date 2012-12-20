@@ -14,15 +14,27 @@ exports.live = function(req, res) {
 
     models.RestaurantModel
         .findById(req.params.restaurant)
-        .select("orders")
+        .select("orders foods")
         .exec(function(err, restaurant) {
             if (err) {
                 return res.send(403);
             }
 
             var orders = restaurant.orders.filter(function(order) {
-                return order.status = models.ORDER_OPEN;
+                return order.status == models.ORDER_OPEN;
+            })
+
+            //HACK: manually populate nested food, cause mongoose does
+            //not support it right now. see issue601
+            orders = orders.map(function(order) {
+                order = order.toObject({minimize: false});
+                order.items.forEach(function(item) {
+                    item.food = restaurant.foods.id(item.food);
+                });
+
+                return order;
             });
+
             res.send(JSON.stringify(orders));
         });
 };
@@ -35,15 +47,25 @@ exports.archive = function(req, res) {
 
     models.RestaurantModel
         .findById(req.params.restaurant)
-        .select("orders")
+        .select("orders foods")
         .exec(function(err, restaurant) {
             if (err) {
                 return res.send(403);
             }
 
             var orders = restaurant.orders.filter(function(order) {
-                return order.status = models.ORDER_CLOSED;
+                return order.status == models.ORDER_CLOSED;
+            })
+
+            orders = orders.map(function(order) {
+                order = order.toObject({minimize: false});
+                order.items.forEach(function(item) {
+                    item.food = restaurant.foods.id(item.food);
+                });
+
+                return order;
             });
+
             res.send(JSON.stringify(orders));
         });
 };
