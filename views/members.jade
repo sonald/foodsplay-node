@@ -1,0 +1,31 @@
+script(type="text/html", id="members_tmpl").
+    h3 Members
+    input(type="hidden", name="_csrf", value="#{csrf_token}")
+    a.btn.btn-primary(data-bind="attr: {href: newMemberUrl}") New Member
+
+    .container.row-fluid
+        div(data-bind="foreach: members")
+            div.well
+                div Name:
+                    label.label.label-success.editable(data-name="name", data-bind="editable: name")
+                div Sex:
+                    label.label.label-success.editable(data-name="sex", data-bind="editable: sex")
+                div Birth:
+                    label.label.label-success.editable(data-name="birth", data-bind="editable: birth")
+                div IC:
+                    label.label.label-success.editable(data-name="icnum", data-bind="editable: icnum")
+                div Address:
+                    label.label.label-success.editable(data-name="address", data-bind="editable: address")
+                div Phone:
+                    label.label.label-success.editable(data-name="phone", data-bind="editable: phone")
+                div Email:
+                    label.label.label-success.editable(data-name="email", data-bind="editable: email")
+                div Card:
+                    label.label.label-success.editable(data-name="cardid", data-bind="editable: cardid")
+                div Credits:
+                    label.label.label-success.editable(data-name="credits", data-bind="editable: credits")
+
+                a(href="#", data-bind="attr: {'data-target': '#js-member-' + $data._id()}",
+                    data-toggle="collapse") details
+                .collapse(data-bind="attr: {id: 'js-member-' + $data._id()}")
+                    h4 Histories comes here

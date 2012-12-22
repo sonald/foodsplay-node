@@ -149,6 +149,27 @@ $(function() {
             });
         });
 
+
+        this.get("#/restaurants/:id/members", function(context) {
+            var self = this;
+
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#members_tmpl').html())() );
+                window.currentModel = new MembersViewModel(self.params['id'], data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+        // this.get("#/restaurants/:id/member/:oid", function(context) {
+        //     var self = this;
+
+        //     $.getJSON(this.path.substring(2), function(data) {
+        //         app.$element().html( jade.compile($('#member_tmpl').html())() );
+        //         window.currentModel = new MemberViewModel(self.params['id'], data);
+        //         ko.applyBindings(window.currentModel, app.$element()[0]);
+        //     });
+        // });
+
     });
 
     var init_url = (!!window.location.hash.trim()) ? window.location.hash : '#/';

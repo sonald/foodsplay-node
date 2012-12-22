@@ -93,6 +93,17 @@ exports.show = function(req, res){
     if (req.user.kind == models.USER_NORMAL) {
         return res.send(403);
     }
+
+    models.RestaurantModel
+        .findOne({_id: req.params.restaurant})
+        .select("foods")
+        .exec(function(err, restaurant) {
+            if (err) {
+                res.send(406);
+            } else {
+                res.send(JSON.stringify(restaurant.foods.id(req.params.food)));
+            }
+        });
 };
 
 exports.update = function(req, res) {

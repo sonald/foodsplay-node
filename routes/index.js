@@ -28,10 +28,12 @@ exports.setup = function(app) {
     app.resource("publicusers", require('./publicusers'), default_opts);
     var restaurants = app.resource("restaurants", require('./restaurant'), default_opts);
     var foods = app.resource("foods", require('./foods'), default_opts);
+    var members = app.resource("members", require('./members'), default_opts);
     var orders = app.resource("orders", require('./orders'), default_opts);
     var order_items = app.resource("items", require('./order_items'), default_opts);
 
     restaurants.add(foods);
+    restaurants.add(members);
     orders.add(order_items);
     restaurants.add(orders);
 };

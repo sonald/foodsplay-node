@@ -19,7 +19,10 @@ var consts = {
 
     ORDER_ITEM_FRESH: 1,
     ORDER_ITEM_CONFIRMED: 2, // 下单
-    ORDER_ITEM_DONE: 3  // 已上
+    ORDER_ITEM_DONE: 3,  // 已上
+
+    SEX_MALE: 1,
+    SEX_FEMAIL: 2
 };
 
 
@@ -77,12 +80,14 @@ var OrderSchema = new mongoose.Schema({
 
 // 积分明细：每次消费金额，每次消费得到积分（由老板自己输入，我们只统计明细和总分），总共积分。
 var CreditsDetailSchema = new mongoose.Schema({
+    credits: Number, //本次消费获得及分数
+    order: {type: ObjectId, ref: 'Order'} //所在订单
 });
 
 // 信息有姓名，性别，出生日期，IC号码，地址，电话，手机，邮箱，会员卡号，会员卡类型
 var MemberSchema = new mongoose.Schema({
     name: String,
-    sex: String,
+    sex: {type: Number, min: consts.SEX_MALE, max: consts.SEX_FEMAIL},
     birth: Date,
     icnum: String,
     address: String,

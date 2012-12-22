@@ -35,4 +35,4 @@ a {
 .modal-wide {
   width: 80%;
   left: 0;
-  margin: 0 -webkit-calc((100% - 80%)/2); }
+  margin: 0-webkit-calc(100%-80%/2); }
