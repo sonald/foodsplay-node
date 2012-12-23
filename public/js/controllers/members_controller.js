@@ -15,21 +15,30 @@ function Member() {
 
 function MembersViewModel(restaurantid, initialMembers) {
     var self = this;
-    self.members = ko.mapping.fromJS(initialMembers);
     self.currentRestaurant = ko.observable(restaurantid);
-
     self.newMember = ko.mapping.fromJS(new Member);
-
     self.postNewMemberUrl = ko.computed(function() {
         return '/restaurants/' + self.currentRestaurant() + '/members';
     });
+
+    self.members = ko.mapping.fromJS(initialMembers);
+    var obj = {
+        members: initialMembers.map(function(member) {
+            member.deleteAction = function() {
+                var url = '#' + self.postNewMemberUrl() + '/' + member._id;
+                window.app.runRoute('delete', url, {csrf: $('input[name="_csrf"]').val()});
+            };
+            return member;
+        })
+    };
+    ko.mapping.fromJS(obj, {}, self);
 
     self.newMemberUrl = ko.computed(function() {
         return '#' + self.postNewMemberUrl() + '/new';
     });
 
     self.addMember = function(restaurant) {
-        window.location.hash = self.newMemberUrl() + '/new';
+        window.location.hash = self.newMemberUrl();
     };
 
     ko.bindingHandlers.editable = {
@@ -37,7 +46,6 @@ function MembersViewModel(restaurantid, initialMembers) {
             var opts = allBindingsAccessor().editableOptions,
                 observable = valueAccessor();
 
-            console.log(context);
             opts = opts || {};
             opts.type = opts.type || 'text';
             opts.style = opts.style || 'display: inline';
@@ -89,7 +97,7 @@ function MembersViewModel(restaurantid, initialMembers) {
 
         update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = ko.utils.unwrapObservable(valueAccessor());
-            console.log('update ', value);
+            // console.log('update ', value);
             $(element).html(value);
         }
     };

@@ -160,16 +160,22 @@ $(function() {
             });
         });
 
-        // this.get("#/restaurants/:id/member/:oid", function(context) {
-        //     var self = this;
+        this.del("#/restaurants/:id/members/:mid", function(context) {
+            var self = this;
+            console.log(this.path);
+            $.ajax({
+                url: this.path.substring(2),
+                type: 'DELETE',
+                headers: {
+                    'x-csrf-token': self.params['csrf']
+                }
+            }).done(function() {
+                console.log('delete done');
 
-        //     $.getJSON(this.path.substring(2), function(data) {
-        //         app.$element().html( jade.compile($('#member_tmpl').html())() );
-        //         window.currentModel = new MemberViewModel(self.params['id'], data);
-        //         ko.applyBindings(window.currentModel, app.$element()[0]);
-        //     });
-        // });
-
+            }).fail(function() {
+                console.log('delete failed');
+            });
+        });
     });
 
     var init_url = (!!window.location.hash.trim()) ? window.location.hash : '#/';

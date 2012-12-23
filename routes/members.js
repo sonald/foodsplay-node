@@ -103,3 +103,25 @@ exports.update = function(req, res) {
             });
         });
 };
+
+exports.destroy = function(req, res) {
+    if (req.user.kind == models.USER_NORMAL) {
+        return res.send(403);
+    }
+
+    models.RestaurantModel
+        .findById(req.params.restaurant, function(err, restaurant) {
+            if (err) {
+                return res.send(406);
+            }
+
+            restaurant.members.id(req.params.member).remove();
+            restaurant.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.send(403);
+                }
+                return res.send(200);
+            });
+        });
+};

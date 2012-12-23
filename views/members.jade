@@ -5,27 +5,35 @@ script(type="text/html", id="members_tmpl").
 
     .container.row-fluid
         div(data-bind="foreach: members")
-            div.well
+            div.row.well
                 div Name:
-                    label.label.label-success.editable(data-name="name", data-bind="editable: name")
-                div Sex:
-                    label.label.label-success.editable(data-name="sex", data-bind="editable: sex")
-                div Birth:
-                    label.label.label-success.editable(data-name="birth", data-bind="editable: birth")
-                div IC:
-                    label.label.label-success.editable(data-name="icnum", data-bind="editable: icnum")
-                div Address:
-                    label.label.label-success.editable(data-name="address", data-bind="editable: address")
-                div Phone:
-                    label.label.label-success.editable(data-name="phone", data-bind="editable: phone")
-                div Email:
-                    label.label.label-success.editable(data-name="email", data-bind="editable: email")
-                div Card:
-                    label.label.label-success.editable(data-name="cardid", data-bind="editable: cardid")
-                div Credits:
-                    label.label.label-success.editable(data-name="credits", data-bind="editable: credits")
+                    label.label.label-info.editable(data-name="name", data-bind="editable: name")
+                div
+                    span Sex:
+                    label.label.label-info.editable(data-name="sex", data-bind="editable: sex")
+                    span Birth:
+                    label.label.label-info.editable(data-name="birth", data-bind="editable: birth")
+                div
+                    span IC:
+                    label.label.label-info.editable(data-name="icnum", data-bind="editable: icnum")
+                    span Card:
+                    label.label.label-info.editable(data-name="cardid", data-bind="editable: cardid")
 
-                a(href="#", data-bind="attr: {'data-target': '#js-member-' + $data._id()}",
+                div
+                    span Address:
+                    label.label.label-info.editable(data-name="address", data-bind="editable: address")
+                    span Phone:
+                    label.label.label-info.editable(data-name="phone", data-bind="editable: phone")
+                    span Email:
+                    label.label.label-info.editable(data-name="email", data-bind="editable: email")
+
+                div Credits:
+                    label.label.label-info.editable(data-name="credits", data-bind="editable: credits")
+
+                a.btn.btn-link(href="#", data-bind="attr: {'data-target': '#js-member-' + $data._id()}",
                     data-toggle="collapse") details
+
+                a.btn.btn-link(href="#", data-bind="click: $data.deleteAction") Delete
+
                 .collapse(data-bind="attr: {id: 'js-member-' + $data._id()}")
                     h4 Histories comes here
