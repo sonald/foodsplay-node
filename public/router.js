@@ -169,8 +169,9 @@ $(function() {
                 headers: {
                     'x-csrf-token': self.params['csrf']
                 }
-            }).done(function() {
+            }).always(function() {
                 console.log('delete done');
+                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/members");
 
             }).fail(function() {
                 console.log('delete failed');
