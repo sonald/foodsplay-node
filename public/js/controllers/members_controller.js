@@ -106,19 +106,22 @@ function MembersViewModel(restaurantid, initialMembers) {
         console.log('shown');
     });
 
-    var fields = '#app-content input:not([type="submit"]):visible, textarea';
+    var fields = '#app-content input:not([type="submit"]):visible';
     self.initValidation(fields, {
-        'name, sex, address, icnum, cardid, kind, credits': {
+        'name, sex, address, icnum': {
             required: true
         },
 
+        'cardid': {
+            required: true
+        }
         // 'cardid': {
         //     need_validcard: true
         // },
 
-        'kind, credits': {
-            need_number: true
-        }
+        // 'kind, credits': {
+        //     need_number: true
+        // }
     });
 }
 

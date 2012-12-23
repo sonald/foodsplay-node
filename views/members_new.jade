@@ -1,0 +1,54 @@
+script(type="text/html", id="members_new_tmpl").
+    .alert(data-bind="visible: validationErrors().length > 0")
+        button.close(data-dismiss="alert") x
+        strong Errors
+        p.small(data-bind="text: validationErrors")
+
+    form.well.form.form-horizontal(method="post",
+        data-bind="with: newMember, submit: $root.validate, attr:{ action: $root.postNewMemberUrl }")
+        input(type="hidden", name="_csrf", value="#{csrf_token}")
+        input(type="hidden", name="credits", value="0")
+
+        .control-group
+            label.control-label Name
+            .controls
+                input(type="text", name="name", data-bind='value: name', placeholder="name")
+
+        .control-group
+            label.control-label Sex
+            .controls
+                input(type="number", name="sex", data-bind='value: sex', placeholder="sex")
+
+        .control-group
+            label.control-label Birth
+            .controls
+                input(type="date", name="birth", data-bind='value: birth', placeholder="birth")
+
+        .control-group
+            label.control-label IC
+            .controls
+                input(type="text", name="icnum", data-bind="value: icnum", placeholder="ic number")
+
+        .control-group
+            label.control-label Card ID
+            .controls
+                input(type="text", name="cardid", data-bind="value: cardid", placeholder="card")
+
+        .control-group
+            label.control-label Address
+            .controls
+                input(type="text", name="address", data-bind="value: address", placeholder="address")
+
+        .control-group
+            label.control-label Phone
+            .controls
+                input(type="text", name="phone", data-bind="value: phone")
+
+        .control-group
+            label.control-label Email
+            .controls
+                input(type="text", name="email", data-bind="value: email")
+
+        .control-group
+            .controls
+                button(type="submit") Create

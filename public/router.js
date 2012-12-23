@@ -177,6 +177,12 @@ $(function() {
                 console.log('delete failed');
             });
         });
+
+        this.get("#/restaurants/:id/members/new", function(context) {
+            app.$element().html( jade.compile($('#members_new_tmpl').html())() );
+            window.currentModel.setupValidation();
+            ko.applyBindings(window.currentModel, app.$element()[0]);
+        });
     });
 
     var init_url = (!!window.location.hash.trim()) ? window.location.hash : '#/';
