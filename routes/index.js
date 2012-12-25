@@ -18,6 +18,7 @@ function checkAuth(req, res, next) {
 
 exports.setup = function(app) {
     app.all('*', checkAuth);
+    app.get('/config.js', config);
     app.get('/', index);
 
     var default_opts = {
@@ -38,48 +39,41 @@ exports.setup = function(app) {
     restaurants.add(orders);
 };
 
+function config(req, res) {
+    var userid = req.user._id;
+    var data = {
+        //HACK: req.user can not be Object.keys-ed, everyauth restriction
+        user: JSON.parse(JSON.stringify(req.user))
+    };
+
+    res.set('Content-Type', 'text/javascript');
+
+    switch(req.user.kind) {
+    case models.USER_RESTAURANT:
+        models.RestaurantModel
+            .findOne({_user: userid})
+            .select('_id')
+            .exec(function(err, restaurant) {
+                if (err) {
+                    return res.send(403);
+                }
+
+                if (restaurant) {
+                    data.user.restaurant = restaurant._id;
+                }
+                res.send('var CONFIG = ' + JSON.stringify(data));
+            });
+        break;
+
+    default:
+        res.send('var CONFIG = ' + JSON.stringify(data));
+    }
+}
+
 /*
  * GET home page.
  */
 
 function index(req, res) {
-    var userid = req.user._id;
-
-    switch(req.user.kind) {
-    case models.USER_ADMIN:
-        return res.render('index', {
-            title: 'Express',
-            root: '/'
-        });
-
-    case models.USER_NORMAL:
-        return res.render('index', {
-            title: '',
-            root: util.format('/publicusers/%s', userid)
-        });
-
-    case models.USER_RESTAURANT:
-        models.RestaurantModel
-            .findOne({_user: userid})
-            .select('_id')
-            .exec(function(err2, restaurant) {
-                console.log('find: ', err2, restaurant);
-                if (err2) {
-                    return res.send(403);
-                }
-
-                if (!restaurant) {
-                    //TODO: go to create restaurant
-                    return res.render('index', {
-                        title: 'Business',
-                        root: util.format('/businessusers/%s', userid)
-                    });
-                }
-
-                return res.render('index', {
-                    title: 'Restaurant',
-                    root: util.format('/restaurants/%s', restaurant.id)
-                });
-            });
-    }
- };
+    return res.render('index');
+}

@@ -1,6 +1,6 @@
 script(type="text/html", id="restaurants_tmpl").
+
     h1: center Restaurants
 
     ul(data-bind="foreach: restaurants")
-        a(data-bind="text: name, attr: {href: url()}")
-        
+        a(data-bind="text: name.zh, attr: {href: url()}")

@@ -22,21 +22,26 @@ module.exports = {
         if (req.user.kind == models.USER_RESTAURANT) {
             models.UserModel
                 .findOne({_id: req.user._id})
-                .select('username _id kind')
+                .select('username _id kind email')
                 .exec(function(err, user) {
-                    if (user) {
-                        models.RestaurantModel
-                            .findOne({_user: user._id})
-                            .select('_id')
-                            .exec(function(err2, restaurant) {
-                                if (restaurant) {
-                                    user.restaurant = restaurant._id;
-                                }
-
-                                res.send(JSON.stringify(user));
-                            });
+                    if (err) {
+                        return res.send(404);
                     }
+
+                    models.RestaurantModel
+                        .findOne({_user: user._id})
+                        .select('_id')
+                        .exec(function(err2, restaurant) {
+                            if (err2) {
+                                return res.send(404);
+                            }
+
+                            user = JSON.parse(JSON.stringify(user));
+                            user.restaurant = restaurant._id;
+                            res.send(JSON.stringify(user));
+                        });
                 });
+
         } else {
             res.send(403);
         };

@@ -1,7 +1,7 @@
 doctype 5
 html
     head
-        title= title
+        title Foods Play
         link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
         link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
@@ -16,20 +16,24 @@ html
         script(type="text/javascript", src="/knockout.mapping-latest.js")
         script(type="text/javascript", src="/jquery.jeditable.js")
 
+        // config.js is generated resource
+        script(type="text/javascript", src="/config.js")
         script(type="text/javascript", src="/js/controllers/validation.js")
         script(type="text/javascript", src="/js/controllers/users_controller.js")
         script(type="text/javascript", src="/js/controllers/orders_controller.js")
         script(type="text/javascript", src="/js/controllers/members_controller.js")
         script(type="text/javascript", src="/js/controllers/foods_controller.js")
         script(type="text/javascript", src="/js/controllers/restaurants_controller.js")
+        script(type="text/javascript", src="/router.js")
 
     body
         .navbar.navbar-static-top
             .navbar-inner
                 .brand(href='#') Foodsplay
                 ul.nav
-                    li: a.active(href='/') Home
-                    li: a(href='/restaurants') Restaurants
+                    li: a#js-home.active(href='/') Home
+                    - if (everyauth.loggedIn && everyauth.user.kind === 3)
+                        li: a(href='#/restaurants') Restaurants
 
                 ul.nav.pull-right
                     - if (!everyauth.loggedIn)
@@ -44,18 +48,13 @@ html
         .container-fluid
             block content
 
-        if everyauth.loggedIn
-            script
-                window.location.hash = "\##{root}"
-
-            script(type="text/javascript", src="/router.js")
-            include businessuser
-            include restaurants
-            include restaurants_new
-            include restaurants_edit
-            include restaurant
-            include foods
-            include orders
-            include members
-            include foods_new
-            include members_new
+        include businessuser
+        include restaurants
+        include restaurants_new
+        include restaurants_edit
+        include restaurant
+        include foods
+        include orders
+        include members
+        include foods_new
+        include members_new

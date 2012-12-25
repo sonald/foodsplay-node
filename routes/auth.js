@@ -9,7 +9,7 @@ function encryptSync(data) {
 
 everyauth.everymodule
     .userPkey('_id')
-    .findUserById(function (uid, callback) {
+    .findUserById(function (req, uid, callback) {
         console.log('findUserById: _id = ', uid);
         models.UserModel
             .findOne({_id: uid})

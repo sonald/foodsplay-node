@@ -35,6 +35,34 @@ $(function() {
     window.app = $.sammy('#app-content', function() {
         var app = this;
 
+        this.get("#/", function(context) {
+            console.log('main page');
+            var home_url = '#/';
+            switch(CONFIG.user.kind) {
+            case 1: /* normal */
+                home_url = '#/publicusers/' + CONFIG.user._id;
+                $('#js-home').attr('href', home_url);
+                app.setLocation(home_url);
+                break;
+
+            case 2: /* restaurant */
+                if (!CONFIG.user.restaurant) {
+                    home_url = '#/businessusers/' + CONFIG.user._id;
+                } else {
+                    home_url = '#/restaurants/' + CONFIG.user.restaurant;
+                }
+                $('#js-home').attr('href', home_url);
+                app.setLocation(home_url);
+                break;
+
+            default: /* admin */
+                //TODO: get some statistics for admin
+                break;
+            }
+
+        });
+
+
         this.get("#/businessusers", function(context) {
             $.getJSON(this.path.substring(2), function(data) {
                 app.$element().html( jade.compile($('#businessusers_tmpl').html())() );
@@ -185,6 +213,6 @@ $(function() {
         });
     });
 
-    var init_url = (!!window.location.hash.trim()) ? window.location.hash : '#/';
+    init_url = '#/';
     window.app.run(init_url);
 });

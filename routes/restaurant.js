@@ -58,16 +58,21 @@ module.exports = {
         }
 
         models.RestaurantModel
-            .findOne({_id: req.params.restaurant, _user: req.user._id})
-            .select("_id _user name description foods._id orders._id")
+            .findById(req.params.restaurant)
+            .select("_id _user name description foods._id orders._id members._id")
             .exec(function(err, restaurant) {
                 if (err) {
-                    res.send(406);
-                } else if (restaurant) {
-                    res.send(JSON.stringify(restaurant));
-                } else {
-                    res.send(404);
+                    return res.send(406);
                 }
+
+                if (!restaurant) {
+                    return res.send(404);
+                }
+                if (req.user.kind === models.USER_NORMAL && restaurant._user !== req.user._id) {
+                    return res.send(406);
+                }
+
+                res.send(JSON.stringify(restaurant));
             });
     },
 
