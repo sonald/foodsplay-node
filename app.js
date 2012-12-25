@@ -9,11 +9,11 @@ var express = require('express'),
 
 // use default connection
 mongoose.connect('127.0.0.1', 'foodsplay');
-var app = express();
 
 mongoose.connection.once('open', function() {
     console.log('connect to database');
 
+    var app = express();
     require('./config')(app, express);
     routes.setup(app);
 

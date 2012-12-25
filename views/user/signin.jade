@@ -2,15 +2,15 @@ extends ../layout
 
 block content
     .signin-container
-        if (typeof errors != 'undefined') && errors.length 
-            .alert 
+        if (typeof errors != 'undefined') && errors.length
+            .alert
                 button.close(type="button", data-dismiss="alert") x
                 - var msg = ''
                 - for e in errors
                     - msg += ' ' + e
                 strong Errors #{msg}
-                
-    
+
+
         form.well.form-horizontal#js-user-signin(action="/users/signin", method="post")
             input(type="hidden", name="_csrf", value=csrf_token)
             .control-group
@@ -18,20 +18,20 @@ block content
                 .controls
                     input#inputUsername(type="text", name=everyauth.password.loginFormFieldName,
                         placeholder="username")
-    
+
             .control-group
                 label.control-label(for="inputPassword") Password
                 .controls
                     input#inputPassword(type="password", name=everyauth.password.passwordFormFieldName,
                     placeholder="Password")
-    
+
             .control-group
                  .controls
                      label.checkbox
-                         input(type="checkbox")
+                         input(type="checkbox", name="persistant")
                          | Remember me
-                     
+
                      button.btn.btn-primary(type="submit") Sign in
 
 
-        a.btn.btn-primary(href="/users/signup") Need an account?             
+        a.btn.btn-primary(href="/users/signup") Need an account?

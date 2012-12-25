@@ -2,6 +2,8 @@ var util = require('util'),
     lactate = require('lactate'),
     files = lactate.dir('public'),
     everyauth = require('everyauth'),
+    mongoose = require('mongoose'),
+    mongoStore = require('connect-mongodb'),
     sass = require('node-sass'),
     vendor_files = lactate.dir('vendor');
 
@@ -41,7 +43,11 @@ module.exports = function(app, express) {
     });
 
     app.configure(function(){
-        app.use(express.session({secret: "sian's blog roller"}));
+        app.use(express.session({
+            secret: "sian's blog roller",
+            cookie: {maxAge: 60000 * 20},
+            store: new mongoStore({db: mongoose.connection.db})
+        }));
         app.use(express.csrf());
         app.use(everyauth.middleware(app));
 

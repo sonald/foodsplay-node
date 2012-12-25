@@ -55,7 +55,7 @@ function index(req, res) {
     case models.USER_NORMAL:
         return res.render('index', {
             title: '',
-            root: util.format('/publicusers/%d', userid)
+            root: util.format('/publicusers/%s', userid)
         });
 
     case models.USER_RESTAURANT:
