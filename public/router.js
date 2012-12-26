@@ -42,7 +42,6 @@ $(function() {
             case 1: /* normal */
                 home_url = '#/publicusers/' + CONFIG.user._id;
                 $('#js-home').attr('href', home_url);
-                app.setLocation(home_url);
                 break;
 
             case 2: /* restaurant */
@@ -52,16 +51,25 @@ $(function() {
                     home_url = '#/restaurants/' + CONFIG.user.restaurant;
                 }
                 $('#js-home').attr('href', home_url);
-                app.setLocation(home_url);
                 break;
 
             default: /* admin */
                 //TODO: get some statistics for admin
+                home_url = '#/admin';
                 break;
             }
 
+            app.setLocation(home_url);
         });
 
+
+        this.get("#/admin", function(context) {
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#adminuser_tmpl').html())() );
+                window.currentModel = new AdminViewModel(data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
 
         this.get("#/businessusers", function(context) {
             $.getJSON(this.path.substring(2), function(data) {

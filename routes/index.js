@@ -20,6 +20,7 @@ exports.setup = function(app) {
     app.all('*', checkAuth);
     app.get('/config.js', config);
     app.get('/', index);
+    app.get('/admin', admin);
 
     var default_opts = {
         format: 'json'
@@ -76,4 +77,25 @@ function config(req, res) {
 
 function index(req, res) {
     return res.render('index');
+}
+
+// admin data
+function admin(req, res) {
+    if (req.user.kind !== models.USER_ADMIN) {
+        return res.send(403);
+    }
+
+    var admin = {};
+    models.RestaurantModel
+        .find()
+        .populate('_user')
+        .select("name description _id _user")
+        .exec(function(err, restaurants) {
+            if (err) {
+                return res.send(406);
+            }
+
+            admin.restaurants = restaurants;
+            res.send(JSON.stringify(admin));
+        });
 }

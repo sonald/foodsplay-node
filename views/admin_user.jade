@@ -1,4 +1,56 @@
-extends layout
+script(type="text/html", id="adminuser_tmpl").
+    .row
+        .span3
+            ul.nav.nav-list.affix.affix-sidebar
+                li
+                    a(href="#", data-bind="click: function(data, ev) { displayIt('intro', ev); }")
+                        | Intro
+                        i.icon-chevron-right.pull-right
+                li
+                    a(href="#", data-bind="click: function(data, ev) { displayIt('restaurants', ev); }")
+                        | Goto Restaurants
+                        i.icon-chevron-right.pull-right
+                li
+                    a(href="#", data-bind="click: function(data, ev) { displayIt('createUser', ev); }")
+                        | Create Restaurant User
+                        i.icon-chevron-right.pull-right
 
-block content
-    #app-content
+        .span9
+            div(data-bind="if: displays.intro")
+                .well
+                    h2 select actions from left panel
+
+            div(data-bind="if: displays.restaurants")
+                .well
+                    h3: center Restaurants
+                    ul(data-bind="foreach: restaurants")
+                        li: a(data-bind="text: name.zh, attr: {href: url}")
+
+            div(data-bind="if: displays.createUser")
+                .well
+                    .signin-container
+                        h3 Create a restaurant user here
+                        form.form-horizontal#js-user-signup(action="/users/signup", method="post")
+                            input(type="hidden", name="_csrf", value="#{csrf_token}")
+                            input(type="hidden", name="kin", value=3)
+                            .control-group
+                                label.control-label(for="inputUsername") Username
+                                .controls
+                                    input#inputUsername(type="text", name="username",
+                                        placeholder="username")
+
+                            .control-group
+                                label.control-label(for="inputEmail") Email
+                                .controls
+                                    input#inputEmail(type="text", name="email",
+                                    placeholder="email")
+
+                            .control-group
+                                label.control-label(for="inputPassword") Password
+                                .controls
+                                    input#inputPassword(type="password", name="password",
+                                    placeholder="Password")
+
+                            .control-group
+                                .controls
+                                    button.btn.btn-primary(type="submit") Create User

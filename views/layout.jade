@@ -24,6 +24,7 @@ html
         script(type="text/javascript", src="/js/controllers/members_controller.js")
         script(type="text/javascript", src="/js/controllers/foods_controller.js")
         script(type="text/javascript", src="/js/controllers/restaurants_controller.js")
+        script(type="text/javascript", src="/js/controllers/admin_controller.js")
         script(type="text/javascript", src="/router.js")
 
     body
@@ -48,6 +49,7 @@ html
         .container-fluid
             block content
 
+        include admin_user
         include businessuser
         include restaurants
         include restaurants_new
