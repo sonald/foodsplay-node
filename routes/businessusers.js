@@ -37,7 +37,9 @@ module.exports = {
                             }
 
                             user = JSON.parse(JSON.stringify(user));
-                            user.restaurant = restaurant._id;
+                            if (restaurant) {
+                                user.restaurant = restaurant._id;
+                            }
                             res.send(JSON.stringify(user));
                         });
                 });
