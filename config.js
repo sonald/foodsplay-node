@@ -38,7 +38,7 @@ module.exports = function(app, express) {
         files.enable('minify');
         files.enable('gzip');
 
-        vendor_files.enable('minify');
+        // vendor_files.enable('minify');
         vendor_files.enable('gzip');
     });
 
@@ -99,7 +99,7 @@ module.exports = function(app, express) {
             debug: true
         }));
 
-        app.use(require('less-middleware')({ src: __dirname + '/public' }));
+        // app.use(require('less-middleware')({ src: __dirname + '/public' }));
         app.use(vendor_files.toMiddleware());
 
         files.notFound('public/404.html');

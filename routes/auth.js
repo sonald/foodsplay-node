@@ -64,6 +64,10 @@ everyauth
                     return promise.fulfill([err]);
                 }
 
+                if (!user) {
+                    return promise.fulfill(["user not found"]);
+                }
+
                 console.log('find user: ', user);
 
                 if (!bcrypt.compareSync(password, user.password)) {

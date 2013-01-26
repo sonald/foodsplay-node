@@ -35,8 +35,8 @@ a {
 .modal-wide {
   width: 80%;
   left: 0;
-  margin: 0 -webkit-calc((100% - 80%)/2);
-  margin: 0 -moz-calc((100% - 80%)/2); }
+  margin: 0-webkit-calc(10%);
+  margin: 0-moz-calc(10%); }
 
 .affix-sidebar {
   min-width: 160px;

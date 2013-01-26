@@ -1,44 +1,55 @@
-extends ../layout
+doctype 5
+html
+    head
+        title Foods Play
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
 
-block content
-    .signin-container
-        if (typeof errors != 'undefined') && errors.length
-            .alert
-                button.close(type="button", data-dismiss="alert") x
-                - var msg = ''
-                - for e in errors
-                    - msg += ' ' + e
-                strong Errors #{msg}
+        script(type="text/javascript", src="/jquery.js")
+        script(type="text/javascript", src="/jade.js")
+        script(type="text/javascript", src="/bootstrap/js/bootstrap.js")
+
+body
+    .container-fluid
+        .signin-container
+            if (typeof errors != 'undefined') && errors.length
+                .alert
+                    button.close(type="button", data-dismiss="alert") x
+                    - var msg = ''
+                    - for e in errors
+                        - msg += ' ' + e
+                    strong Errors #{msg}
 
 
-        form.well.form-horizontal#js-user-signup(action="/users/signup", method="post")
-            input(type="hidden", name="_csrf", value=csrf_token)
-            .control-group
-                label.control-label(for="inputUsername") Username
-                .controls
-                    input#inputUsername(type="text", name="username",
-                        placeholder="username")
+            form.well.form-horizontal#js-user-signup(action="/users/signup", method="post")
+                input(type="hidden", name="_csrf", value=csrf_token)
+                .control-group
+                    label.control-label(for="inputUsername") Username
+                    .controls
+                        input#inputUsername(type="text", name="username",
+                            placeholder="username")
 
-            .control-group
-                label.control-label(for="inputEmail") Email
-                .controls
-                    input#inputEmail(type="text", name="email",
-                    placeholder="email")
+                .control-group
+                    label.control-label(for="inputEmail") Email
+                    .controls
+                        input#inputEmail(type="text", name="email",
+                        placeholder="email")
 
-            .control-group
-                label.control-label(for="inputPassword") Password
-                .controls
-                    input#inputPassword(type="password", name="password",
-                    placeholder="Password")
+                .control-group
+                    label.control-label(for="inputPassword") Password
+                    .controls
+                        input#inputPassword(type="password", name="password",
+                        placeholder="Password")
 
-            .control-group
-                label.control-label(for="inputKind") Kind
-                .controls
-                    select#inputKind(name="kind")
-                        option(value="1") Normal
-                        option(value="2") Restaurant
-                        option(value="3") Admin
+                .control-group
+                    label.control-label(for="inputKind") Kind
+                    .controls
+                        select#inputKind(name="kind")
+                            option(value="1") Normal
+                            option(value="2") Restaurant
+                            option(value="3") Admin
 
-            .control-group
-                .controls
-                    button.btn.btn-primary(type="submit") Sign Up
+                .control-group
+                    .controls
+                        button.btn.btn-primary(type="submit") Sign Up
