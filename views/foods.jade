@@ -30,7 +30,8 @@ script(type="text/html", id="foods_tmpl").
                     data-bind="editable: description.zh, editableOptions: {type: 'textarea'}")
 
         .modal-footer
-            a.pull-left.btn.btn-warning(href="#", data-dismiss="modal") Delete
+            a.pull-left.btn.btn-warning(href="#", data-dismiss="modal",
+                        data-bind="click: selectedFood().deleteAction") Delete
             a#close.btn.btn-primary(href="#", data-dismiss="modal") Close
 
     .container.row-fluid

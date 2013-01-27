@@ -140,10 +140,31 @@ exports.update = function(req, res) {
         });
 };
 
-// update({
-//        _id: 7,
-//        comments._id: ObjectId("4da4e7d1590295d4eb81c0c7")
-//    },{
-//        $set: {"comments.$.type": abc}
-//    }, false, true
-// );
+exports.destroy = function(req, res) {
+    if (req.user.kind == models.USER_NORMAL) {
+        return res.send(403);
+    }
+
+    var b = req.body;
+    console.log('params: ', req.params, 'b: ', b);
+
+    models.RestaurantModel
+        .findById(req.params.restaurant, function(err, restaurant) {
+            if (err) {
+                return res.send(406);
+            }
+
+            var food = restaurant.foods.id(req.params.food);
+            if (food) {
+                food.remove();
+            }
+            restaurant.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.send(403);
+                }
+
+                return res.send(200);
+            });
+        });
+};

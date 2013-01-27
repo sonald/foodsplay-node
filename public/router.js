@@ -164,6 +164,25 @@ $(function() {
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
 
+        this.del("#/restaurants/:id/foods/:fid", function(context) {
+            var self = this;
+            console.log(this.path);
+            $.ajax({
+                url: this.path.substring(2),
+                type: 'DELETE',
+                headers: {
+                    'x-csrf-token': self.params['csrf']
+                }
+            }).always(function() {
+                console.log('delete done');
+                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/foods");
+
+            }).fail(function() {
+                console.log('delete failed');
+            });
+        });
+
+
 
         this.get("#/restaurants/:id/orders", function(context) {
             var self = this;

@@ -5,6 +5,16 @@ var resource = require('express-resource'),
     util = require('util');
 
 function checkAuth(req, res, next) {
+    console.log('body: ' + util.inspect(req.body));
+    console.log('cookies: ' + util.inspect(req.cookies));
+    console.log('env: ' + req.app.get('env'));
+    console.log('session: ', req.session);
+    console.log('req.user: ', req.user);
+    console.log('req.url: ', req.url);
+    console.log('params: ', req.params);
+    console.log('everyauth: ', res.locals.everyauth);
+
+
     var sess = req.session,
     auth = sess.auth,
     loggedIn = !!(auth && auth.loggedIn);

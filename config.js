@@ -34,7 +34,6 @@ module.exports = function(app, express) {
     });
 
     app.configure('production', function(){
-
         files.enable('minify');
         files.enable('gzip');
 
@@ -70,28 +69,24 @@ module.exports = function(app, express) {
             ea.user = req.user;
 
             res.locals.everyauth = ea;
-            next();
-        });
-
-        app.use( function (req, res, next) {
             res.locals['user'] = req.user;
-            next();
-        });
-
-        app.use(function(req, res, next) {
-            console.log('body: ' + util.inspect(req.body));
-            console.log('cookies: ' + util.inspect(req.cookies));
-            console.log('env: ' + app.get('env'));
-            console.log('session: ', req.session);
-            console.log('req.user: ', req.user);
-            console.log('req.url: ', req.url);
-            console.log('params: ', req.params);
-            console.log('everyauth: ', res.locals.everyauth);
-
             res.locals['csrf_token'] = req.session._csrf;
 
             next();
         });
+
+        // app.use(function(req, res, next) {
+        //     console.log('body: ' + util.inspect(req.body));
+        //     console.log('cookies: ' + util.inspect(req.cookies));
+        //     console.log('env: ' + app.get('env'));
+        //     console.log('session: ', req.session);
+        //     console.log('req.user: ', req.user);
+        //     console.log('req.url: ', req.url);
+        //     console.log('params: ', req.params);
+        //     console.log('everyauth: ', res.locals.everyauth);
+
+        //     next();
+        // });
 
         app.use(sass.middleware({
             src: __dirname + '/public',

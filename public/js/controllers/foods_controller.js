@@ -25,6 +25,11 @@ function Food() {
 function FoodsViewModel(restaurantid, initialFoods) {
     var self = this;
     self.newFood = ko.observable(new Food);
+    self.currentRestaurant = ko.observable(restaurantid);
+
+    self.postNewFoodUrl = ko.computed(function() {
+        return '/restaurants/' + self.currentRestaurant() + '/foods';
+    });
 
     var thumburls = ["origin", "48x48", "128x128"].map(function(size) {
         return "/upload/images/restaurants/" + restaurantid + "/foods/" + size;
@@ -34,6 +39,11 @@ function FoodsViewModel(restaurantid, initialFoods) {
     var obj = {
         foods: initialFoods.map(function(food) {
             food.thumbs = thumburls.map(function(url) { return url + '/' + food.picture; });
+            food.deleteAction = function() {
+                var url = '#' + self.postNewFoodUrl() + '/' + food._id;
+                window.app.runRoute('delete', url, {csrf: $('input[name="_csrf"]').val()});
+            };
+
             return food;
         })
     };
@@ -43,12 +53,6 @@ function FoodsViewModel(restaurantid, initialFoods) {
     self.selectFood = function(food) {
         self.selectedFood(food);
     };
-
-    self.currentRestaurant = ko.observable(restaurantid);
-
-    self.postNewFoodUrl = ko.computed(function() {
-        return '/restaurants/' + self.currentRestaurant() + '/foods';
-    });
 
     self.newFoodUrl = ko.computed(function() {
         return '#' + self.postNewFoodUrl() + '/new';
@@ -64,6 +68,11 @@ function FoodsViewModel(restaurantid, initialFoods) {
             return self.postNewFoodUrl() + '/' + self.selectedFood()._id();
         else
             return "#";
+    });
+
+    self.deleteFoodUrl = ko.computed(function() {
+        console.log('deleteFoodUrl: ', self.selectedFood());
+        return "#" + self.putFoodUrl();
     });
 
     ko.bindingHandlers.editable = {
