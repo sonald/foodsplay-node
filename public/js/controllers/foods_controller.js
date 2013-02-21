@@ -31,14 +31,8 @@ function FoodsViewModel(restaurantid, initialFoods) {
         return '/restaurants/' + self.currentRestaurant() + '/foods';
     });
 
-    var thumburls = ["origin", "48x48", "128x128"].map(function(size) {
-        return "/upload/images/restaurants/" + restaurantid + "/foods/" + size;
-    });
-
-
     var obj = {
         foods: initialFoods.map(function(food) {
-            food.thumbs = thumburls.map(function(url) { return url + '/' + food.picture; });
             food.deleteAction = function() {
                 var url = '#' + self.postNewFoodUrl() + '/' + food._id;
                 window.app.runRoute('delete', url, {csrf: $('input[name="_csrf"]').val()});

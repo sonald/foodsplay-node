@@ -75,19 +75,6 @@ module.exports = function(app, express) {
             next();
         });
 
-        // app.use(function(req, res, next) {
-        //     console.log('body: ' + util.inspect(req.body));
-        //     console.log('cookies: ' + util.inspect(req.cookies));
-        //     console.log('env: ' + app.get('env'));
-        //     console.log('session: ', req.session);
-        //     console.log('req.user: ', req.user);
-        //     console.log('req.url: ', req.url);
-        //     console.log('params: ', req.params);
-        //     console.log('everyauth: ', res.locals.everyauth);
-
-        //     next();
-        // });
-
         app.use(sass.middleware({
             src: __dirname + '/public',
             dest: __dirname + '/public',

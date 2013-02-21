@@ -4,10 +4,15 @@ var formidable = require('formidable'), // bodyParser integrate formidable alrea
     fs = require('fs'),
     pathlib = require('path'),
     easyimg = require('easyimage'),
-    sh = require('shelljs');
+    sh = require('shelljs'),
+    helper = require('./helper');
 
 exports.index = function(req, res) {
-    if (req.user.kind == models.USER_NORMAL) {
+    if (helper.isUser('normal', req)) {
+        return res.send(403);
+    }
+
+    if (!helper.lookupRestaurant(req.user._id, req.params.restaurant)) {
         return res.send(403);
     }
 
@@ -24,7 +29,7 @@ exports.index = function(req, res) {
 };
 
 exports.create = function(req, res) {
-    if (req.user.kind == models.USER_NORMAL) {
+    if (helper.isUser('normal', req)) {
         return res.send(403);
     }
 
@@ -52,6 +57,9 @@ exports.create = function(req, res) {
                 console.log('Resized to ' + size);
             });
         }
+
+        return "/upload/images/restaurants/" + b.restaurantid + "/foods/" +
+            size + '/' + picname;
     });
 
     var newFood = {
@@ -71,7 +79,8 @@ exports.create = function(req, res) {
         inspecial: Boolean(b['inspecial']),
         specialPrice: Number(b['specialPrice']),
         // store only name part of picture (cause there are a lot of thumbs)
-        picture: picname
+        picture: picname,
+        thumbs: thumburls
     };
 
     console.log('newFood: ', newFood);
@@ -89,25 +98,25 @@ exports.create = function(req, res) {
         });
 };
 
-exports.show = function(req, res){
-    if (req.user.kind == models.USER_NORMAL) {
+exports.show = function(req, res) {
+    if (helper.isUser('normal', req)) {
         return res.send(403);
     }
 
     models.RestaurantModel
-        .findOne({_id: req.params.restaurant})
-        .select("foods")
+        .findOne({_id: req.params.restaurant}, {foods: {$elemMatch: {_id: req.params.food}}})
+        .select('foods')
         .exec(function(err, restaurant) {
-            if (err) {
-                res.send(406);
-            } else {
-                res.send(JSON.stringify(restaurant.foods.id(req.params.food)));
+            if (err || !restaurant) {
+                return res.send(406);
             }
+
+            res.send(JSON.stringify(restaurant.foods.id(req.params.food)));
         });
 };
 
 exports.update = function(req, res) {
-    if (req.user.kind == models.USER_NORMAL) {
+    if (helper.isUser('normal', req)) {
         return res.send(403);
     }
 
@@ -141,7 +150,7 @@ exports.update = function(req, res) {
 };
 
 exports.destroy = function(req, res) {
-    if (req.user.kind == models.USER_NORMAL) {
+    if (helper.isUser('normal', req)) {
         return res.send(403);
     }
 

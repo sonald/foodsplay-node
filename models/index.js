@@ -45,7 +45,8 @@ var FoodSchema = new mongoose.Schema({
     status: { type: Number, default: consts.FOOD_AVAILABLE},
     inspecial: Boolean,
     specialPrice: Number,
-    picture: String
+    picture: String,
+    thumbs: [String]
 });
 
 FoodSchema.pre('save', function (next) {
