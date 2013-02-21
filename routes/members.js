@@ -60,7 +60,8 @@ exports.show = function(req, res){
     }
 
     models.RestaurantModel
-        .findOne({_id: req.params.restaurant})
+        .findOne({ _id: req.params.restaurant })
+        .elemMatch('members',{_id: req.params.member})
         .select("members")
         .exec(function(err, restaurant) {
             if (err) {

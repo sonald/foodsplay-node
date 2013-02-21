@@ -104,7 +104,8 @@ exports.show = function(req, res) {
     }
 
     models.RestaurantModel
-        .findOne({_id: req.params.restaurant}, {foods: {$elemMatch: {_id: req.params.food}}})
+        .findOne({ _id: req.params.restaurant })
+        .elemMatch('foods', {_id: req.params.food})
         .select('foods')
         .exec(function(err, restaurant) {
             if (err || !restaurant) {

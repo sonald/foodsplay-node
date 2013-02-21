@@ -7,6 +7,8 @@ script(type="text/html", id="members_new_tmpl").
     form.well.form.form-horizontal(method="post",
         data-bind="with: newMember, submit: $root.validate, attr:{ action: $root.postNewMemberUrl }")
         input(type="hidden", name="_csrf", value="#{csrf_token}")
+        input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()")
+
         input(type="hidden", name="credits", value="0")
 
         .control-group
