@@ -7,6 +7,14 @@ var util = require('util'),
     sass = require('node-sass'),
     vendor_files = lactate.dir('vendor');
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+};
+
 module.exports = function(app, express) {
     require('./routes/auth');
 
@@ -18,9 +26,10 @@ module.exports = function(app, express) {
         app.use(express.bodyParser());
         app.use(express.cookieParser());
         app.use(express.methodOverride());
+        app.use(allowCrossDomain);
     });
 
-    app.configure('development', function(){
+    app.configure('development', function() {
         app.use(express.logger('dev'));
 
         files.disable('minify');
@@ -33,7 +42,7 @@ module.exports = function(app, express) {
         vendor_files.disable('gzip');
     });
 
-    app.configure('production', function(){
+    app.configure('production', function() {
         files.enable('minify');
         files.enable('gzip');
 
@@ -41,13 +50,14 @@ module.exports = function(app, express) {
         vendor_files.enable('gzip');
     });
 
-    app.configure(function(){
+    app.configure(function() {
         app.use(express.session({
             secret: "sian's blog roller",
             cookie: {maxAge: 60000 * 20},
             store: new mongoStore({db: mongoose.connection.db})
         }));
-        app.use(express.csrf());
+        //FIXME: disable temperarily for wuhao
+        // app.use(express.csrf());
         app.use(everyauth.middleware(app));
 
         app.use( function (req, res, next) {
@@ -70,7 +80,8 @@ module.exports = function(app, express) {
 
             res.locals.everyauth = ea;
             res.locals['user'] = req.user;
-            res.locals['csrf_token'] = req.session._csrf;
+            res.locals['csrf_token'] = req.session._csrf || "fake_csrf_token";
+
 
             next();
         });

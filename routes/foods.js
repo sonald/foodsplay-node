@@ -80,7 +80,7 @@ exports.create = function(req, res) {
         specialPrice: Number(b['specialPrice']),
         // store only name part of picture (cause there are a lot of thumbs)
         picture: picname,
-        thumbs: thumburls
+        thumbs: thumbs
     };
 
     console.log('newFood: ', newFood);

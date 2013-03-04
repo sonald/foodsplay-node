@@ -25,6 +25,31 @@ var consts = {
     SEX_FEMAIL: 2
 };
 
+/* meta-resources management */
+var TableSchema = new mongoose.Schema({
+    name: {
+        zh: String, // 比如：1楼1号
+        en: String
+    },
+    floor: Number,
+    open: Boolean
+});
+
+var UnitSchema = new mongoose.Schema({
+    name: {
+        zh: String, // 比如：1楼1号
+        en: String
+    }
+});
+
+var FoodCategorySchema = new mongoose.Schema({
+    name: {
+        zh: String,
+        en: String
+    }
+});
+
+//------------------------------------------------------------------------------
 
 var UserSchema = new mongoose.Schema({
     username: String,

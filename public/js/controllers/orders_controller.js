@@ -3,9 +3,9 @@ function OrderViewModel(restaurantid, initialOrder) {
 
 function OrdersViewModel(restaurantid, initialOrders) {
     var self = this;
-    var thumburls = ["origin", "48x48", "128x128"].map(function(size) {
-        return "/upload/images/restaurants/" + restaurantid + "/foods/" + size;
-    });
+    // var thumburls = ["origin", "48x48", "128x128"].map(function(size) {
+    //     return "/upload/images/restaurants/" + restaurantid + "/foods/" + size;
+    // });
 
     self.ORDER_ITEM_FRESH = 1;
     self.ORDER_ITEM_CONFIRMED = 2;
@@ -13,9 +13,9 @@ function OrdersViewModel(restaurantid, initialOrders) {
 
     initialOrders.forEach(function(order) {
         order.items.forEach(function(item) {
-            item.food.thumbs = thumburls.map(function(url) {
-                return url + '/' + item.food.picture;
-            });
+            // item.food.thumbs = thumburls.map(function(url) {
+            //     return url + '/' + item.food.picture;
+            // });
 
             item.statusName = ko.computed(function() {
                 switch(item.status) {
