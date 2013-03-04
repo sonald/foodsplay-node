@@ -24,6 +24,8 @@ body
 
             form.well.form-horizontal#js-user-signin(action="/users/signin", method="post")
                 input(type="hidden", name="_csrf", value=csrf_token)
+                //- 0 is for web login, 1 is for pad login
+                input(type="hidden", name="device", value=0)
                 .control-group
                     label.control-label(for="inputUsername") Username
                     .controls

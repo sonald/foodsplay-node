@@ -29,7 +29,11 @@ everyauth.everymodule.handleLogout( function (req, res) {
 });
 
 everyauth.everymodule
-    .performRedirect( function (res, location) {
+    .performRedirect( function(res, location) {
+        console.log('redirect: ', location, res.req.body);
+        if (location.trim() === '/' && res.req.body['device'] == 1) {
+            return res.send({ipad: true});
+        }
         return res.redirect(location, 303);
     });
 
