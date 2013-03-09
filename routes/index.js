@@ -36,6 +36,7 @@ exports.setup = function(app) {
         format: 'json'
     };
 
+
     app.resource("businessusers", require('./businessusers'), default_opts);
     app.resource("publicusers", require('./publicusers'), default_opts);
     var restaurants = app.resource("restaurants", require('./restaurant'), default_opts);
@@ -43,11 +44,13 @@ exports.setup = function(app) {
     var members = app.resource("members", require('./members'), default_opts);
     var orders = app.resource("orders", require('./orders'), default_opts);
     var order_items = app.resource("items", require('./order_items'), default_opts);
+    var metas = app.resource("metas", require('./metas'), default_opts);
 
     restaurants.add(foods);
     restaurants.add(members);
     orders.add(order_items);
     restaurants.add(orders);
+    restaurants.add(metas);
 };
 
 function config(req, res) {

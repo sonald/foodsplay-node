@@ -11,18 +11,21 @@ var consts = {
     USER_RESTAURANT: 2,
     USER_ADMIN: 3,
 
-    FOOD_AVAILABLE: 1,
-    FOOD_UNAVAILABLE: 2,
+    FOOD_AVAILABLE: {name: 'available', value: 1 },
+    FOOD_UNAVAILABLE: {name: 'unavailable', value: 2 },
 
-    ORDER_CLOSED: 1,
-    ORDER_OPEN: 2,
+    ORDER_CLOSED: {name: 'closed', value: 1 },
+    ORDER_OPEN: {name: 'open', value: 2 },
 
-    ORDER_ITEM_FRESH: 1,
-    ORDER_ITEM_CONFIRMED: 2, // 下单
-    ORDER_ITEM_DONE: 3,  // 已上
+    ORDER_ITEM_FRESH: {name: 'new', value: 1 },
+    ORDER_ITEM_CONFIRMED: {name: 'confirmed', value: 2 }, // 下单
+    ORDER_ITEM_DONE: {name: 'done', value: 3 },  // 已上
 
-    SEX_MALE: 1,
-    SEX_FEMAIL: 2
+    SEX_MALE: {name: 'male', value: 1 },
+    SEX_FEMAIL: {name: 'female', value: 2 },
+
+    TABLE_OPEN: {name: 'open', value: 1 }, // 已经开台
+    TABLE_FREE: {name: 'free', value: 2 }  // 空闲
 };
 
 /* meta-resources management */
@@ -32,10 +35,17 @@ var TableSchema = new mongoose.Schema({
         en: String
     },
     floor: Number,
-    open: Boolean
+    status: Number
 });
 
-var UnitSchema = new mongoose.Schema({
+var FlavorSchema = new mongoose.Schema({
+    name: {
+        zh: String, // 比如：加盐
+        en: String
+    }
+});
+
+var FoodUnitSchema = new mongoose.Schema({
     name: {
         zh: String, // 比如：1楼1号
         en: String
@@ -65,9 +75,9 @@ var FoodSchema = new mongoose.Schema({
     description: { zh: String, en: String },
     price: Number,
     memberPrice: Number,
-    category: Number,
-    unit: Number,
-    status: { type: Number, default: consts.FOOD_AVAILABLE},
+    category: {type: ObjectId, ref: 'FoodCategory'},
+    unit: {type: ObjectId, ref: 'FoodUnit'},
+    status: { type: Number, default: consts.FOOD_AVAILABLE.value},
     inspecial: Boolean,
     specialPrice: Number,
     picture: String,
@@ -92,7 +102,7 @@ var OrderSchema = new mongoose.Schema({
             food: {type: ObjectId, ref: 'Food'},
             specification: Number,
             count: Number,
-            favor: String,
+            flavor: {type: ObjectId, ref: 'Flavor'},
             request: String,
             method: String,
             other: String,
@@ -100,7 +110,7 @@ var OrderSchema = new mongoose.Schema({
         }
     ],
     guestNumber: Number,
-    table: Number,
+    table: {type: ObjectId, ref: 'Table'},
     status: Number // 正在使用，存档
 });
 
@@ -113,7 +123,7 @@ var CreditsDetailSchema = new mongoose.Schema({
 // 信息有姓名，性别，出生日期，IC号码，地址，电话，手机，邮箱，会员卡号，会员卡类型
 var MemberSchema = new mongoose.Schema({
     name: String,
-    sex: {type: Number, min: consts.SEX_MALE, max: consts.SEX_FEMAIL},
+    sex: {type: Number, min: consts.SEX_MALE.value, max: consts.SEX_FEMAIL.value},
     birth: Date,
     icnum: String,
     address: String,
@@ -158,6 +168,13 @@ var RestaurantSchema = new mongoose.Schema({
     members: [MemberSchema],
     bills: [BillSchema],
 
+    metas: {
+        tables: [TableSchema],
+        flavors: [FlavorSchema],
+        units: [FoodUnitSchema],
+        categories: [FoodCategorySchema]
+    },
+
     withdraws: [WithdrawSchema],
 
     _user: {type: ObjectId, ref: 'User'}
@@ -168,6 +185,11 @@ var RestaurantSchema = new mongoose.Schema({
 
 function Models() {
     console.log('building models');
+    this.TableModel = mongoose.model('Table', TableSchema);
+    this.FlavorModel = mongoose.model('Flavor', FlavorSchema);
+    this.FoodUnitModel = mongoose.model('FoodUnit', FoodUnitSchema);
+    this.FoodCategoryModel = mongoose.model('FoodCategory', FoodCategorySchema);
+
     this.FoodModel = mongoose.model('Food', FoodSchema);
     this.OrderModel = mongoose.model('Order', OrderSchema);
     this.UserModel = mongoose.model('User', UserSchema);

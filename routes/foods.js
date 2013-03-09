@@ -18,13 +18,22 @@ exports.index = function(req, res) {
 
     models.RestaurantModel
         .findOne({_id: req.params.restaurant})
-        .select("foods")
+        .select("foods metas.categories metas.units")
         .exec(function(err, restaurant) {
             if (err) {
-                res.send(406);
-            } else {
-                res.send(JSON.stringify(restaurant.foods));
+                return res.send(406);
             }
+
+            //HACK: manually populate nested food, cause mongoose does
+            //not support it right now. see issue601
+            var foods = restaurant.foods.map(function(food) {
+                food = food.toObject({minimize: false});
+                food.category = restaurant.metas.categories.id(food.category);
+                food.unit = restaurant.metas.units.id(food.unit);
+                return food;
+            });
+
+            res.send(JSON.stringify(foods));
         });
 };
 
@@ -73,6 +82,7 @@ exports.create = function(req, res) {
         },
         price: Number(b['price']),
         memberPrice: Number(b['memberPrice']),
+        //TODO: check category & unit is valid (exists or not)
         category: b['category'],
         unit: b['unit'],
         status: Number(b['status']),
@@ -106,13 +116,19 @@ exports.show = function(req, res) {
     models.RestaurantModel
         .findOne({ _id: req.params.restaurant })
         .elemMatch('foods', {_id: req.params.food})
-        .select('foods')
+        .select('foods metas.categories metas.units')
         .exec(function(err, restaurant) {
             if (err || !restaurant) {
                 return res.send(406);
             }
 
-            res.send(JSON.stringify(restaurant.foods.id(req.params.food)));
+            //HACK: manually populate nested food, cause mongoose does
+            //not support it right now. see issue601
+            var food = restaurant.foods.id(req.params.food);
+            food = food.toObject({minimize: false});
+            food.category = restaurant.metas.categories.id(food.category);
+            food.unit = restaurant.metas.units.id(food.unit);
+            res.send(JSON.stringify(food));
         });
 };
 

@@ -125,12 +125,16 @@ $(function() {
 
 
         this.get("#/restaurants/:id/foods", function(context) {
-            var self = this;
+            var self = this,
+                url = this.path.substring(2),
+                metas_url = '/restaurants/' + self.params['id'] + '/metas';
 
-            $.getJSON(this.path.substring(2), function(data) {
-                app.$element().html( jade.compile($('#foods_tmpl').html())() );
-                window.currentModel = new FoodsViewModel(self.params['id'], data);
-                ko.applyBindings(window.currentModel, app.$element()[0]);
+            $.getJSON(url, function(data) {
+                $.getJSON(metas_url, function(metas) {
+                    app.$element().html( jade.compile($('#foods_tmpl').html())() );
+                    window.currentModel = new FoodsViewModel(self.params['id'], metas, data);
+                    ko.applyBindings(window.currentModel, app.$element()[0]);
+                });
             });
         });
 

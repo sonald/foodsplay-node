@@ -29,7 +29,7 @@ exports.create = function(req, res) {
         request: b['request'],
         method: b['method'],
         other: b['other'],
-        status: models.ORDER_ITEM_FRESH
+        status: models.ORDER_ITEM_FRESH.value
     };
 
     models.RestaurantModel.findById(req.params.restaurant, function(err, restaurant) {

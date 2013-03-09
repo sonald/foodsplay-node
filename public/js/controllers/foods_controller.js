@@ -22,9 +22,12 @@ function Food() {
     this.picture = ko.observable("");
 };
 
-function FoodsViewModel(restaurantid, initialFoods) {
+function FoodsViewModel(restaurantid, metas, initialFoods) {
     var self = this;
+    self.categories = metas.categories;
+    self.units = metas.units;
     self.newFood = ko.observable(new Food);
+
     self.currentRestaurant = ko.observable(restaurantid);
 
     self.postNewFoodUrl = ko.computed(function() {
@@ -69,11 +72,43 @@ function FoodsViewModel(restaurantid, initialFoods) {
         return "#" + self.putFoodUrl();
     });
 
+
+    // for inline editing select options
+    self.inlineUnits = {};
+    self.units.forEach(function(cat) {
+        self.inlineUnits[cat._id] = cat.name.en;
+    });
+    self.inlineUnits['selected'] = self.selectedFood.subscribe(function(newVal) {
+        console.log('selectedFood updated');
+        self.inlineUnits['selected'] = newVal.unit._id();
+    });
+
+    self.inlineCategeories = {};
+    self.categories.forEach(function(cat) {
+        self.inlineCategeories[cat._id] = cat.name.en;
+    });
+    self.inlineCategeories['selected'] = self.selectedFood.subscribe(function(newVal) {
+        console.log('selectedFood updated');
+        self.inlineCategeories['selected'] = newVal.category._id();
+    });
+
+    function pick(collection, id) {
+        var arr = self[collection];
+        for (var i = 0, len = arr.length; i < len; i++) {
+            if (arr[i]._id === id) {
+                return arr[i];
+            }
+        }
+
+        return null;
+    }
+
     ko.bindingHandlers.editable = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
             var opts = allBindingsAccessor().editableOptions,
                 observable = valueAccessor();
 
+            console.log('init: ', observable());
             opts = opts || {};
             opts.type = opts.type || 'text';
             opts.style = opts.style || 'display: inline';
@@ -89,10 +124,9 @@ function FoodsViewModel(restaurantid, initialFoods) {
             };
 
             $(element).editable(function(val, settings) {
-                observable(val);
+                console.log('editable: ', val, settings.type);
 
                 var selfobj = this;
-
                 var submitdata = {};
                 submitdata[settings.name] = val;
                 $.extend(submitdata, settings.submitdata);
@@ -108,7 +142,23 @@ function FoodsViewModel(restaurantid, initialFoods) {
                     url     : settings.url,
                     success : function(result, status) {
                         selfobj.editing = false;
-                        $(selfobj).html(val);
+                        console.log('success: ', val);
+                        var displayVal = val;
+
+                        if (settings.type == 'select') {
+                            //HACK: this is tricky, when using select, meaning that the field
+                            // is a foreign link, and should be updated by it's id.
+                            // not observable(val);
+                            var newMem = pick(settings.collection, val);
+                            self.selectedFood()[settings.name] = ko.mapping.fromJS(newMem);
+                            displayVal = newMem.name.en;
+
+                        } else {
+                            observable(val);
+                        }
+
+
+                        $(selfobj).html(displayVal);
                     },
                     error   : function(xhr, status, error) {
                         console.log('update error: ', error);
@@ -128,6 +178,7 @@ function FoodsViewModel(restaurantid, initialFoods) {
             var value = ko.utils.unwrapObservable(valueAccessor());
             console.log('update ', value);
             $(element).html(value);
+
         }
     };
 
@@ -150,9 +201,8 @@ function FoodsViewModel(restaurantid, initialFoods) {
             required: true
         },
 
-        'price, memberPrice, category, unit': {
-            required: true,
-            need_number: true
+        'price, memberPrice': {
+            required: true
         }
     });
 }

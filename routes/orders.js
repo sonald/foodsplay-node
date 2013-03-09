@@ -21,7 +21,7 @@ exports.live = function(req, res) {
             }
 
             var orders = restaurant.orders.filter(function(order) {
-                return order.status == models.ORDER_OPEN;
+                return order.status == models.ORDER_OPEN.value;
             })
 
             //HACK: manually populate nested food, cause mongoose does
@@ -54,7 +54,7 @@ exports.archive = function(req, res) {
             }
 
             var orders = restaurant.orders.filter(function(order) {
-                return order.status == models.ORDER_CLOSED;
+                return order.status == models.ORDER_CLOSED.value;
             })
 
             orders = orders.map(function(order) {
@@ -77,7 +77,7 @@ exports.create = function(req, res) {
         date: new Date(),
         guestNumber: b['guestNumber'],
         table: b['table'],
-        status: models.ORDER_OPEN
+        status: models.ORDER_OPEN.value
     };
 
     models.RestaurantModel.update(

@@ -50,13 +50,12 @@ script(type="text/html", id="foods_new_tmpl").
         .control-group
             label.control-label Category
             .controls
-                input(type="text", name="category", data-bind="value: category")
+                select(name="category", data-bind="options: $root.categories, optionsCaption: 'select category...', optionsText: function(opt) { return opt.name.en; }, optionsValue: '_id'")
 
         .control-group
             label.control-label Unit
             .controls
-                input(type="text", name="unit", data-bind="value: unit")
-
+                select(name="unit", data-bind="options: $root.units, optionsCaption: 'select unit...', optionsText: function(opt) { return opt.name.en; }, optionsValue: '_id'")
 
         .control-group
             .controls

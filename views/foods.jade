@@ -19,10 +19,13 @@ script(type="text/html", id="foods_tmpl").
                     li.editable.label(data-name="memberPrice", data-bind="editable: memberPrice")
                 ul.inline
                     li Category
-                    li.editable.label(data-name="category", data-bind="editable: category")
+                    li.editable.label(data-name="category",
+                        data-bind="editable: category.name.en, editableOptions: {type: 'select', data: $root.inlineCategeories, collection: 'categories'}")
+
                 ul.inline
                     li Unit
-                    li.editable.label(data-name="unit", data-bind="editable: unit")
+                    li.editable.label(data-name="unit",
+                        data-bind="editable: unit.name.en, editableOptions: {type: 'select', data: $root.inlineUnits, collection: 'units'}")
 
                 article.editable(data-name="description.en",
                     data-bind="editable: description.en, editableOptions: {type: 'textarea'}")
