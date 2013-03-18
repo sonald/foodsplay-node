@@ -1,0 +1,58 @@
+script(type="text/html", id="metas_tmpl").
+    .container.row-fluid
+        div.span3(data-bind="foreach: metas.tables")
+            h3 Table
+            p(data-bind="text: name.en")
+            p(data-bind="text: name.zh")
+            p(data-bind="text: floor")
+            p(data-bind="text: status")
+
+        div.span3(data-bind="foreach: metas.categories")
+            h3 Category
+            p(data-bind="text: name.en")
+            p(data-bind="text: name.zh")
+
+        div.span3(data-bind="foreach: metas.flavors")
+            h3 Food flavor
+            p(data-bind="text: name.en")
+            p(data-bind="text: name.zh")
+
+        div.span3(data-bind="foreach: metas.units")
+            h3 Food unit
+            p(data-bind="text: name.en")
+            p(data-bind="text: name.zh")
+
+    .well
+        .alert(data-bind="visible: validationErrors().length > 0")
+            button.close(data-dismiss="alert") x
+            strong Errors
+            p.small(data-bind="text: validationErrors")
+
+        form.well.form.form-horizontal(method="post",
+            data-bind="with: newMeta, submit: $root.validate, attr:{ action: $root.postNewMetaUrl }")
+            input(type="hidden", name="_csrf", value="#{csrf_token}")
+            input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()")
+
+            .control-group
+                label.control-label Name(en)
+                .controls
+                    input(type="text", name="name.en", data-bind='value: name.en', placeholder="name")
+
+            .control-group
+                label.control-label Name(zh)
+                .controls
+                    input(type="text", name="name.zh", data-bind='value: name.zh', placeholder="name")
+
+            .control-group(data-bind="visible: $root.newMetaIsTable")
+                label.control-label Floor
+                .controls
+                    input(type="text", name="floor", data-bind='value: floor', placeholder="Floor")
+
+            .control-group
+                label.control-label Resource Kind
+                .controls
+                    select(name="kind", data-bind="options: $root.kinds, optionsText: 'display', optionsValue: 'id', value: $root.selectedKind")
+
+            .control-group
+                .controls
+                    button(type="submit") Create

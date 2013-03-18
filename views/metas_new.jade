@@ -1,0 +1,62 @@
+script(type="text/html", id="foods_new_tmpl").
+    .alert(data-bind="visible: validationErrors().length > 0")
+        button.close(data-dismiss="alert") x
+        strong Errors
+        p.small(data-bind="text: validationErrors")
+
+    form.well.form.form-horizontal(method="post", enctype="multipart/form-data",
+        data-bind="with: newFood, submit: $root.validate, attr:{ action: $root.postNewFoodUrl }")
+        input(type="hidden", name="_csrf", value="#{csrf_token}")
+        input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()")
+        input(type="hidden", name="specialPrice", data-bind="value: price()")
+        input(type="hidden", name="inspecial", data-bind="value: inspecial")
+        input(type="hidden", name="status", data-bind="value: status")
+
+        .control-group
+            label.control-label Name(en)
+            .controls
+                input(type="text", name="name.en", data-bind='value: name.en', placeholder="name")
+
+        .control-group
+            label.control-label Name(zh)
+            .controls
+                input(type="text", name="name.zh", data-bind='value: name.zh', placeholder="name")
+
+        .control-group
+            label.control-label Description(en)
+            .controls
+                textarea(name="description.en", data-bind="value: description.en", placeholder="description")
+
+        .control-group
+            label.control-label Description(zh)
+            .controls
+                textarea(name="description.zh", data-bind="value: description.zh", placeholder="description")
+
+        .control-group
+            label.control-label Picture
+            .controls
+                input(type="file", name="picture")
+
+        .control-group
+            label.control-label Price
+            .controls
+                input(type="text", name="price", data-bind="value: price")
+
+        .control-group
+            label.control-label MemberPrice
+            .controls
+                input(type="text", name="memberPrice", data-bind="value: memberPrice")
+
+        .control-group
+            label.control-label Category
+            .controls
+                select(name="category", data-bind="options: $root.categories, optionsCaption: 'select category...', optionsText: function(opt) { return opt.name.en; }, optionsValue: '_id'")
+
+        .control-group
+            label.control-label Unit
+            .controls
+                select(name="unit", data-bind="options: $root.units, optionsCaption: 'select unit...', optionsText: function(opt) { return opt.name.en; }, optionsValue: '_id'")
+
+        .control-group
+            .controls
+                button(type="submit") Create

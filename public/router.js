@@ -188,6 +188,19 @@ $(function() {
 
 
 
+        this.get("#/restaurants/:id/metas", function(context) {
+            var self = this,
+                url = this.path.substring(2);
+
+            $.getJSON(url, function(data) {
+                app.$element().html( jade.compile($('#metas_tmpl').html())() );
+                window.currentModel = new MetasViewModel(self.params['id'], data);
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+
+
         this.get("#/restaurants/:id/orders", function(context) {
             var self = this;
 

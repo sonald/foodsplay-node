@@ -35,7 +35,7 @@ var TableSchema = new mongoose.Schema({
         en: String
     },
     floor: Number,
-    status: Number
+    status: {type: Number, default: consts.TABLE_FREE.value}
 });
 
 var FlavorSchema = new mongoose.Schema({
