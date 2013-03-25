@@ -1,10 +1,10 @@
 {
     "name": "foodsplay",
-    "version": "0.0.1",
+    "version": "0.0.1-5",
     "description": "online foods ordering",
     "private": true,
     "scripts": {
-        "start": "node app"
+        "start": "node app.js"
     },
     "dependencies": {
         "express": "3.0.0",
@@ -14,7 +14,7 @@
         "mongoose": "*",
         "connect-mongodb": "*",
         "bcrypt": "*",
-        "node-sass": "*",
+        "node-sass": "git://github.com/andrew/node-sass.git#master",
         "everyauth": "git://github.com/bnoguchi/everyauth.git#express3",
         "formidable": "latest",
         "async": "*",
@@ -26,5 +26,9 @@
     },
     "devDependencies": {
         "mocha": "*"
-    }
+    },
+    "engines": {
+        "node": ">=0.8"
+    },
+    "subdomain": "sonald-foodsplay-node"
 }

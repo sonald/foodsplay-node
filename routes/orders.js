@@ -2,27 +2,51 @@ var util = require('util'),
     models = require('../models');
 
 // default send open orders
+// query:
+//   ?table=tid
+//   ?status=live
+//   ?status=archive
 exports.index = function(req, res) {
-    exports.live.call(this, req, res);
-};
+    console.log(req.query);
+    req.query.status = req.query.status || {status: 'live'};
 
-// current orders
-exports.live = function(req, res) {
     if (req.user.kind == models.USER_NORMAL) {
         return res.send(403);
     }
 
+    var filter_status = (function() {
+        if (req.query.status == 'live') {
+            return function(order) {
+                return order.status == models.ORDER_OPEN.value;
+            };
+
+        } else if (req.query.status == 'archive') {
+            return function(order) {
+                return order.status == models.ORDER_CLOSED.value;
+            };
+
+        } else {
+            return function(order) {
+                return true;
+            };
+        }
+    }());
+
+    var filter_op = req.query.table ? function(order) {
+        // this is before populate, so table now is ObjectId
+        return filter_status(order) && order.table == req.query.table;
+    }: filter_status;
+
     models.RestaurantModel
         .findById(req.params.restaurant)
-        .select("orders foods")
+        .select("orders foods metas.tables metas.flavors")
         .exec(function(err, restaurant) {
             if (err) {
                 return res.send(403);
             }
 
-            var orders = restaurant.orders.filter(function(order) {
-                return order.status == models.ORDER_OPEN.value;
-            })
+            console.log(filter_op.toString());
+            var orders = restaurant.orders.filter(filter_op);
 
             //HACK: manually populate nested food, cause mongoose does
             //not support it right now. see issue601
@@ -30,39 +54,9 @@ exports.live = function(req, res) {
                 order = order.toObject({minimize: false});
                 order.items.forEach(function(item) {
                     item.food = restaurant.foods.id(item.food);
+                    item.flavor = restaurant.metas.flavors.id(item.flavor);
                 });
-
-                return order;
-            });
-
-            res.send(JSON.stringify(orders));
-        });
-};
-
-// archive orders
-exports.archive = function(req, res) {
-    if (req.user.kind == models.USER_NORMAL) {
-        return res.send(403);
-    }
-
-    models.RestaurantModel
-        .findById(req.params.restaurant)
-        .select("orders foods")
-        .exec(function(err, restaurant) {
-            if (err) {
-                return res.send(403);
-            }
-
-            var orders = restaurant.orders.filter(function(order) {
-                return order.status == models.ORDER_CLOSED.value;
-            })
-
-            orders = orders.map(function(order) {
-                order = order.toObject({minimize: false});
-                order.items.forEach(function(item) {
-                    item.food = restaurant.foods.id(item.food);
-                });
-
+                order.table = restaurant.metas.tables.id(order.table);
                 return order;
             });
 

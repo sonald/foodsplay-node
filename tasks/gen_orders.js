@@ -13,6 +13,9 @@ mongoose.connection.once('open', function() {
             }
 
             var foods = restaurant.foods;
+            var tables = restaurant.metas.tables;
+            var flavors = restaurant.metas.flavors;
+            // var tables = restaurant.metas.tables;
             var orders = restaurant.orders;
             orders.push({
                 date: new Date(),
@@ -21,7 +24,7 @@ mongoose.connection.once('open', function() {
                         food: foods[0]._id,
                         specification: 0,
                         count: 1,
-                        favor: "favor sugar",
+                        flavor: flavors[0]._id,
                         request: "no request",
                         method: "do it simple",
                         other: "nothing",
@@ -31,7 +34,7 @@ mongoose.connection.once('open', function() {
                         food: foods[1]._id,
                         specification: 1,
                         count: 2,
-                        favor: "favor bitter",
+                        flavor: flavors[1]._id,
                         request: "no request too",
                         method: "do it simpler",
                         other: "nothing at all",
@@ -39,8 +42,8 @@ mongoose.connection.once('open', function() {
                     }
                 ],
                 guestNumber: 4,
-                table: 1,
-                status: models.ORDER_OPEN
+                table: tables[0]._id,
+                status: models.ORDER_OPEN.value
             });
 
             orders.push({
@@ -50,7 +53,7 @@ mongoose.connection.once('open', function() {
                         food: foods[0]._id,
                         specification: 1,
                         count: 2,
-                        favor: "favor 3",
+                        flavor: flavors[0]._id,
                         request: "no request",
                         method: "do it simple",
                         other: "nothing",
@@ -60,7 +63,7 @@ mongoose.connection.once('open', function() {
                         food: foods[1]._id,
                         specification: 1,
                         count: 2,
-                        favor: "favor bitter",
+                        flavor: flavors[1]._id,
                         request: "no request too",
                         method: "do it simpler",
                         other: "nothing at all",
@@ -68,8 +71,8 @@ mongoose.connection.once('open', function() {
                     }
                 ],
                 guestNumber: 4,
-                table: 2,
-                status: models.ORDER_OPEN
+                table: tables[1]._id,
+                status: models.ORDER_CLOSED.value
             });
 
             restaurant.save(function(err) {

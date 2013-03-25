@@ -25,6 +25,7 @@ module.exports = function(app, express) {
         app.use(express.favicon());
         app.use(express.bodyParser());
         app.use(express.cookieParser());
+        app.use(express.query());
         app.use(express.methodOverride());
         app.use(allowCrossDomain);
     });
