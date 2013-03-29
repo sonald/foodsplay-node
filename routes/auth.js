@@ -11,9 +11,9 @@ everyauth.everymodule
     .userPkey('_id')
     .findUserById(function (req, uid, callback) {
         console.log('findUserById: _id = ', uid);
+
         models.UserModel
-            .findOne({_id: uid})
-            .select('username password kind email _id')
+            .findOne({_id: uid}).select('username kind email _id')
             .exec(function(err, user) {
                 callback(null, user);
             });
@@ -28,13 +28,51 @@ everyauth.everymodule.handleLogout( function (req, res) {
     this.redirect(res, this.logoutRedirectPath());
 });
 
-everyauth.everymodule
-    .performRedirect( function(res, location) {
-        console.log('redirect: ', location, res.req.body);
-        if (location.trim() === '/' && res.req.body['device'] == 1) {
-            return res.send({ipad: true});
+everyauth.password
+    .respondToLoginSucceed( function (res, user) {
+        console.log('respondToLoginSucceed: ', user);
+
+        if (user) {
+            if (res.req.body['device'] == 1) {
+                res.send({
+                    ipad: true,
+                    user: user
+                });
+
+            } else {
+                this.redirect(res, "/");
+            }
         }
-        return res.redirect(location, 303);
+    })
+    .respondToLoginFail( function (req, res, errors, login) {
+        console.log('respondToLoginFail: ', req.body, errors);
+        if (!errors || !errors.length) {
+            return;
+        }
+
+        if (req.body['device'] == 1) {
+            res.send({
+                ipad: true,
+                login: false,
+                errors: errors
+            });
+
+        } else {
+            //HACK: inspired from everyauth passwd module
+            var locals = {};
+            locals.errors = errors;
+            locals[this.loginKey()] = login;
+            var extraLocals = this['_loginLocals'];
+            if (typeof extraLocals === 'function') {
+                extraLocals = extraLocals(req, res);
+            }
+            console.log('extraLocals: ', extraLocals);
+            for (var i in extraLocals) {
+                locals[i] = extraLocals[i];
+            }
+
+            res.render("user/signin", locals);
+        }
     });
 
 everyauth.debug = true;
@@ -62,7 +100,7 @@ everyauth
         var promise = this.Promise();
         models.UserModel
             .findOne({username: login})
-            .select('username password _id')
+            .select('username password kind _id')
             .exec(function(err, user) {
                 if (err) {
                     return promise.fulfill([err]);
@@ -76,10 +114,28 @@ everyauth
 
                 if (!bcrypt.compareSync(password, user.password)) {
                     return promise.fulfill(['incorrect password']);
+
                 }
 
                 console.log('authenticate correctly');
-                return promise.fulfill(user);
+                user = user.toObject({minimize: false});
+                delete user.password;
+
+                if (user.kind === models.USER_RESTAURANT) {
+                    models.RestaurantModel
+                        .findOne({_user: user._id}).select('_id')
+                        .exec(function(err1, restaurant) {
+                            if (restaurant) {
+                                console.log('find restaurant: ', restaurant._id);
+                                user.restaurant = restaurant._id;
+                            }
+
+                            return promise.fulfill(user);
+                        });
+
+                } else {
+                    return promise.fulfill(user);
+                }
             });
 
         return promise;
