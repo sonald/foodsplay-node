@@ -1,6 +1,6 @@
 {
     "name": "foodsplay",
-    "version": "0.0.1-13",
+    "version": "0.0.1-14",
     "description": "online foods ordering",
     "private": true,
     "scripts": {
@@ -11,7 +11,7 @@
         "jade": "*",
         "less-middleware": "*",
         "mongo": "latest",
-        "mongoose": "*",
+        "mongoose": "3.6.x",
         "connect-mongodb": "*",
         "bcrypt": "0.7.1",
         "node-sass": "git://github.com/andrew/node-sass.git#master",

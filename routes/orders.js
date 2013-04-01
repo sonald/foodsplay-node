@@ -94,4 +94,24 @@ exports.update = function(req, res) {
 
     var b = req.body;
 
+    console.log('params: ', req.params, 'b: ', b);
+
+    models.RestaurantModel
+        .findById(req.params.restaurant, function(err, restaurant) {
+            if (err) {
+                return res.send(406);
+            }
+
+            var order = restaurant.orders.id(req.params.order);
+            helper.updateFields(order, models.OrderModel.schema, d);
+
+            console.log(order);
+            restaurant.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.send(403);
+                }
+                return res.send(200);
+            });
+        });
 };

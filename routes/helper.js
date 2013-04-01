@@ -21,3 +21,19 @@ exports.isUser = function(predicate, req) {
 exports.lookupRestaurant = function(userid, restaurantid) {
     return true;
 };
+
+// fields is like: ['name.en', 'description.en', ...]
+exports.updateFields = function(obj, schema, data) {
+    Object.keys(data).forEach(function(path) {
+        if (!schema.path(path)) {
+            return;
+        }
+
+        if (path.indexOf('.') > -1) {
+            eval('obj.' + path + '=' + JSON.stringify(data[path]));
+
+        } else if (path in obj) {
+            obj[path] = data[path];
+        }
+    });
+};

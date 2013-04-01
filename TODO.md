@@ -12,10 +12,13 @@
 + 雇员资源：给一个密码和类别
 * *DONE* cross region (insecure)
 * iOS/android https 连接问题
-* 餐桌管理
+* *DONE* 餐桌管理
 * 集成元资源管理到餐厅里，food添加时，order添加时
-* 根据table查询订单
+* *DONE* 根据table查询订单
   - http://ip/restaurants/51038c1b7d5c2ceb2a000009/orders?table=32323
 * 更新订单的时候，支持一次推送多个食物或者一次一个
 * *DONE* 临时去掉csrf认证
 * *DONE* 当从ipad登陆时，不重定向和返回页面（通过header的一个字段来判断）
+* 支持根据类别列举菜品
+http://127.0.0.1:3000/#/restaurants/5134c9afc5229d22f300000c/foods?category=categoryid
+* **改成API授权+https连接**

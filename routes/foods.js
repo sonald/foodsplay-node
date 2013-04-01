@@ -147,13 +147,7 @@ exports.update = function(req, res) {
             }
 
             var food = restaurant.foods.id(req.params.food);
-            Object.keys(b).map(function(path) {
-                if (path.indexOf('.') > -1) {
-                    eval('food.' + path + '=' + JSON.stringify(b[path]));
-                } else if (path in food) {
-                    food[path] = b[path];
-                }
-            });
+            helper.updateFields(food, models.FoodModel.schema, b);
 
             console.log(food);
             restaurant.save(function(err) {
