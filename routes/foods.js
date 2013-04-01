@@ -16,6 +16,16 @@ exports.index = function(req, res) {
         return res.send(403);
     }
 
+    var filter = (function() {
+        if (req.query.category) {
+            return function(food) {
+                return food.category == req.query.category;
+            };
+        }
+
+        return function(food) { return true; };
+    }());
+
     models.RestaurantModel
         .findOne({_id: req.params.restaurant})
         .select("foods metas.categories metas.units")
@@ -26,7 +36,7 @@ exports.index = function(req, res) {
 
             //HACK: manually populate nested food, cause mongoose does
             //not support it right now. see issue601
-            var foods = restaurant.foods.map(function(food) {
+            var foods = restaurant.foods.filter(filter).map(function(food) {
                 food = food.toObject({minimize: false});
                 food.category = restaurant.metas.categories.id(food.category);
                 food.unit = restaurant.metas.units.id(food.unit);
