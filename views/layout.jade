@@ -18,11 +18,13 @@ html
 
         // config.js is generated resource
         script(type="text/javascript", src="/config.js")
+        script(type="text/javascript", src="/js/ko_editable.js")
         script(type="text/javascript", src="/js/controllers/validation.js")
         script(type="text/javascript", src="/js/controllers/metas_controller.js")
         script(type="text/javascript", src="/js/controllers/users_controller.js")
         script(type="text/javascript", src="/js/controllers/orders_controller.js")
         script(type="text/javascript", src="/js/controllers/members_controller.js")
+        script(type="text/javascript", src="/js/controllers/employees_controller.js")
         script(type="text/javascript", src="/js/controllers/foods_controller.js")
         script(type="text/javascript", src="/js/controllers/restaurants_controller.js")
         script(type="text/javascript", src="/js/controllers/admin_controller.js")
@@ -59,6 +61,7 @@ html
         include foods
         include orders
         include members
+        include employees
         include foods_new
         include members_new
         include metas

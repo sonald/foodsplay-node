@@ -49,7 +49,7 @@ exports.create = function(req, res) {
                 return res.send(403);
             }
 
-            res.redirect('#/restaurants/' + b.restaurantid);
+            res.redirect('#/restaurants/' + req.params.restaurant);
         });
 };
 

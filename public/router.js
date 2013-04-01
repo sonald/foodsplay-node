@@ -255,6 +255,68 @@ $(function() {
             window.currentModel.setupValidation();
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
+
+
+        // ---- EMPLOYEES
+        this.get("#/restaurants/:id/employees", function(context) {
+            var self = this;
+
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#employees_tmpl').html())() );
+
+                window.currentModel = new EmployeesViewModel(self.params['id'], data);
+                window.currentModel.setupValidation();
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+        this.del("#/restaurants/:id/employees/:mid", function(context) {
+            var self = this;
+            console.log(this.path);
+            $.ajax({
+                url: this.path.substring(2),
+                type: 'DELETE',
+                headers: {
+                    'x-csrf-token': self.params['csrf']
+                }
+            }).always(function() {
+                console.log('delete done');
+                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/employees");
+
+            }).fail(function() {
+                console.log('delete failed');
+            });
+        });
+
+        this.post("#/restaurants/:id/employees", function(context) {
+            var model = window.currentModel,
+                self = this,
+                data = {};
+
+            if (model.validate()) {
+                Object.keys(this.params).forEach(function(k) {
+                    data[k] = self.params[k];
+                });
+
+                console.log('post new employee', data);
+                $.ajax({
+                    url: this.path.substring(2),
+                    type: 'post',
+                    data: data,
+                    headers: {
+                        'x-csrf-token': data['_csrf']
+                    }
+                }).always(function(data) {
+                    console.log('post done', data);
+                    model.newEmployee(new Employee);
+
+                }).fail(function() {
+                    console.log('post failed');
+                });
+            }
+            return false;
+        });
+
     });
 
     init_url = '#/';

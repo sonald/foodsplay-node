@@ -25,7 +25,11 @@ var consts = {
     SEX_FEMAIL: {name: 'female', value: 2 },
 
     TABLE_OPEN: {name: 'open', value: 1 }, // 已经开台
-    TABLE_FREE: {name: 'free', value: 2 }  // 空闲
+    TABLE_FREE: {name: 'free', value: 2 },  // 空闲
+
+    EMPLOYEE_ROLE_MANAGER: 1,
+    EMPLOYEE_ROLE_WAITER: 2,
+    EMPLOYEE_ROLE_COOK: 4
 };
 
 /* meta-resources management */
@@ -63,7 +67,7 @@ var FoodCategorySchema = new mongoose.Schema({
 
 var UserSchema = new mongoose.Schema({
     username: String,
-    password: String,
+    password: String, // hash
     email: String,
     kind: {type: Number, default: consts.USER_RESTAURANT} // normal user or amdin or restaurant
 }, {
@@ -153,6 +157,12 @@ var BillSchema = new mongoose.Schema({
     status: Number
 });
 
+var EmployeeSchema = new mongoose.Schema({
+    name: String,
+    password: String, // hash
+    role: Number
+});
+
 var RestaurantSchema = new mongoose.Schema({
     name: {
         en: String,
@@ -167,6 +177,7 @@ var RestaurantSchema = new mongoose.Schema({
     orders: [OrderSchema],
     members: [MemberSchema],
     bills: [BillSchema],
+    employees: [EmployeeSchema],
 
     metas: {
         tables: [TableSchema],
@@ -190,6 +201,7 @@ function Models() {
     this.FoodUnitModel = mongoose.model('FoodUnit', FoodUnitSchema);
     this.FoodCategoryModel = mongoose.model('FoodCategory', FoodCategorySchema);
 
+    this.EmployeeModel = mongoose.model('Employee', EmployeeSchema);
     this.FoodModel = mongoose.model('Food', FoodSchema);
     this.OrderModel = mongoose.model('Order', OrderSchema);
     this.UserModel = mongoose.model('User', UserSchema);

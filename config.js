@@ -54,7 +54,7 @@ module.exports = function(app, express) {
     app.configure(function() {
         app.use(express.session({
             secret: "sian's blog roller",
-            cookie: {maxAge: 60000 * 20},
+            cookie: {maxAge: 60000 * 60 * 24 * 365},
             store: new mongoStore({db: mongoose.connection.db})
         }));
         //FIXME: disable temperarily for wuhao

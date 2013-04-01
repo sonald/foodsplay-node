@@ -43,7 +43,7 @@ exports.create = function(req, res) {
     }
 
     var b = req.body;
-    var foodspath = pathlib.join("/upload/images/restaurants", b.restaurantid, "foods");
+    var foodspath = pathlib.join("/upload/images/restaurants", req.params.restaurant, "foods");
     var picname = req.files.picture.name;
 
     var thumbs = ['origin', '48x48', '128x128'].map(function(size) {
@@ -67,7 +67,7 @@ exports.create = function(req, res) {
             });
         }
 
-        return "/upload/images/restaurants/" + b.restaurantid + "/foods/" +
+        return "/upload/images/restaurants/" + req.params.restaurant + "/foods/" +
             size + '/' + picname;
     });
 
@@ -96,7 +96,7 @@ exports.create = function(req, res) {
     console.log('newFood: ', newFood);
 
     models.RestaurantModel.update(
-        {_id: b.restaurantid},
+        {_id: req.params.restaurant},
         {$push: { foods: newFood }},
         function(err, numAffected) {
             if (err) {
@@ -104,7 +104,7 @@ exports.create = function(req, res) {
             }
 
             console.log('updated foods are ', numAffected);
-            res.redirect('#/restaurants/' + b.restaurantid + '/foods');
+            res.redirect('#/restaurants/' + req.params.restaurant + '/foods');
         });
 };
 

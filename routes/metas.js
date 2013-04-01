@@ -62,7 +62,7 @@ exports.create = function(req, res) {
     console.log('new meta: ', meta);
 
     models.RestaurantModel.update(
-        {_id: b.restaurantid},
+        {_id: req.params.restaurant},
         {$push: updatedMeta},
         function(err, numAffected) {
             if (err) {
@@ -70,7 +70,7 @@ exports.create = function(req, res) {
             }
 
             console.log('updated meta are ', numAffected);
-            res.redirect('#/restaurants/' + b.restaurantid + '/metas');
+            res.redirect('#/restaurants/' + req.params.restaurant + '/metas');
         });
 };
 
