@@ -1,5 +1,5 @@
 script(type="text/html", id="orders_tmpl").
-    #js-order-details.modal.modal-wide.fade.hide
+    #js-order-details.modal.modal-wide.fade.hide.mailbox
         .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
             h3 Details
@@ -19,7 +19,7 @@ script(type="text/html", id="orders_tmpl").
                                 span(data-bind="text: specification")
                             div
                                 span flavor&nbsp;
-                                span(data-bind="text: flavor")
+                                span(data-bind="text: flavor.name.en")
                             div
                                 span request&nbsp;
                                 span(data-bind="text: request")
@@ -35,16 +35,20 @@ script(type="text/html", id="orders_tmpl").
 
 
     h3 Current Orders
-    .container.row-fluid
-        div(data-bind="foreach: orders")
-            div.well
-                div Date:
-                    label.label.label-success(data-bind="text: date")
-                div Guests:
-                    label.label.label-success(data-bind="text: guestNumber")
-                div Table:
-                    label.label.label-success(data-bind="text: table")
-                div Items:
-                    label.label.label-success(data-bind="text: items.length")
+    .row(data-bind="foreach: orders")
+        div.span4
+            div.mailbox.boxed
+                div
+                    label.label.label-success Date:
+                    span(data-bind="text: date")
+                div
+                    label.label.label-success Guests:
+                    span(data-bind="text: guestNumber")
+                div
+                    label.label.label-success Table:
+                    span(data-bind="text: table.name.en")
+                div
+                    label.label.label-success Items:
+                    span(data-bind="text: items.length")
                 a(href="#", data-bind='click: $root.selectOrder',
                     data-target="#js-order-details", data-toggle="modal") details

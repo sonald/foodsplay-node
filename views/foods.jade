@@ -37,17 +37,20 @@ script(type="text/html", id="foods_tmpl").
                         data-bind="click: selectedFood().deleteAction") Delete
             a#close.btn.btn-primary(href="#", data-dismiss="modal") Close
 
-    .container.row-fluid
-        div(data-bind="foreach: foods")
-            .media
+    .btn-toolbar
+        .btn-group
+            a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}") New Food
+
+    .container
+        div.columns(data-bind="foreach: foods")
+            .pin
                 a(href="#", data-bind='click: $root.selectFood',
                     data-target="#js-food-details", data-toggle="modal")
-                    img.pull-left(data-bind="attr: {src: thumbs()[2]}")
-                .media-body
-                    a(href="#", data-bind='click: $root.selectFood',
+                    img.pull-left(data-bind="attr: {src: thumbs()[0]}")
+                h4(data-bind="text: name.en")
+                p.clearfix
+                    a.pull-right.btn.btn-small.btn-info(href="#",
+                        data-bind='click: $root.selectFood',
                         data-target="#js-food-details", data-toggle="modal")
-                        p(data-bind="text: name.en")
-                        p(data-bind="text: name.zh")
-
-    .buttons
-        p: a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}") New Food
+                        i.icon-edit
+                        | details

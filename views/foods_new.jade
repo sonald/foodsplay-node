@@ -4,7 +4,7 @@ script(type="text/html", id="foods_new_tmpl").
         strong Errors
         p.small(data-bind="text: validationErrors")
 
-    form.well.form.form-horizontal(method="post", enctype="multipart/form-data",
+    form.mailbox.form.form-horizontal(method="post", enctype="multipart/form-data",
         data-bind="with: newFood, submit: $root.validate, attr:{ action: $root.postNewFoodUrl }")
         input(type="hidden", name="_csrf", value="#{csrf_token}")
         input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant()")

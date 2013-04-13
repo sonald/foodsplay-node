@@ -2,7 +2,7 @@ doctype 5
 html
     head
         title Foods Play
-        link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
         link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
 
@@ -22,7 +22,7 @@ body
                     strong Errors #{msg}
 
 
-            form.well.form-horizontal#js-user-signin(action="/users/signin", method="post")
+            form.mailbox.form-horizontal#js-user-signin(action="/users/signin", method="post")
                 input(type="hidden", name="_csrf", value=csrf_token)
                 //- 0 is for web login, 1 is for pad login
                 input(type="hidden", name="device", value=0)

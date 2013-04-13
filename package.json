@@ -1,6 +1,6 @@
 {
     "name": "foodsplay",
-    "version": "0.0.1-14",
+    "version": "0.0.1-15",
     "description": "online foods ordering",
     "private": true,
     "scripts": {

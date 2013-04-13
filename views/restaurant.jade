@@ -34,12 +34,15 @@ script(type="text/html", id="restaurant_tmpl").
                 li: a(href="#") Foods Rankings
                 li: a(href="#") Connected Pads
 
-    .hero-unit
-        .page-header
-            h1
-                span(data-bind="text: restaurant().name.zh")
-                small(data-bind="text: restaurant().name.en")
+    .media.mailbox
+        a.pull-left(href="#")
+            img.media-object(style="max-width: 400px", src="/images/restaurant_bg.jpg")
 
-        .container
-            p(data-bind="text: restaurant().description.en")
-            p(data-bind="text: restaurant().description.zh")
+        .media-body
+            h1.media-heading
+                span(data-bind="text: restaurant().name.en")
+                small(data-bind="text: restaurant().name.zh")
+
+            .container
+                p(data-bind="text: restaurant().description.en")
+                p(data-bind="text: restaurant().description.zh")
