@@ -5,7 +5,8 @@ var util = require('util'),
     mongoose = require('mongoose'),
     mongoStore = require('connect-mongodb'),
     sass = require('node-sass'),
-    vendor_files = lactate.dir('vendor');
+    vendor_files = lactate.dir('vendor'),
+    oauth2 = require('./oauth2-server').oauthServer;
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
@@ -57,6 +58,9 @@ module.exports = function(app, express) {
             cookie: {maxAge: 60000 * 60 * 24 * 365},
             store: new mongoStore({db: mongoose.connection.db})
         }));
+
+        app.use(oauth2.oauth());
+        app.use(oauth2.login());
         //FIXME: disable temperarily for wuhao
         // app.use(express.csrf());
         app.use(everyauth.middleware(app));

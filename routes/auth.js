@@ -40,7 +40,7 @@ everyauth.password
                 });
 
             } else {
-                this.redirect(res, "/");
+                this.redirect(res, res.req.body.next || "/");
             }
         }
     })
@@ -87,7 +87,8 @@ everyauth
     .loginLocals(function(req, res) {
         return {
             title: "Sign in Please",
-            csrf_token: req.session._csrf
+            csrf_token: req.session._csrf,
+            next: req.query.next ? req.query.next: undefined
         };
     })
     .authenticate( function (login, password) {

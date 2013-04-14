@@ -36,12 +36,12 @@ script(type="text/html", id="employees_tmpl").
                 button.btn.btn-primary(type="submit") Create
 
 
-    .container.row-fluid(data-bind="foreach: employees")
+    .container(data-bind="foreach: employees")
         div.row.well
             h3
                 <i class="icon-user"></i>
                 span(data-bind="text: name")
             span.label.label-warning(data-bind="text: $root.getRoleName(role())")
             span.label.label-warning logged in
-            a.btn.btn-small.pull-right delete
-            a.btn.btn-small.pull-right edit
+
+            a.btn.btn-small.pull-right(data-bind="click: deleteAction") delete

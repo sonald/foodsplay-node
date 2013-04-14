@@ -45,7 +45,6 @@ exports.index = function(req, res) {
                 return res.send(403);
             }
 
-            console.log(filter_op.toString());
             var orders = restaurant.orders.filter(filter_op);
 
             //HACK: manually populate nested food, cause mongoose does
@@ -83,7 +82,7 @@ exports.create = function(req, res) {
                 return res.send(403);
             }
 
-            res.redirect('#/restaurants/' + req.params.restaurant);
+            res.send({status: true});
         });
 };
 
@@ -111,7 +110,7 @@ exports.update = function(req, res) {
                     console.log(err);
                     return res.send(403);
                 }
-                return res.send(200);
+                return res.send(204);
             });
         });
 };

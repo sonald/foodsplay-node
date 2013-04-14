@@ -65,6 +65,17 @@ var FoodCategorySchema = new mongoose.Schema({
 
 //------------------------------------------------------------------------------
 
+// client application
+var ClientSchema = new mongoose.Schema({
+    clientId: String,
+    clientSecret: String,
+    user: {type: ObjectId, ref: 'User'},
+    accessToken: String,
+    appName: String,
+    grantDate: Date,
+    appUrl: String
+});
+
 var UserSchema = new mongoose.Schema({
     username: String,
     password: String, // hash
@@ -206,6 +217,8 @@ function Models() {
     this.OrderModel = mongoose.model('Order', OrderSchema);
     this.UserModel = mongoose.model('User', UserSchema);
     this.RestaurantModel = mongoose.model('Restaurant', RestaurantSchema);
+
+    this.ClientModel = mongoose.model('Client', ClientSchema);
 
     require('util')._extend(this, consts);
 }

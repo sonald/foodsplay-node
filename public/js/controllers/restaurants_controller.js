@@ -7,7 +7,7 @@ function RestaurantViewModel(initial) {
         return "#/restaurants/" + self.restaurant()._id;
     });
 
-    ['edit', 'delete', 'foods', 'employees', 'orders', 'members', 'metas'].forEach(function(dest) {
+    ['edit', 'delete', 'foods', 'employees', 'orders', 'members', 'metas', 'clients'].forEach(function(dest) {
         self[dest + 'Url'] = ko.computed(function() {
             return self.base() + '/' + dest;
         });

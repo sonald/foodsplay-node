@@ -1,0 +1,36 @@
+script(type="text/html", id="clients_tmpl").
+    .container
+        .mailbox
+            h3 Register New Client
+
+            form.form.form-horizontal(method="post",
+                data-bind="attr: {action: $root.postNewClientUrl}")
+                input(type="hidden", name="_csrf", value="#{csrf_token}")
+
+                .control-group
+                    label.control-label Client Name
+                    .controls
+                        input(type="text", name="appName", placeholder="name")
+
+                .control-group
+                    label.control-label Url (Optional)
+                    .controls
+                        input(type="text", name="appUrl", placeholder="Url address")
+
+                .control-group
+                    .controls
+                        button.btn.btn-primary(type="submit") Register client
+
+    .container(data-bind="foreach: clients")
+        div.row.mailbox
+            h3
+                <i class="icon-user"></i>
+                span(data-bind="text: appName")
+            p
+                a.label.label-warning client id
+                span(data-bind="text: clientId")
+            p
+                a.label.label-warning client secret
+                span(data-bind="text: clientSecret")
+
+            a.btn.btn-small.pull-right(data-bind="click: deleteAction") delete client

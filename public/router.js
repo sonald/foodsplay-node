@@ -317,6 +317,21 @@ $(function() {
             return false;
         });
 
+
+        //----- Clients
+        this.get("#/restaurants/:id/clients", function(context) {
+            var self = this;
+
+            $.getJSON(this.path.substring(2), function(data) {
+                app.$element().html( jade.compile($('#clients_tmpl').html())() );
+
+                window.currentModel = new ClientsViewModel(self.params.id, data);
+                window.currentModel.setupValidation();
+                ko.applyBindings(window.currentModel, app.$element()[0]);
+            });
+        });
+
+
     });
 
     init_url = '#/';

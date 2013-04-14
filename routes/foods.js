@@ -114,7 +114,11 @@ exports.create = function(req, res) {
             }
 
             console.log('updated foods are ', numAffected);
-            res.redirect('#/restaurants/' + req.params.restaurant + '/foods');
+            if (req.format == 'json') {
+                res.send({status: true});
+            } else {
+                res.redirect('#/restaurants/' + req.params.restaurant + '/foods');
+            }
         });
 };
 
@@ -165,7 +169,8 @@ exports.update = function(req, res) {
                     console.log(err);
                     return res.send(403);
                 }
-                return res.send(200);
+
+                res.send(204);
             });
         });
 };

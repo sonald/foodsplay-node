@@ -48,7 +48,11 @@ exports.create = function(req, res) {
             }
 
             console.log('updated employees are ', numAffected);
-            res.send({status: true});
+            if (req.format == 'json') {
+                res.send({status: true});
+            } else {
+                res.redirect('#/restaurants/' + req.params.restaurant + '/employees');
+            }
         });
 };
 

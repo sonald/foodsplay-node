@@ -22,3 +22,4 @@
 * 支持根据类别列举菜品
 http://127.0.0.1:3000/#/restaurants/5134c9afc5229d22f300000c/foods?category=categoryid
 * **改成API授权+https连接**
+* make req.foramt json for api request

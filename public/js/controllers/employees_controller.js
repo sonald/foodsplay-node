@@ -8,7 +8,7 @@ function Employee() {
 function EmployeesViewModel(restaurantid, initialEmployees) {
     var self = this;
     self.currentRestaurant = restaurantid;
-    self.postNewEmployeeUrl = '#/restaurants/' + restaurantid + '/employees';
+    self.postNewEmployeeUrl = '#/restaurants/' + restaurantid + '/employees.json';
 
     self.newEmployee = ko.observable(new Employee);
     self.roles = [

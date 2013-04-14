@@ -41,7 +41,7 @@ script(type="text/html", id="foods_tmpl").
         .btn-group
             a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}") New Food
 
-    .container
+    .boxed
         div.columns(data-bind="foreach: foods")
             .pin
                 a(href="#", data-bind='click: $root.selectFood',
