@@ -1,12 +1,13 @@
 function ClientsViewModel(restaurantid, initialClients) {
     var self = this;
-    self.postNewClientUrl = '/restaurants/' + restaurantid + '/clients.json';
+    self.clientsUrl = '/restaurants/' + restaurantid + '/clients';
+    self.postNewClientUrl = self.clientsUrl;
 
     self.clients = ko.mapping.fromJS(initialClients);
     var obj = {
         clients: initialClients.map(function(client) {
             client.deleteAction = function() {
-                var url = '#' + self.postNewClientUrl() + '/' + client._id;
+                var url = '#' + self.clientsUrl + '/' + client._id;
                 window.app.runRoute('delete', url, {csrf: $('input[name="_csrf"]').val()});
             };
             return client;

@@ -28,9 +28,17 @@ script(type="text/html", id="clients_tmpl").
                 span(data-bind="text: appName")
             p
                 a.label.label-warning client id
-                span(data-bind="text: clientId")
+                span(style="word-wrap: break-word",
+                    data-bind="text: clientId")
             p
                 a.label.label-warning client secret
-                span(data-bind="text: clientSecret")
+                span(style="word-wrap: break-word",
+                    data-bind="text: clientSecret")
 
-            a.btn.btn-small.pull-right(data-bind="click: deleteAction") delete client
+            p(data-bind="visible: 'accessToken' in $data")
+                a.label.label-warning access token
+                span(style="word-wrap: break-word",
+                    data-bind="text: $data.accessToken || ''")
+
+
+            a.btn.btn-primary.btn-small.pull-right(data-bind="click: deleteAction") delete client

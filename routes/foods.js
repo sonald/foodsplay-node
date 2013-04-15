@@ -111,6 +111,7 @@ exports.create = function(req, res) {
         function(err, numAffected) {
             if (err) {
                 console.log(err);
+                return res.send(406);
             }
 
             console.log('updated foods are ', numAffected);

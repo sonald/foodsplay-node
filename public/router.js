@@ -29,6 +29,28 @@ ko.onDemandObservable = function(callback, target) {
     return result;
 };
 
+var ActionFactory = {
+    registerDelAction: function(app, resource) {
+        app.del("#/restaurants/:id/" + resource + "/:mid", function(context) {
+            var self = this;
+            console.log(this.path);
+            $.ajax({
+                url: this.path.substring(2),
+                type: 'DELETE',
+                headers: {
+                    'x-csrf-token': self.params['csrf']
+                }
+            }).always(function() {
+                console.log('delete done');
+                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/" + resource);
+
+            }).fail(function() {
+                console.log('delete failed');
+            });
+        });
+    }
+};
+
 $(function() {
     window.currentModel = null;
 
@@ -168,25 +190,7 @@ $(function() {
             ko.applyBindings(window.currentModel, app.$element()[0]);
         });
 
-        this.del("#/restaurants/:id/foods/:fid", function(context) {
-            var self = this;
-            console.log(this.path);
-            $.ajax({
-                url: this.path.substring(2),
-                type: 'DELETE',
-                headers: {
-                    'x-csrf-token': self.params['csrf']
-                }
-            }).always(function() {
-                console.log('delete done');
-                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/foods");
-
-            }).fail(function() {
-                console.log('delete failed');
-            });
-        });
-
-
+        ActionFactory.registerDelAction(this, 'foods');
 
         this.get("#/restaurants/:id/metas", function(context) {
             var self = this,
@@ -232,23 +236,7 @@ $(function() {
             });
         });
 
-        this.del("#/restaurants/:id/members/:mid", function(context) {
-            var self = this;
-            console.log(this.path);
-            $.ajax({
-                url: this.path.substring(2),
-                type: 'DELETE',
-                headers: {
-                    'x-csrf-token': self.params['csrf']
-                }
-            }).always(function() {
-                console.log('delete done');
-                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/members");
-
-            }).fail(function() {
-                console.log('delete failed');
-            });
-        });
+        ActionFactory.registerDelAction(this, 'members');
 
         this.get("#/restaurants/:id/members/new", function(context) {
             app.$element().html( jade.compile($('#members_new_tmpl').html())() );
@@ -270,52 +258,36 @@ $(function() {
             });
         });
 
-        this.del("#/restaurants/:id/employees/:mid", function(context) {
-            var self = this;
-            console.log(this.path);
-            $.ajax({
-                url: this.path.substring(2),
-                type: 'DELETE',
-                headers: {
-                    'x-csrf-token': self.params['csrf']
-                }
-            }).always(function() {
-                console.log('delete done');
-                app.runRoute('get', "#/restaurants/" + self.params['id'] + "/employees");
+        ActionFactory.registerDelAction(this, 'employees');
 
-            }).fail(function() {
-                console.log('delete failed');
-            });
-        });
+        // this.post("#/restaurants/:id/employees", function(context) {
+        //     var model = window.currentModel,
+        //         self = this,
+        //         data = {};
 
-        this.post("#/restaurants/:id/employees", function(context) {
-            var model = window.currentModel,
-                self = this,
-                data = {};
+        //     if (model.validate()) {
+        //         Object.keys(this.params).forEach(function(k) {
+        //             data[k] = self.params[k];
+        //         });
 
-            if (model.validate()) {
-                Object.keys(this.params).forEach(function(k) {
-                    data[k] = self.params[k];
-                });
+        //         console.log('post new employee', data);
+        //         $.ajax({
+        //             url: this.path.substring(2),
+        //             type: 'post',
+        //             data: data,
+        //             headers: {
+        //                 'x-csrf-token': data['_csrf']
+        //             }
+        //         }).always(function(data) {
+        //             console.log('post done', data);
+        //             model.newEmployee(new Employee);
 
-                console.log('post new employee', data);
-                $.ajax({
-                    url: this.path.substring(2),
-                    type: 'post',
-                    data: data,
-                    headers: {
-                        'x-csrf-token': data['_csrf']
-                    }
-                }).always(function(data) {
-                    console.log('post done', data);
-                    model.newEmployee(new Employee);
-
-                }).fail(function() {
-                    console.log('post failed');
-                });
-            }
-            return false;
-        });
+        //         }).fail(function() {
+        //             console.log('post failed');
+        //         });
+        //     }
+        //     return false;
+        // });
 
 
         //----- Clients
@@ -331,8 +303,9 @@ $(function() {
             });
         });
 
-
+        ActionFactory.registerDelAction(this, 'clients');
     });
+
 
     init_url = '#/';
     window.app.run(init_url);

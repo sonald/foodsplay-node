@@ -141,12 +141,13 @@ myOAP.on('access_token', function(req, token, next) {
 
     if(token.grant_date.getTime() + TOKEN_TTL > Date.now()) {
         manager.findUser(token.user_id, function(err, dbuser) {
+            console.log('regsiter client\'s user in session');
             // compatible with everyauth
             req.session.auth = req.session.auth || {
                 userId: dbuser._id,
                 loggedIn: true
             };
-            req.user = dbuser;
+            // req.user = dbuser;
             next();
         });
 

@@ -8,7 +8,8 @@ function Employee() {
 function EmployeesViewModel(restaurantid, initialEmployees) {
     var self = this;
     self.currentRestaurant = restaurantid;
-    self.postNewEmployeeUrl = '#/restaurants/' + restaurantid + '/employees.json';
+    self.employeesUrl = '/restaurants/' + restaurantid + '/employees';
+    self.postNewEmployeeUrl = self.employeesUrl;
 
     self.newEmployee = ko.observable(new Employee);
     self.roles = [
@@ -30,7 +31,7 @@ function EmployeesViewModel(restaurantid, initialEmployees) {
     var obj = {
         employees: initialEmployees.map(function(employee) {
             employee.deleteAction = function() {
-                var url = '#' + self.postNewEmployeeUrl() + '/' + employee._id;
+                var url = '#' + self.employeesUrl + '/' + employee._id;
                 window.app.runRoute('delete', url, {csrf: $('input[name="_csrf"]').val()});
             };
             return employee;

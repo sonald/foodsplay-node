@@ -10,7 +10,8 @@ var express = require('express'),
     mongoose = require('mongoose');
 
 // use default connection
-if (process.env.FOODSPLAY_DB) {
+var localmode = process.env.USER == 'sonald';
+if (localmode) {
     console.log('connect local mongodb');
     mongoose.connect('mongodb://127.0.0.1/foodsplay');
 } else {
@@ -24,18 +25,22 @@ mongoose.connection.once('open', function() {
     require('./config')(app, express);
     routes.setup(app);
 
-    // http.createServer(app).listen(app.get('port'), function(){
-    //     console.log("http server listening on port " + app.get('port'));
-    // });
+    if (localmode) {
+        // this self-signed pem now
+        var https_opts = {
+            key: fs.readFileSync('foodsplay.key'),
+            cert: fs.readFileSync('foodsplay-ca.pem')
+        };
 
-    // this self-signed pem now
-    var https_opts = {
-        key: fs.readFileSync('foodsplay.key'),
-        cert: fs.readFileSync('foodsplay-ca.pem')
-    };
+        https.createServer(https_opts, app).listen(app.get('port'), function(){
+            console.log("https server listening on port " + app.get('port'));
+        });
 
-    https.createServer(https_opts, app).listen('443', function(){
-        console.log("https server listening on port " + 443);
-    });
+
+    } else {
+        http.createServer(app).listen(app.get('port'), function(){
+            console.log("http server listening on port " + app.get('port'));
+        });
+    }
 
 });

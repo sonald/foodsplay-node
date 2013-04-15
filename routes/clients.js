@@ -17,7 +17,7 @@ exports.index = function(req, res) {
         }
     }());
 
-    console.log(filter_op.toString());
+    console.log('--- req format: ', req.format);
     models.ClientModel
         .find({user: req.user._id})
         .exec(function(err, clients) {
@@ -69,9 +69,31 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-    res.send(501);
+    res.send(403);
 };
 
 exports.destroy = function(req, res) {
-    res.send(501);
+    if (req.user.kind != models.USER_RESTAURANT) {
+        return res.send(403);
+    }
+
+    var b = req.body;
+    console.log('params: ', req.params, 'b: ', b);
+
+    models.ClientModel
+        .findById(req.params.client, function(err, client) {
+            if (err || !client) {
+                return res.send(err ? {error: err.message} : {error: "client is invalid"});
+            }
+
+            client.remove();
+            client.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.send({error: err.message});
+                }
+
+                return res.send(204);
+            });
+        });
 }

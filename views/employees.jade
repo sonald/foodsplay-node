@@ -6,10 +6,9 @@ script(type="text/html", id="employees_tmpl").
         strong Errors
         p.small(data-bind="text: validationErrors")
 
-    form.well.form.form-horizontal(method="post",
+    form.mailbox.form.form-horizontal(method="post",
         data-bind="with: newEmployee, attr: {action: $root.postNewEmployeeUrl}")
         input(type="hidden", name="_csrf", value="#{csrf_token}")
-        input(type="hidden", name="restaurantid", data-bind="value: $root.currentRestaurant")
 
         .control-group
             label.control-label Name
@@ -37,11 +36,11 @@ script(type="text/html", id="employees_tmpl").
 
 
     .container(data-bind="foreach: employees")
-        div.row.well
+        div.row.mailbox
             h3
                 <i class="icon-user"></i>
                 span(data-bind="text: name")
             span.label.label-warning(data-bind="text: $root.getRoleName(role())")
             span.label.label-warning logged in
 
-            a.btn.btn-small.pull-right(data-bind="click: deleteAction") delete
+            a.btn.btn-primary.btn-small.pull-right(data-bind="click: deleteAction") delete
