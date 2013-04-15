@@ -1,6 +1,6 @@
 {
     "name": "foodsplay",
-    "version": "0.0.1-28",
+    "version": "0.0.1-29",
     "description": "online foods ordering",
     "private": true,
     "scripts": {
@@ -29,7 +29,7 @@
         "mocha": "*"
     },
     "engines": {
-        "node": ">=0.8"
+        "node": "0.8.x"
     },
     "subdomain": "sonald-foodsplay-node"
 }

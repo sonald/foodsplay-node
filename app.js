@@ -15,7 +15,10 @@ if (localmode) {
     console.log('connect local mongodb');
     mongoose.connect('mongodb://127.0.0.1/foodsplay');
 } else {
-    mongoose.connect('mongodb://nodejitsu:715a0b47f2b374f36b3ba71983388bac@alex.mongohq.com:10003/nodejitsudb1701304151');
+    var db_url = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL
+            || 'mongodb://nodejitsu:715a0b47f2b374f36b3ba71983388bac@alex.mongohq.com:10003/nodejitsudb1701304151';
+    console.log('connect to ', db_url);
+    mongoose.connect(db_url);
 }
 
 mongoose.connection.once('open', function() {
