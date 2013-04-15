@@ -7,7 +7,7 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "express": "3.0.0",
+        "express": "3.1.x",
         "jade": "*",
         "less-middleware": "*",
         "mongo": "latest",
@@ -29,7 +29,7 @@
         "mocha": "*"
     },
     "engines": {
-        "node": "0.8.x"
+        "node": ">=0.8"
     },
     "subdomain": "sonald-foodsplay-node"
 }
