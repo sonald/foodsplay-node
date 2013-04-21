@@ -2,9 +2,12 @@ doctype 5
 html
     head
         title Foods Play
+        link(href='http://fonts.googleapis.com/css?family=Corben:400,700|Nobile:400,700', rel='stylesheet')
+
         link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
         link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
 
         script(type="text/javascript", src="/jquery.js")
         script(type="text/javascript", src="/sammy.js")
@@ -36,22 +39,33 @@ html
             .navbar-inner
                 .brand(href='#') Foodsplay
                 ul.nav
-                    li: a#js-home.active(href='/') Home
+                    li: a#js-home.active(href='/')
+                        i.icon-home
+                        | Home
+
                     - if (everyauth.loggedIn && everyauth.user.kind === 3)
                         li: a(href='#/restaurants') Restaurants
 
                 ul.nav.pull-right
                     - if (!everyauth.loggedIn)
-                        li: a(href='/users/signin') Login
+                        li: a(href='/users/signin')
+                            i.icon-signin
+                            | Login
                     - else
-                        li: a(href='#')= user.email
-                        li: a(href='/users/logout') Logout
+                        li: a(href='#')
+                            i.icon-user
+                            span= user.email
+                        li: a(href='/users/logout')
+                            i.icon-signout
+                            | Logout
 
                 form.navbar-search.pull-right
                     input.search-query(type='text', placeholder='what you interested in')
 
         .container-fluid
-            block content
+            row-fluid
+                .content.offset1.span10
+                    block content
 
         include admin_user
         include businessuser

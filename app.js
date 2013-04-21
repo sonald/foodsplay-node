@@ -12,17 +12,17 @@ var express = require('express'),
 // use default connection
 var localmode = process.env.USER == 'sonald';
 if (localmode) {
-    console.log('connect local mongodb');
+    console.log('connecting local mongodb');
     mongoose.connect('mongodb://127.0.0.1/foodsplay');
 } else {
     var db_url = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL
             || 'mongodb://nodejitsu:715a0b47f2b374f36b3ba71983388bac@alex.mongohq.com:10003/nodejitsudb1701304151';
-    console.log('connect to ', db_url);
+    console.log('connecting ', db_url);
     mongoose.connect(db_url);
 }
 
 mongoose.connection.once('open', function() {
-    console.log('connect to database');
+    console.log('connected to database');
 
     var app = express();
     require('./config')(app, express);

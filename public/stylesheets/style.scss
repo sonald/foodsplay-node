@@ -47,6 +47,41 @@ body {
     margin: 2px;
 }
 
+// override default fonts
+body {
+    font-family: 'Nobile', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Corben', Georgia, Times, serif;
+}
+
+p, div, a {
+    font-family: 'Nobile', Helvetica, Arial, sans-serif;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+h1, h2 {
+    text-shadow: 2px 2px 2px rgb(201, 170, 170);
+}
+
+h3, h4 {
+    text-shadow: 1px 1px 1px rgb(201, 170, 170);
+}
+
+// from http://www.colorzilla.com/gradient-editor/
+.content {
+    background: rgba(114, 169, 238, 0.11);
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
 .signin-container {
     @include flex-container(center);
     @include pad-top(40px);

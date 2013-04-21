@@ -39,7 +39,9 @@ script(type="text/html", id="foods_tmpl").
 
     .btn-toolbar
         .btn-group
-            a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}") New Food
+            a.btn.btn-primary(data-bind="attr: {href: newFoodUrl}")
+                i.icon-plus-sign
+                |  New Food
 
     .boxed
         div.columns(data-bind="foreach: foods")

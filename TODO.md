@@ -23,3 +23,5 @@
 http://127.0.0.1:3000/#/restaurants/5134c9afc5229d22f300000c/foods?category=categoryid
 * **改成API授权+https连接**
 * make req.foramt json for api request
+* access control
+  prevent client from messing other user's data

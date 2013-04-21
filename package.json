@@ -1,6 +1,6 @@
 {
     "name": "foodsplay",
-    "version": "0.0.1-29",
+    "version": "0.0.1-33",
     "description": "online foods ordering",
     "private": true,
     "scripts": {
@@ -14,7 +14,7 @@
         "mongoose": "3.6.x",
         "connect-mongodb": "*",
         "bcrypt": "0.7.1",
-        "node-sass": "0.3.x",
+        "node-sass": "0.4.x",
         "everyauth": "git://github.com/bnoguchi/everyauth.git#express3",
         "formidable": "latest",
         "async": "*",

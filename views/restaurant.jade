@@ -1,41 +1,93 @@
 script(type="text/html", id="restaurant_tmpl").
     .btn-toolbar
         .btn-group
-            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Manage&nbsp;
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#")
+                i.icon-dashboard
+                | Manage&nbsp;
                 span.caret
+
             ul.dropdown-menu
-                li: a(data-bind="attr: {href: foodsUrl()}") Foods
-                li: a(data-bind="attr: {href: employeesUrl()}") Employees
-                li: a(data-bind="attr: {href: ordersUrl()}") Current Orders
-                li: a(data-bind="attr: {href: membersUrl()}") Members
-                li: a(data-bind="attr: {href: metasUrl()}") Resources
+                li: a(data-bind="attr: {href: foodsUrl()}")
+                    i.icon-angle-right
+                    | Foods
+                li: a(data-bind="attr: {href: employeesUrl()}")
+                    i.icon-angle-right
+                    | Employees
+
+                li: a(data-bind="attr: {href: ordersUrl()}")
+                    i.icon-angle-right
+                    | Current Orders
+
+                li: a(data-bind="attr: {href: membersUrl()}")
+                    i.icon-angle-right
+                    | Members
+
+                li: a(data-bind="attr: {href: metasUrl()}")
+                    i.icon-angle-right
+                    | Resources
 
         .btn-group
-            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Config&nbsp;
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#")
+                i.icon-cogs
+                | Config&nbsp;
                 span.caret
+
             ul.dropdown-menu
-                li: a(data-bind="attr: {href: editUrl()}") Edit Restaurant
-                li: a(data-bind="attr: {href: deleteUrl()}") Delete Restaurant
-                li: a(data-bind="attr: {href: clientsUrl()}") Clients
+                li: a(data-bind="attr: {href: editUrl()}")
+                    i.icon-angle-right
+                    | Edit Restaurant
+
+                li: a(data-bind="attr: {href: deleteUrl()}")
+                    i.icon-angle-right
+                    | Delete Restaurant
+
+                li: a(data-bind="attr: {href: clientsUrl()}")
+                    i.icon-angle-right
+                    | Clients
 
         .btn-group
-            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Statistics&nbsp;
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#")
+                i.icon-tasks
+                | Statistics&nbsp;
                 span.caret
+
             ul.dropdown-menu
-                li: a(href="#") Daily Statistics
-                li: a(href="#") Monthly Statistics
-                li: a(href="#") Yearly Statistics
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Daily Statistics
+
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Monthly Statistics
+
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Yearly Statistics
 
         .btn-group
-            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#") Status&nbsp;
+            a.btn.btn-success.dropdown-toggle(data-toggle="dropdown", href="#")
+                i.icon-sitemap
+                | Status&nbsp;
                 span.caret
-            ul.dropdown-menu
-                li: a(href="#") Withdraw Records
-                li: a(href="#") Past Orders
-                li: a(href="#") Foods Rankings
-                li: a(href="#") Connected Pads
 
-    .media.mailbox
+            ul.dropdown-menu
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Withdraw Records
+
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Past Orders
+
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Foods Rankings
+
+                li: a(href="#")
+                    i.icon-angle-right
+                    | Connected Pads
+
+    .media
         a.pull-left(href="#")
             img.media-object(style="max-width: 400px", src="/images/restaurant_bg.jpg")
 

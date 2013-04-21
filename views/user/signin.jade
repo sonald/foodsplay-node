@@ -30,23 +30,30 @@ body
                     input(type="hidden", name="next", value=next)
 
                 .control-group
-                    label.control-label(for="inputUsername") Username
+                    label.control-label(for="inputUsername") Username:
                     .controls
-                        input#inputUsername(type="text", name=everyauth.password.loginFormFieldName,
-                            placeholder="username")
+                        .input-prepend
+                            span.add-on: i.icon-user
+                            input#inputUsername(type="text", name=everyauth.password.loginFormFieldName,
+                                placeholder="username")
 
                 .control-group
                     label.control-label(for="inputPassword") Password
                     .controls
-                        input#inputPassword(type="password", name=everyauth.password.passwordFormFieldName,
-                        placeholder="Password")
+                        .input-prepend
+                            span.add-on: i.icon-certificate
+                            input#inputPassword(type="password", name=everyauth.password.passwordFormFieldName,
+                                placeholder="Password")
 
                 .control-group
                      .controls
                          label.checkbox
                              input(type="checkbox", name="persistant")
+                             i.icon-ok
                              | Remember me
 
                          button.btn.btn-primary(type="submit") Sign in
 
-            a.btn.btn-primary(href="/users/signup") Need an account?
+            a.btn.btn-primary(href="/users/signup")
+                i.icon-plus-sign
+                | Need an account?
