@@ -16,7 +16,8 @@ if (localmode) {
     mongoose.connect('mongodb://127.0.0.1/foodsplay');
 } else {
     var db_url = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL
-            || 'mongodb://nodejitsu:715a0b47f2b374f36b3ba71983388bac@alex.mongohq.com:10003/nodejitsudb1701304151';
+            || 'mongodb://nodejitsu:3329971a489a0c260559b594a747dd39@linus.mongohq.com:10039/nodejitsudb3477517154';
+            //|| 'mongodb://nodejitsu:715a0b47f2b374f36b3ba71983388bac@alex.mongohq.com:10003/nodejitsudb1701304151';
     console.log('connecting ', db_url);
     mongoose.connect(db_url);
 }
@@ -28,7 +29,7 @@ mongoose.connection.once('open', function() {
     require('./config')(app, express);
     routes.setup(app);
 
-    if (localmode) {
+    if (!localmode) {
         // this self-signed pem now
         var https_opts = {
             key: fs.readFileSync('foodsplay.key'),

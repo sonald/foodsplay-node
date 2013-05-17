@@ -23,6 +23,8 @@ script(type="text/html", id="clients_tmpl").
 
     .container(data-bind="foreach: clients")
         div.row.mailbox
+            .well.pull-left(data-bind="css: qrcode")
+
             h3
                 i.icon-user
                 span(data-bind="text: appName")
