@@ -17,10 +17,11 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 module.exports = function(app, express) {
+
     require('./routes/auth');
 
     app.configure(function(){
-        app.set('port', process.env.PORT || 80);
+        app.set('port', process.env.PORT || 3000);
         app.set('views', __dirname + '/views');
         app.set('view engine', 'jade');
         app.use(express.favicon());
@@ -61,35 +62,15 @@ module.exports = function(app, express) {
 
         app.use(oauth2.oauth());
         app.use(oauth2.login());
-        //FIXME: disable temperarily for wuhao
+        //FIXME: disable temperarily for client
         // app.use(express.csrf());
         app.use(everyauth.middleware(app));
-
         app.use( function (req, res, next) {
-            var sess = req.session
-            , auth = sess.auth
-            , ea = { loggedIn: !!(auth && auth.loggedIn) };
-
-            // Copy the session.auth properties over
-            for (var k in auth) {
-                ea[k] = auth[k];
-            }
-
-            if (everyauth.enabled.password) {
-                // Add in access to loginFormFieldName() + passwordFormFieldName()
-                ea.password || (ea.password = {});
-                ea.password.loginFormFieldName = everyauth.password.loginFormFieldName();
-                ea.password.passwordFormFieldName = everyauth.password.passwordFormFieldName();
-            }
-            ea.user = req.user;
-
-            res.locals.everyauth = ea;
-            res.locals['user'] = req.user;
             res.locals['csrf_token'] = req.session._csrf || "fake_csrf_token";
-
-
             next();
         });
+
+        app.use(app.router);
 
         app.use(sass.middleware({
             src: __dirname + '/public',
@@ -97,12 +78,9 @@ module.exports = function(app, express) {
             debug: true
         }));
 
-        // app.use(require('less-middleware')({ src: __dirname + '/public' }));
-        app.use(vendor_files.toMiddleware());
-
-        files.notFound('public/404.html');
-        app.use(files.toMiddleware());
-
+		app.use(lactate.static(__dirname+"/public"));
+		app.use(lactate.static(__dirname+"/vendor"));
+		
     });
 
     app.configure('development', function(){

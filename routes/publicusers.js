@@ -1,4 +1,4 @@
-var formidable = require('formidable'), // bodyParser integrate formidable already!
+var 
     util = require('util'),
     models = require('../models');
 

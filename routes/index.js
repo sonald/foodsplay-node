@@ -92,6 +92,7 @@ function config(req, res) {
  */
 
 function index(req, res) {
+    console.log('render index');
     return res.render('index');
 }
 

@@ -15,6 +15,7 @@ everyauth.everymodule
         models.UserModel
             .findOne({_id: uid}).select('username kind email _id')
             .exec(function(err, user) {
+                console.log('find user: ', user);
                 callback(null, user);
             });
     });
@@ -29,7 +30,7 @@ everyauth.everymodule.handleLogout( function (req, res) {
 });
 
 everyauth.password
-    .respondToLoginSucceed( function (res, user) {
+    .respondToLoginSucceed( function (res, user, data) {
         console.log('respondToLoginSucceed: ', user);
 
         if (user) {
@@ -42,6 +43,7 @@ everyauth.password
             } else {
                 this.redirect(res, res.req.body.next || "/");
             }
+            this.redirect(res, "/");
         }
     })
     .respondToLoginFail( function (req, res, errors, login) {

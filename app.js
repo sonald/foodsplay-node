@@ -12,6 +12,9 @@ var express = require('express'),
 // use default connection
 var localmode = process.env.USER == 'sonald';
 
+process.on('uncaughtException', function(err) {
+    console.log(err && err.message);
+});
 
 mongoose.connection.once('open', function() {
     console.log('connected to database');
@@ -25,12 +28,12 @@ mongoose.connection.once('open', function() {
     });
 });
 
+
 if (localmode) {
     console.log('connecting local mongodb');
     mongoose.connect('mongodb://127.0.0.1/foodsplay');
 } else {
-    var db_url = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL
-		|| 'mongodb://nodejitsu:24ff315588c0c41ca75fd3a5cc0bbd1a@dharma.mongohq.com:10061/nodejitsudb7191831402';
+    var db_url = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL;
     console.log('connecting ', db_url);
     mongoose.connect(db_url);
 }
