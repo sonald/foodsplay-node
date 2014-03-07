@@ -18,3 +18,5 @@ Some tools I used in the app are:
 * great MVVM framework __knockoutjs__ for frontend
 * everyauth
 * simple oauth2 server (so I can grant token for ipad client)
+
+For more details, you can see [arch.md][]
