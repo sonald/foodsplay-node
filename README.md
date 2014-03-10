@@ -14,9 +14,11 @@ After that, use Google Chrome (views are optimized for webkit) to open `http://1
 As a demo app, a lot of bugs exist, and you are free to change it at your will.
 Some tools I used in the app are:
 
-* express/connect for backend api
+* [expressjs][]/connect for backend api
 * great MVVM framework __knockoutjs__ for frontend
 * everyauth
 * simple oauth2 server (so I can grant token for ipad client)
 
 For more details, you can see [arch.md][]
+
+[expressjs]: http://expressjs.com
